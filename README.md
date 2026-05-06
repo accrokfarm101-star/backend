@@ -11,6 +11,7 @@
 - [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Cài đặt & Chạy](#cài-đặt--chạy)
 - [API Endpoints](#api-endpoints)
+- [Kiểm thử](#kiểm-thử)
 - [Cơ sở dữ liệu](#cơ-sở-dữ-liệu)
 - [Bảo mật](#bảo-mật)
 - [Liên hệ](#liên-hệ)
@@ -207,6 +208,7 @@ Server sẽ chạy tại: `http://localhost:8080`
 |--------|-----------------------|---------------------|
 | POST   | `/api/auth/register`  | Đăng ký tài khoản   |
 | POST   | `/api/auth/login`     | Đăng nhập           |
+| GET    | `/api/auth/me`        | Lấy thông tin user hiện tại |
 
 ### Sản phẩm
 | Method | Endpoint                  | Mô tả                      |
@@ -233,6 +235,32 @@ Server sẽ chạy tại: `http://localhost:8080`
 
 ---
 
+## Kiểm thử
+
+### Bộ test hiện có
+
+- `AuthControllerTests`: kiểm thử API auth (`/register`, `/login`, `/me`) bằng MockMvc
+- `AuthenticationTests`: kiểm thử service-level cho đăng ký/đăng nhập và validate dữ liệu user
+
+### Chạy toàn bộ test
+
+```bash
+mvn test
+```
+
+### Chạy riêng test auth
+
+```bash
+mvn -Dtest=AuthControllerTests,AuthenticationTests test
+```
+
+### Báo cáo kết quả test
+
+- File báo cáo tổng hợp: `AUTHENTICATION_TEST_REPORT.md`
+- Raw report Maven Surefire: `target/surefire-reports/`
+
+---
+
 ## Cơ sở dữ liệu
 
 Sơ đồ quan hệ các bảng chính:
@@ -254,7 +282,9 @@ products ──── categories
 - Xác thực bằng **JWT Bearer Token**
 - Phân quyền: `ROLE_ADMIN` và `ROLE_CUSTOMER`
 - Mật khẩu mã hóa bằng **BCrypt**
-- Bảo vệ CSRF và cấu hình CORS
+- Security filter dùng `JwtAuthenticationFilter`
+- Endpoint công khai: `/api/auth/register`, `/api/auth/login`
+- Các endpoint khác yêu cầu token hợp lệ
 
 ---
 
