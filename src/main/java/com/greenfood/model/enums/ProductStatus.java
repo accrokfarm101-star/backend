@@ -36,11 +36,6 @@ public enum ProductStatus {
             case "out of stock":
             case "outofstock":
                 return OUT_OF_STOCK;
-            case "in_stock":
-            case "IN_STOCK":
-                return IN_STOCK;
-            case "OUT_OF_STOCK":
-                return OUT_OF_STOCK;
             default:
                 throw new IllegalArgumentException("Trạng thái sản phẩm không hợp lệ: " + value);
         }
