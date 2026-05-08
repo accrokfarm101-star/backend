@@ -12,3 +12,8 @@ INSERT IGNORE INTO products (name, description, price, stock, image_url, categor
 VALUES ('Rau hữu cơ', 'Rau sạch trồng theo phương pháp hữu cơ, giàu vitamin.', 45000.00, 120, 'https://example.com/images/rau.jpg', 'Rau củ', 'IN_STOCK', NOW(), NOW());
 INSERT IGNORE INTO products (name, description, price, stock, image_url, category, status, created_at, updated_at)
 VALUES ('Trái cây tươi', 'Trái cây nhập khẩu mới hái, ngọt mát và an toàn.', 78000.00, 80, 'https://example.com/images/trai_cay.jpg', 'Trái cây', 'IN_STOCK', NOW(), NOW());
+
+INSERT IGNORE INTO categories (name, description, created_at, updated_at)
+VALUES ('Rau củ', 'Danh mục rau củ tươi, sạch và an toàn.', NOW(), NOW());
+INSERT IGNORE INTO categories (name, description, created_at, updated_at)
+VALUES ('Trái cây', 'Danh mục trái cây tươi và trái cây nhập khẩu.', NOW(), NOW());
