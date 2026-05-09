@@ -1,44 +1,37 @@
 package com.greenfood.model.entity;
 
-import com.greenfood.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "carts")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @Column(unique = true)
-    private String phone;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @Column(nullable = false)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRole role;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
+    private BigDecimal totalAmount;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -48,6 +41,9 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
+        if (totalAmount == null) {
+            totalAmount = BigDecimal.ZERO;
+        }
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
