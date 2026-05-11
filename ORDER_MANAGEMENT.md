@@ -2,7 +2,7 @@
 
 ## 📋 Tổng Quan
 
-Hệ thống quản lý đơn hàng là một phần quan trọng của ứng dụng GreenFood Store, cho phép người dùng tạo đơn hàng, quản lý trạng thái đơn hàng, và cho phép admin quản lý tất cả các đơn hàng trong hệ thống.
+Hệ thống quản lý đơn hàng là một phần quan trọng của ứng dụng Fresh Mart, cho phép người dùng tạo đơn hàng, quản lý trạng thái đơn hàng, và cho phép admin quản lý tất cả các đơn hàng trong hệ thống.
 
 ## 🏗️ Cấu Trúc Dữ Liệu
 

@@ -1,7 +1,7 @@
 # Shopping Cart Feature Implementation Summary
 
 ## Overview
-Successfully implemented a complete shopping cart feature for the Green Food Store backend with full REST API endpoints, service layer logic, database models, and comprehensive integration tests.
+Successfully implemented a complete shopping cart feature for the Fresh Mart backend with full REST API endpoints, service layer logic, database models, and comprehensive integration tests.
 
 ## Components Created
 
@@ -179,7 +179,7 @@ Response: 200 OK
 
 ## File Structure
 ```
-src/main/java/com/greenfood/
+src/main/java/com/freshmart/
 ├── controller/CartController.java
 ├── service/CartService.java
 ├── serviceImpl/CartServiceImpl.java
@@ -196,7 +196,7 @@ src/main/java/com/greenfood/
 │           ├── CartItemResponse.java
 │           └── CartResponse.java
 
-src/test/java/com/greenfood/
+src/test/java/com/freshmart/
 └── CartControllerTests.java
 ```
 

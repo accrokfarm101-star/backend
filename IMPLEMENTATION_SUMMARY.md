@@ -2,7 +2,7 @@
 
 ## ✨ Hoàn Thành
 
-Tôi đã xây dựng một hệ thống quản lý đơn hàng **hoàn chỉnh** cho ứng dụng GreenFood Store của bạn.
+Tôi đã xây dựng một hệ thống quản lý đơn hàng **hoàn chỉnh** cho ứng dụng Fresh Mart của bạn.
 
 ## 📦 Các Thành Phần Đã Tạo
 
@@ -143,7 +143,7 @@ Tôi đã tạo 3 file tài liệu:
 ## 🔧 Cấu Trúc Folder
 
 ```
-src/main/java/com/greenfood/
+src/main/java/com/freshmart/
 ├── controller/
 │   └── OrderController.java              (9 endpoints)
 ├── service/

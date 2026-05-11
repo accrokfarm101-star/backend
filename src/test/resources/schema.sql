@@ -12,7 +12,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, email, phone, password, role, created_at, updated_at)
-VALUES ('admin', 'admin@greenfood.com', NULL, '$2a$10$uwGVjWNn8TrqPG3t6/Ky9eZRzN.g58MhaHulCsCK2XCVTrhYLPHZG', 'ROLE_ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+VALUES ('admin', 'admin@freshmart.com', NULL, '$2a$10$uwGVjWNn8TrqPG3t6/Ky9eZRzN.g58MhaHulCsCK2XCVTrhYLPHZG', 'ROLE_ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO users (username, email, phone, password, role, created_at, updated_at)
-VALUES ('manager', 'manager@greenfood.com', NULL, '$2a$10$uwGVjWNn8TrqPG3t6/Ky9eZRzN.g58MhaHulCsCK2XCVTrhYLPHZG', 'ROLE_ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+VALUES ('manager', 'manager@freshmart.com', NULL, '$2a$10$uwGVjWNn8TrqPG3t6/Ky9eZRzN.g58MhaHulCsCK2XCVTrhYLPHZG', 'ROLE_ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

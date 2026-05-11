@@ -69,7 +69,7 @@ private Long getCurrentUserId() {
 
 ### 2. **Thêm Method trong UserService**
 
-**File:** `src/main/java/com/greenfood/service/UserService.java`
+**File:** `src/main/java/com/freshmart/service/UserService.java`
 
 ```java
 User getUserByUsername(String username);
@@ -86,7 +86,7 @@ public User getUserByUsername(String username) {
 
 ### 3. **Thêm Method trong UserRepository**
 
-**File:** `src/main/java/com/greenfood/repository/UserRepository.java`
+**File:** `src/main/java/com/freshmart/repository/UserRepository.java`
 
 ```java
 Optional<User> findByUsername(String username);
@@ -110,7 +110,7 @@ Có xung đột giữa hai endpoint:
 ## 📦 Cấu Trúc File Đã Tạo
 
 ```
-src/main/java/com/greenfood/
+src/main/java/com/freshmart/
 ├── controller/
 │   └── OrderController.java                 (✅ 9 endpoints)
 ├── service/

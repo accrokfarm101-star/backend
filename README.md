@@ -1,6 +1,6 @@
-# 🌿 Green Food Store — Backend API
+# 🌿 Fresh Mart — Backend API
 
-> Hệ thống backend cho cửa hàng thực phẩm xanh, xây dựng bằng **Java 17 + Spring Boot 3**
+> Hệ thống backend cho cửa hàng thực phẩm tươi sạch, xây dựng bằng **Java 17 + Spring Boot 3**
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## Giới thiệu
 
-**Green Food Store** là nền tảng thương mại điện tử chuyên bán thực phẩm hữu cơ, rau củ sạch và các sản phẩm tốt cho sức khỏe. Backend cung cấp RESTful API đầy đủ cho:
+**Fresh Mart** là nền tảng thương mại điện tử chuyên bán thực phẩm hữu cơ, rau củ sạch và các sản phẩm tốt cho sức khỏe. Backend cung cấp RESTful API đầy đủ cho:
 
 - Quản lý sản phẩm và danh mục
 - Quản lý đơn hàng và thanh toán
@@ -50,15 +50,15 @@
 ## Cấu trúc thư mục
 
 ```
-green-food-store-backend/
+fresh-mart-backend/
 ├── pom.xml                                         # Maven dependencies
 ├── README.md
 │
 └── src/
     ├── main/
-    │   ├── java/com/greenfood/
+    │   ├── java/com/freshmart/
     │   │   │
-    │   │   ├── GreenFoodStoreApplication.java      # Main entry point
+    │   │   ├── FreshMartApplication.java      # Main entry point
     │   │   │
     │   │   ├── config/                             # Cấu hình ứng dụng
     │   │   │   ├── SecurityConfig.java             #   Cấu hình Spring Security
@@ -156,7 +156,7 @@ green-food-store-backend/
     │       └── application.properties              # Cấu hình database, JWT, upload...
     │
     └── test/
-        ├── java/com/greenfood/                     # Unit & Integration Tests
+    │   ├── java/com/freshmart/                     # Unit & Integration Tests
         └── resources/
 ```
 
@@ -174,13 +174,13 @@ green-food-store-backend/
 
 **1. Clone dự án**
 ```bash
-git clone https://github.com/your-username/green-food-store-backend.git
-cd green-food-store-backend
+git clone https://github.com/your-username/fresh-mart-backend.git
+cd fresh-mart-backend
 ```
 
 **2. Tạo database MySQL**
 ```sql
-CREATE DATABASE green_food_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE fresh_mart CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 **3. Cấu hình kết nối DB**
