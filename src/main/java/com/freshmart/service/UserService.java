@@ -1,9 +1,13 @@
 package com.freshmart.service;
 
 import com.freshmart.model.dto.request.RegisterRequest;
+import com.freshmart.model.dto.request.UpdateUserRequest;
 import com.freshmart.model.dto.response.AuthResponse;
 import com.freshmart.model.dto.response.UserInfoResponse;
+import com.freshmart.model.dto.response.UserResponse;
 import com.freshmart.model.entity.User;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -18,4 +22,13 @@ public interface UserService {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    // User Management
+    UserResponse getUserById(Long id);
+
+    List<UserResponse> getAllUsers();
+
+    UserResponse updateUser(Long id, UpdateUserRequest updateUserRequest);
+
+    void deleteUser(Long id);
 }
