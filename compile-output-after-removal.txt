@@ -1,0 +1,53 @@
+﻿mvn.cmd : WARNING: A restricted method in java.lang.System has been called
+At line:1 char:52
++ ... dk-26.0.1'; & 'C:\Users\accro\AppData\Local\Programs\apache-maven-3.9 ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: A rest...has been called 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: java.lang.System::load has been called by 
+org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/C:/Users/
+accro/AppData/Local/Programs/apache-maven-3.9.9/lib/jansi-2.4.1.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers 
+in this module
+WARNING: Restricted methods will be blocked in a future release unless native 
+access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by 
+com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/C:/U
+sers/accro/AppData/Local/Programs/apache-maven-3.9.9/lib/guava-33.2.1-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class 
+com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+WARNING: Final field _cipher in class 
+org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher has been 
+mutated reflectively by class org.eclipse.sisu.bean.BeanPropertyField in 
+unnamed module @1d548a08 (file:/C:/Users/accro/AppData/Local/Programs/apache-ma
+ven-3.9.9/lib/org.eclipse.sisu.inject-0.9.0.M3.jar)
+WARNING: Use --enable-final-field-mutation=ALL-UNNAMED to avoid a warning
+WARNING: Mutating final fields will be blocked in a future release unless 
+final field mutation is enabled
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.freshmart:fresh-mart >----------------------
+[INFO] Building Fresh Mart Backend 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fresh-mart ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ fresh-mart ---
+[INFO] Changes detected - recompiling the module! :input tree
+[INFO] Compiling 60 source files with javac [debug release 17] to target\classes
+[WARNING] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/entity/Cart.java:[31,28] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/entity/Order.java:[53,29] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.015 s
+[INFO] Finished at: 2026-05-12T10:49:05+07:00
+[INFO] ------------------------------------------------------------------------

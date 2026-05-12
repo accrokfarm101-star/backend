@@ -1,0 +1,656 @@
+﻿mvn.cmd : WARNING: A restricted method in java.lang.System has been called
+At line:1 char:52
++ ... dk-26.0.1'; & 'C:\Users\accro\AppData\Local\Programs\apache-maven-3.9 ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: A rest...has been called 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: java.lang.System::load has been called by 
+org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/C:/Users/
+accro/AppData/Local/Programs/apache-maven-3.9.9/lib/jansi-2.4.1.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers 
+in this module
+WARNING: Restricted methods will be blocked in a future release unless native 
+access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by 
+com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/C:/U
+sers/accro/AppData/Local/Programs/apache-maven-3.9.9/lib/guava-33.2.1-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class 
+com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+WARNING: Final field _cipher in class 
+org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher has been 
+mutated reflectively by class org.eclipse.sisu.bean.BeanPropertyField in 
+unnamed module @1d548a08 (file:/C:/Users/accro/AppData/Local/Programs/apache-ma
+ven-3.9.9/lib/org.eclipse.sisu.inject-0.9.0.M3.jar)
+WARNING: Use --enable-final-field-mutation=ALL-UNNAMED to avoid a warning
+WARNING: Mutating final fields will be blocked in a future release unless 
+final field mutation is enabled
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.freshmart:fresh-mart >----------------------
+[INFO] Building Fresh Mart Backend 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fresh-mart ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ fresh-mart ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 61 source files with javac [debug release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/GreenFoodStoreApplication.java:[11,8] class FreshMartApplication is public, should be declared in a file named FreshMartApplication.java
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/FreshMartApplication.java:[11,8] duplicate class: com.freshmart.FreshMartApplication
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/FavoriteController.java:[80,63] cannot find symbol
+  symbol:   method getId()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/dto/response/ApiResponse.java:[36,27] cannot find symbol
+  symbol:   method <T>builder()
+  location: class com.freshmart.model.dto.response.ApiResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/dto/response/ApiResponse.java:[49,27] cannot find symbol
+  symbol:   method <T>builder()
+  location: class com.freshmart.model.dto.response.ApiResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/OrderController.java:[38,74] cannot find symbol
+  symbol:   method getId()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/OrderController.java:[75,74] cannot find symbol
+  symbol:   method getId()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[40,45] cannot find symbol
+  symbol:   method getUsername()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[43,42] cannot find symbol
+  symbol:   method getEmail()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[47,25] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[48,42] cannot find symbol
+  symbol:   method getUsername()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[49,39] cannot find symbol
+  symbol:   method getEmail()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[50,39] cannot find symbol
+  symbol:   method getPhone()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[51,65] cannot find symbol
+  symbol:   method getPassword()
+  location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[57,63] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[59,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.AuthResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[61,31] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[62,28] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[63,28] cannot find symbol
+  symbol:   method getPhone()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[64,27] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[74,52] cannot find symbol
+  symbol:   method getPassword()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[80,29] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[82,64] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[86,63] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[88,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.AuthResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[90,31] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[91,28] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[92,28] cannot find symbol
+  symbol:   method getPhone()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[93,27] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[116,32] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.UserInfoResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[117,25] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[118,31] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[119,28] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[120,28] cannot find symbol
+  symbol:   method getPhone()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[121,27] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[43,34] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[44,37] cannot find symbol
+  symbol:   method getName()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[45,44] cannot find symbol
+  symbol:   method getDescription()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[46,38] cannot find symbol
+  symbol:   method getPrice()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[47,38] cannot find symbol
+  symbol:   method getStock()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[48,41] cannot find symbol
+  symbol:   method getImageUrl()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[49,41] cannot find symbol
+  symbol:   method getCategory()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[50,39] cannot find symbol
+  symbol:   method getStatus()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[50,127] cannot find symbol
+  symbol:   method getStatus()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[60,39] cannot find symbol
+  symbol:   method getName()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[61,46] cannot find symbol
+  symbol:   method getDescription()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[62,40] cannot find symbol
+  symbol:   method getPrice()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[63,40] cannot find symbol
+  symbol:   method getStock()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[64,43] cannot find symbol
+  symbol:   method getImageUrl()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[65,43] cannot find symbol
+  symbol:   method getCategory()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[66,27] cannot find symbol
+  symbol:   method getStatus()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[67,45] cannot find symbol
+  symbol:   method getStatus()
+  location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[77,16] cannot find symbol
+  symbol:   method setStatus(com.freshmart.model.enums.ProductStatus)
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[90,31] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.ProductResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[93,37] cannot find symbol
+  symbol:   method getDescription()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[94,31] cannot find symbol
+  symbol:   method getPrice()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[96,34] cannot find symbol
+  symbol:   method getImageUrl()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[97,34] cannot find symbol
+  symbol:   method getCategory()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[98,32] cannot find symbol
+  symbol:   method getStatus()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[99,35] cannot find symbol
+  symbol:   method getCreatedAt()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[100,35] cannot find symbol
+  symbol:   method getUpdatedAt()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/AuthController.java:[36,82] cannot find symbol
+  symbol:   method getUsernameOrEmail()
+  location: variable loginRequest of type com.freshmart.model.dto.request.LoginRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/AuthController.java:[36,117] cannot find symbol
+  symbol:   method getPassword()
+  location: variable loginRequest of type com.freshmart.model.dto.request.LoginRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[24,31] cannot find symbol
+  symbol:   method getUsername()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[25,31] cannot find symbol
+  symbol:   method getPassword()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[26,28] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/CartController.java:[101,63] cannot find symbol
+  symbol:   method getId()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[47,28] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.Order
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[50,44] cannot find symbol
+  symbol:   method getPaymentMethod()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[51,46] cannot find symbol
+  symbol:   method getShippingAddress()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[52,42] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[53,36] cannot find symbol
+  symbol:   method getNotes()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[61,25] cannot find symbol
+  symbol:   method getOrderItems()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[61,66] cannot find symbol
+  symbol:   method getOrderItems()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[62,61] cannot find symbol
+  symbol:   method getOrderItems()
+  location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[74,48] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.OrderItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[78,43] cannot find symbol
+  symbol:   method getPrice()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[209,51] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.OrderItemResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[217,29] incompatible types: inference variable T has incompatible bounds
+    equality constraints: com.freshmart.model.dto.response.OrderItemResponse
+    lower bounds: java.lang.Object
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[220,29] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.dto.response.OrderResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[222,40] cannot find symbol
+  symbol:   method getId()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[223,42] cannot find symbol
+  symbol:   method getUsername()
+  location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/ProductController.java:[69,92] cannot find symbol
+  symbol:   method getStatus()
+  location: variable statusRequest of type com.freshmart.model.dto.request.ProductStatusRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[51,69] cannot find symbol
+  symbol:   method getProductId()
+  location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[52,93] cannot find symbol
+  symbol:   method getProductId()
+  location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[54,42] cannot find symbol
+  symbol:   method getQuantity()
+  location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[55,47] cannot find symbol
+  symbol:   method getCartItems()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[61,41] cannot find symbol
+  symbol:   method getQuantity()
+  location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[63,21] cannot find symbol
+  symbol:   method setQuantity(int)
+  location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[67,41] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[71,39] cannot find symbol
+  symbol:   method getPrice()
+  location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[74,17] cannot find symbol
+  symbol:   method getCartItems()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[89,82] cannot find symbol
+  symbol:   method getId()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[92,31] cannot find symbol
+  symbol:   method getProduct()
+  location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[93,17] cannot find symbol
+  symbol:   method setQuantity(java.lang.Integer)
+  location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[103,82] cannot find symbol
+  symbol:   method getId()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[106,13] cannot find symbol
+  symbol:   method getCartItems()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[116,13] cannot find symbol
+  symbol:   method getCartItems()
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[117,13] cannot find symbol
+  symbol:   method setTotalAmount(java.math.BigDecimal)
+  location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[126,38] cannot find symbol
+  symbol:   method builder()
+  location: class com.freshmart.model.entity.Cart
+[INFO] 100 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.841 s
+[INFO] Finished at: 2026-05-12T10:44:58+07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project fresh-mart: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/GreenFoodStoreApplication.java:[11,8] class FreshMartApplication is public, should be declared in a file named FreshMartApplication.java
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/FreshMartApplication.java:[11,8] duplicate class: com.freshmart.FreshMartApplication
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/FavoriteController.java:[80,63] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/dto/response/ApiResponse.java:[36,27] cannot find symbol
+[ERROR]   symbol:   method <T>builder()
+[ERROR]   location: class com.freshmart.model.dto.response.ApiResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/model/dto/response/ApiResponse.java:[49,27] cannot find symbol
+[ERROR]   symbol:   method <T>builder()
+[ERROR]   location: class com.freshmart.model.dto.response.ApiResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/OrderController.java:[38,74] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/OrderController.java:[75,74] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[40,45] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[43,42] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[47,25] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[48,42] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[49,39] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[50,39] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[51,65] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable registerRequest of type com.freshmart.model.dto.request.RegisterRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[57,63] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[59,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.AuthResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[61,31] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[62,28] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[63,28] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[64,27] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[74,52] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[80,29] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[82,64] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[86,63] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[88,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.AuthResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[90,31] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[91,28] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[92,28] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[93,27] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[116,32] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.UserInfoResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[117,25] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[118,31] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[119,28] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[120,28] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/UserServiceImpl.java:[121,27] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[43,34] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[44,37] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[45,44] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[46,38] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[47,38] cannot find symbol
+[ERROR]   symbol:   method getStock()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[48,41] cannot find symbol
+[ERROR]   symbol:   method getImageUrl()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[49,41] cannot find symbol
+[ERROR]   symbol:   method getCategory()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[50,39] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[50,127] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[60,39] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[61,46] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[62,40] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[63,40] cannot find symbol
+[ERROR]   symbol:   method getStock()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[64,43] cannot find symbol
+[ERROR]   symbol:   method getImageUrl()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[65,43] cannot find symbol
+[ERROR]   symbol:   method getCategory()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[66,27] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[67,45] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable productRequest of type com.freshmart.model.dto.request.ProductRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[77,16] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.freshmart.model.enums.ProductStatus)
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[90,31] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.ProductResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[93,37] cannot find symbol
+[ERROR]   symbol:   method getDescription()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[94,31] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[96,34] cannot find symbol
+[ERROR]   symbol:   method getImageUrl()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[97,34] cannot find symbol
+[ERROR]   symbol:   method getCategory()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[98,32] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[99,35] cannot find symbol
+[ERROR]   symbol:   method getCreatedAt()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/ProductServiceImpl.java:[100,35] cannot find symbol
+[ERROR]   symbol:   method getUpdatedAt()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/AuthController.java:[36,82] cannot find symbol
+[ERROR]   symbol:   method getUsernameOrEmail()
+[ERROR]   location: variable loginRequest of type com.freshmart.model.dto.request.LoginRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/AuthController.java:[36,117] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable loginRequest of type com.freshmart.model.dto.request.LoginRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[24,31] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[25,31] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/security/UserDetailsServiceImpl.java:[26,28] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/CartController.java:[101,63] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[47,28] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.Order
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[50,44] cannot find symbol
+[ERROR]   symbol:   method getPaymentMethod()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[51,46] cannot find symbol
+[ERROR]   symbol:   method getShippingAddress()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[52,42] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[53,36] cannot find symbol
+[ERROR]   symbol:   method getNotes()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[61,25] cannot find symbol
+[ERROR]   symbol:   method getOrderItems()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[61,66] cannot find symbol
+[ERROR]   symbol:   method getOrderItems()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[62,61] cannot find symbol
+[ERROR]   symbol:   method getOrderItems()
+[ERROR]   location: variable orderRequest of type com.freshmart.model.dto.request.OrderRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[74,48] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.OrderItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[78,43] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[209,51] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.OrderItemResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[217,29] incompatible types: inference variable T has incompatible bounds
+[ERROR]     equality constraints: com.freshmart.model.dto.response.OrderItemResponse
+[ERROR]     lower bounds: java.lang.Object
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[220,29] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.dto.response.OrderResponse
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[222,40] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/OrderServiceImpl.java:[223,42] cannot find symbol
+[ERROR]   symbol:   method getUsername()
+[ERROR]   location: class com.freshmart.model.entity.User
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/controller/ProductController.java:[69,92] cannot find symbol
+[ERROR]   symbol:   method getStatus()
+[ERROR]   location: variable statusRequest of type com.freshmart.model.dto.request.ProductStatusRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[51,69] cannot find symbol
+[ERROR]   symbol:   method getProductId()
+[ERROR]   location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[52,93] cannot find symbol
+[ERROR]   symbol:   method getProductId()
+[ERROR]   location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[54,42] cannot find symbol
+[ERROR]   symbol:   method getQuantity()
+[ERROR]   location: variable cartItemRequest of type com.freshmart.model.dto.request.CartItemRequest
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[55,47] cannot find symbol
+[ERROR]   symbol:   method getCartItems()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[61,41] cannot find symbol
+[ERROR]   symbol:   method getQuantity()
+[ERROR]   location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[63,21] cannot find symbol
+[ERROR]   symbol:   method setQuantity(int)
+[ERROR]   location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[67,41] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[71,39] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable product of type com.freshmart.model.entity.Product
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[74,17] cannot find symbol
+[ERROR]   symbol:   method getCartItems()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[89,82] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[92,31] cannot find symbol
+[ERROR]   symbol:   method getProduct()
+[ERROR]   location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[93,17] cannot find symbol
+[ERROR]   symbol:   method setQuantity(java.lang.Integer)
+[ERROR]   location: variable cartItem of type com.freshmart.model.entity.CartItem
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[103,82] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[106,13] cannot find symbol
+[ERROR]   symbol:   method getCartItems()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[116,13] cannot find symbol
+[ERROR]   symbol:   method getCartItems()
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[117,13] cannot find symbol
+[ERROR]   symbol:   method setTotalAmount(java.math.BigDecimal)
+[ERROR]   location: variable cart of type com.freshmart.model.entity.Cart
+[ERROR] /C:/Users/accro/Downloads/backend/src/main/java/com/freshmart/serviceImpl/CartServiceImpl.java:[126,38] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.freshmart.model.entity.Cart
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

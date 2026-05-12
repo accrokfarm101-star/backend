@@ -19,4 +19,20 @@ public class OrderItemRequest {
     @NotNull(message = "Số lượng là bắt buộc")
     @Min(value = 1, message = "Số lượng phải lớn hơn 0")
     private Integer quantity;
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

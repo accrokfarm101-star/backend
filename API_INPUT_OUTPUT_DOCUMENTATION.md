@@ -1,11 +1,10 @@
 # API Input/Output Documentation - Fresh Mart Backend
 
 ## Table of Contents
-1. [Authentication APIs](#authentication-apis)
-2. [Product APIs](#product-apis)
-3. [Category APIs](#category-apis)
-4. [Order APIs](#order-apis)
-5. [Cart APIs](#cart-apis)
+1. [Product APIs](#product-apis)
+2. [Category APIs](#category-apis)
+3. [Order APIs](#order-apis)
+4. [Cart APIs](#cart-apis)
 
 ---
 
