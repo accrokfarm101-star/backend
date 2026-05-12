@@ -71,7 +71,6 @@ fresh-mart-backend/
     │   │   │   ├── CategoryController.java         #   Quản lý danh mục
     │   │   │   ├── OrderController.java            #   Quản lý đơn hàng
     │   │   │   ├── CartController.java             #   Giỏ hàng
-    │   │   │   ├── UserController.java             #   Quản lý người dùng
     │   │   │   └── ReviewController.java           #   Đánh giá sản phẩm
     │   │   │
     │   │   ├── service/                            # Interface Service Layer
