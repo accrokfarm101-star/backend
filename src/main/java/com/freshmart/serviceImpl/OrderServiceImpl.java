@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
             for (OrderItemRequest itemRequest : orderRequest.getOrderItems()) {
                 // Lấy sản phẩm từ database
                 Product product = productRepository.findById(itemRequest.getProductId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Sản phẩm", itemRequest.getProductId()));
+                        .orElseThrow(() -> new IllegalArgumentException("Sản phẩm không tồn tại"));
 
                 // Kiểm tra số lượng tồn kho
                 if (product.getStock() < itemRequest.getQuantity()) {

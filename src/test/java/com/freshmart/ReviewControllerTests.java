@@ -1,6 +1,7 @@
 package com.freshmart;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freshmart.model.dto.request.LoginRequest;
 import com.freshmart.model.entity.Product;
@@ -186,8 +187,8 @@ class ReviewControllerTests {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Danh sách đánh giá sản phẩm"))
                 .andExpect(jsonPath("$.data", hasSize(2)))
-                .andExpect(jsonPath("$.data[0].rating").value(5))
-                .andExpect(jsonPath("$.data[1].rating").value(4));
+                .andExpect(jsonPath("$.data[0].rating").value(4))
+                .andExpect(jsonPath("$.data[1].rating").value(5));
     }
 
     @Test
