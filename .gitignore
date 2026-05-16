@@ -1,0 +1,26 @@
+# Maven / Java build output
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+logs/
+
+# IntelliJ / VS Code
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test reports and temporary outputs
+surefire-reports/
+test_output.log
+test_result.log
+test_auth.log
+
