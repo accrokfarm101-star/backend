@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freshmart Admin - Quản lý đơn hàng</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/globals.css">
+<link rel="stylesheet" href="../../assets/css/QuanLyDonHang.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="brand">
+    <span class="brand-icon"><i class="fa-solid fa-shop"></i></span>
+    Freshmart Admin
+  </div>
+  <div class="header-title-block">
+    <h1>Quản lý đơn hàng</h1>
+    <p>Cập nhật trạng thái, theo dõi và quản lý tất cả đơn hàng tại đây.</p>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <nav class="nav-menu">
+      <a class="nav-item active">
+        <span class="nav-icon"><i class="fa-solid fa-cart-arrow-down"></i></span> Quản lý đơn hàng
+      </a>
+      <a class="nav-item" href="../admin/QuanLySanPham.html">
+        <span class="nav-icon"><i class="fa-solid fa-box"></i></span> Quản lý sản phẩm
+      </a>
+      <a class="nav-item" href="../admin/QuanLyDanhGia.html">
+        <span class="nav-icon"><i class="fa-solid fa-comments"></i></span> Quản lý đánh giá
+      </a>
+      <a class="nav-item" href="../admin/QuanLyVoucher.html">
+        <span class="nav-icon"><i class="fa-solid fa-tags"></i></span> Quản lý voucher
+      </a>
+      <a class="nav-item">
+        <span class="nav-icon"><i class="fa-solid fa-robot"></i></span> Quản lý AI
+      </a>
+      <a class="nav-item">
+        <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span> Báo cáo
+      </a>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-bottom">
+      <a class="nav-item">
+        <span class="nav-icon"><i class="fa-solid fa-house"></i></span> Về trang chủ
+      </a>
+      <a class="nav-item" href="../index/DangNhap.html">
+        <span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span> Đăng xuất
+      </a>
+      <div class="user-badge">
+        <div class="user-avatar"><i class="fa-solid fa-circle-user"></i></div>
+        Admin
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input id="searchInput" type="text" placeholder="Tìm kiếm đơn hàng...">
+      </div>
+      <button class="filter-btn">&#x25BE; Tất cả trạng thái</button>
+      <button class="filter-btn">⇅ Sắp xếp theo</button>
+      <button class="export-btn">&#x2193; Xuất dữ liệu</button>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã đơn hàng</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền <span class="sort-icon">⇅</span></th>
+            <th>Trạng thái <span class="sort-icon">⇅</span></th>
+            <th>Hành động <span class="sort-icon">⇅</span></th>
+          </tr>
+        </thead>
+        <tbody id="orderTable">
+
+        </tbody>
+      </table>
+
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <span class="empty-text" id="emptyText"></span>
+      </div>
+
+      <div class="table-footer">
+        <div class="table-info">Hiển thị <strong id="showCount">0</strong> của <strong id="totalCount">0</strong></div>
+        <div class="pagination">
+          <button class="page-btn" disabled>Trước</button>
+          <button class="page-btn" disabled>Sau</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="delete-tooltip" id="deleteTooltip">
+  Đơn hàng đang trong quá trình xử lý không thể xóa
+</div>
+
+<script>
+const STATUSES = [
+  { key: 'cancelled', label: 'Đã hủy',          cls: 'cancelled' },
+  { key: 'shipping',  label: 'Đang vận chuyển', cls: 'shipping'  },
+  { key: 'done',      label: 'Hoàn thành',      cls: 'done'      },
+  { key: 'pending',   label: 'Chờ xác nhận',    cls: 'pending'   },
+];
+
+// Các trạng thái không được phép xóa
+const NON_DELETABLE = ['shipping', 'pending'];
+
+let orders = [
+  { id: '#FB843786', customer: 'An',    date: '02/02/2026', total: '50.000đ',  status: 'cancelled' },
+  { id: '#FB912345', customer: 'Bình',  date: '05/03/2026', total: '120.000đ', status: 'done'      },
+  { id: '#FB765432', customer: 'Châu',  date: '10/04/2026', total: '85.000đ',  status: 'shipping'  },
+  { id: '#FB654321', customer: 'Dũng',  date: '12/04/2026', total: '200.000đ', status: 'pending'   },
+];
+
+let searchQuery = '';
+let tooltipTimer = null;
+
+function getStatus(key) { return STATUSES.find(s => s.key === key); }
+
+function getFilteredOrders() {
+  if (!searchQuery) return orders;
+  const q = searchQuery.toLowerCase();
+  return orders.filter(o =>
+    o.id.toLowerCase().includes(q) ||
+    o.customer.toLowerCase().includes(q) ||
+    o.date.includes(q)
+  );
+}
+
+function renderTable() {
+  const tbody      = document.getElementById('orderTable');
+  const emptyState = document.getElementById('emptyState');
+  const emptyText  = document.getElementById('emptyText');
+  const filtered   = getFilteredOrders();
+
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    //  Không có đơn hàng nào
+    //  Tìm kiếm không có kết quả
+    emptyState.style.display = 'flex';
+    emptyText.textContent = searchQuery
+      ? 'Không tìm thấy đơn hàng phù hợp.'
+      : 'Không có đơn hàng nào gần đây.';
+  } else {
+    emptyState.style.display = 'none';
+    filtered.forEach((o) => {
+      const realIdx  = orders.indexOf(o);
+      const st       = getStatus(o.status);
+      const canDelete = !NON_DELETABLE.includes(o.status);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="order-id">${o.id}</td>
+        <td>${o.customer}</td>
+        <td>${o.date}</td>
+        <td>${o.total}</td>
+        <td>
+          <div class="status-wrapper" id="sw-${realIdx}">
+            <div class="status-badge ${st.cls}" onclick="toggleDropdown(${realIdx}, event)">
+              <span>${st.label}</span>
+              <span style="font-size:11px">▲</span>
+            </div>
+            <div class="status-dropdown" id="dd-${realIdx}">
+              ${STATUSES.map(s => `
+                <div class="dropdown-option" onclick="changeStatus(${realIdx}, '${s.key}')">
+                  <span class="dot ${s.cls}"></span> ${s.label}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="action-btns">
+            <button class="action-btn" title="Chỉnh sửa">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <!-- [CASE 2] Nút xóa: mờ + tooltip nếu đang xử lý -->
+            <button
+              class="action-btn delete ${canDelete ? '' : 'disabled-delete'}"
+              title="${canDelete ? 'Xóa' : 'Không thể xóa'}"
+              onclick="deleteOrder(${realIdx}, event)"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('showCount').textContent = filtered.length;
+  document.getElementById('totalCount').textContent = orders.length;
+}
+
+function toggleDropdown(idx, e) {
+  e.stopPropagation();
+  document.querySelectorAll('.status-dropdown').forEach((d, i) => {
+    if (i !== idx) d.classList.remove('open');
+  });
+  document.getElementById(`dd-${idx}`).classList.toggle('open');
+}
+
+function changeStatus(idx, key) {
+  orders[idx].status = key;
+  renderTable();
+}
+
+function deleteOrder(idx, e) {
+  e.stopPropagation();
+  const order = orders[idx];
+
+  // Hiện tooltip cảnh báo nếu đơn đang xử lý
+  if (NON_DELETABLE.includes(order.status)) {
+    showDeleteTooltip(e.currentTarget);
+    return;
+  }
+
+  if (confirm(`Xóa đơn hàng ${order.id}?`)) {
+    orders.splice(idx, 1);
+    renderTable();
+  }
+}
+
+function showDeleteTooltip(btn) {
+  const tooltip = document.getElementById('deleteTooltip');
+  const rect    = btn.getBoundingClientRect();
+  tooltip.style.top  = (rect.bottom + window.scrollY + 8) + 'px';
+  tooltip.style.left = (rect.left + window.scrollX - 60) + 'px';
+  tooltip.classList.add('visible');
+
+  clearTimeout(tooltipTimer);
+  tooltipTimer = setTimeout(() => tooltip.classList.remove('visible'), 2800);
+}
+
+// Tìm kiếm realtime 
+document.getElementById('searchInput').addEventListener('input', function () {
+  searchQuery = this.value.trim();
+  renderTable();
+});
+
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.status-dropdown').forEach(d => d.classList.remove('open'));
+  if (!e.target.closest('#deleteTooltip') && !e.target.closest('.delete')) {
+    document.getElementById('deleteTooltip').classList.remove('visible');
+  }
+});
+
+renderTable();
+</script>
+</body>
+</html>

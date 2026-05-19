@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Mart - 100% Organic</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+
+<header class="bg-[#e8f5e9] border-b fixed top-0 z-50 w-full">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between py-3">
+            
+            <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
+                style="font-family: 'Georgia', serif; margin-left: -2cm;">
+                Fresh Mart
+            </h1>
+            
+            <div class="flex-1 max-w-2xl mx-8" style="margin-right: -1cm;">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm trong Fresh Mart" 
+                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                   
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+                <!-- Right -->
+                <div class="flex items-center gap-4"
+                     style="margin-right: -2cm;">
+                <a href="dang_nhap.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center">
+                    <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
+                </a>
+
+                    </button>
+                <a href="dang_ky.html" class="border border-green-700 bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 min-w-[140px] text-center">Đăng ký</a>
+                <a href="dang_nhap.html" class="border border-green-700 text-green-700 px-6 py-2 rounded-lg hover:bg-green-50 min-w-[140px] text-center">Đăng nhập</a>
+            
+                </div>
+            </div>
+        </div>
+                <!-- Navbar -->
+        <nav class="bg-[#efefef] border-t border-gray-200">
+            <div class="max-w-[1920px] mx-auto px-16">
+                <ul class="flex items-center justify-between h-[35px]">
+
+                    <li>
+                        <a href="../html_main/trang_chu.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../html_main/trang_gioi_thieu.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Giới thiệu
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../html_main/trang_san_pham.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Sản phẩm
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../html_main/trang_cau_hoi.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Câu hỏi
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../html_main/trang_tin_tuc.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Tin tức
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../html_main/trang_lien_he.html"
+                            class="text-[16px] font-semibold text-black hover:text-green-700 transition">
+                            Liên hệ
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+    </nav>
+
+    </header>
+
+
+    <!-- Hero Banner -->
+<section class="hero-bg h-[500px] relative flex items-center justify-center text-white overflow-hidden">
+    <!-- Lớp phủ (Overlay) để chữ dễ đọc hơn trên nền ảnh sáng -->
+    <div class="absolute inset-0 bg-black/40 z-10"></div>
+    
+    <!-- Hình nền: Bạn hãy thay link ảnh của bạn vào đây -->
+    <img src="../../image/banner.png" 
+         alt="Fresh Organic Food" 
+         class="absolute inset-0 w-full h-full object-cover">
+
+    
+</section>
+
+  <!-- Danh mục -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-4xl font-black text-center mb-12 text-[#396337]">DANH MỤC</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            
+            <div class="flex items-center justify-between bg-[#679156] rounded-[40px] p-6 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-4/5 flex justify-center items-center p-1">
+                    <img src="../../image/rauca.png" alt="Rau Củ" class="w-full h-auto max-w-[220px] object-contain transform group-hover:scale-110 transition-duration-300">
+                </div>
+                <div class="w-2/5 text-center">
+                    <h3 class="text-[#DCEBCF] text-4xl font-black leading-tight ">Rau <br> Củ</h3>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-[#DCEBCF] rounded-[40px] p-6 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-4/5 flex justify-center items-center p-1">
+                    <img src="../../image/traicay.png" alt="Trái Cây" class="w-full h-auto max-w-[220px] object-contain transform group-hover:scale-110 transition-duration-300">
+                </div>
+                <div class="w-2/5 text-center">
+                    <h3 class="text-[#396337] text-4xl font-black leading-tight ">Trái <br> Cây</h3>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-[#396337] rounded-[40px] p-6 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-4/5 flex justify-center items-center p-1">
+                    <img src="../../image/hat.png" alt="Hạt" class="w-full h-auto max-w-[220px] object-contain transform group-hover:scale-110 transition-duration-300">
+                </div>
+                <div class="w-2/5 text-center">
+                    <h3 class="text-[#DCEBCF] text-4xl font-black leading-tight ">Hạt</h3>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-[#D7E8BB] rounded-[40px] p-6 hover:shadow-xl transition-all cursor-pointer group">
+                <div class="w-4/5 flex justify-center items-center p-1">
+                    <img src="../../image/thitca.png" alt="Thịt Cá" class="w-full h-auto max-w-[220px] object-contain transform group-hover:scale-110 transition-duration-300">
+                </div>
+                <div class="w-2/5 text-center">
+                    <h3 class="text-[#396337] text-4xl font-black leading-tight uppercase">Thịt <br> Cá</h3>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+  <!-- Giá tốt tuần này -->
+    <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-green-800">Giá tốt tuần này</h2>
+                <div class="flex gap-3">
+                    <button id="prevBtn" class="w-11 h-11 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition flex items-center justify-center">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="nextBtn" class="w-11 h-11 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition flex items-center justify-center">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="carousel" class="overflow-hidden">
+                <div id="carouselTrack" class="flex gap-6 transition-transform duration-500 ease-in-out">
+                    <!-- 8 sản phẩm -->
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?banana" class="w-full h-52 object-cover" alt="Chuối">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Trái cây</p>
+                            <h4 class="font-semibold text-lg">Chuối chín</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">20.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?tomato" class="w-full h-52 object-cover" alt="Cà chua">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Rau củ</p>
+                            <h4 class="font-semibold text-lg">Cà chua Beef</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">30.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?avocado" class="w-full h-52 object-cover" alt="Bơ">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Trái cây</p>
+                            <h4 class="font-semibold text-lg">Bơ sáp</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">105.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?cucumber" class="w-full h-52 object-cover" alt="Bí">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Rau củ</p>
+                            <h4 class="font-semibold text-lg">Bí ngòi xanh</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">24.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?corn" class="w-full h-52 object-cover" alt="Bắp">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Rau củ</p>
+                            <h4 class="font-semibold text-lg">Bắp Mỹ</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">15.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?grapes" class="w-full h-52 object-cover" alt="Nho">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Trái cây</p>
+                            <h4 class="font-semibold text-lg">Nho đỏ</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">89.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?meat" class="w-full h-52 object-cover" alt="Thịt bò">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Thịt</p>
+                            <h4 class="font-semibold text-lg">Thịt bò</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">220.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card min-w-[calc(25%-18px)] bg-white border rounded-3xl overflow-hidden">
+                        <img src="https://source.unsplash.com/random/300x280/?watermelon" class="w-full h-52 object-cover" alt="Dưa hấu">
+                        <div class="product-info p-5">
+                            <p class="text-green-600 text-sm">Trái cây</p>
+                            <h4 class="font-semibold text-lg">Dưa hấu</h4>
+                            <p class="text-green-700 font-bold text-xl mt-2">45.000 đ</p>
+                            <button class="mt-5 w-full bg-green-700 text-white py-3 rounded-2xl">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tài khoản | Fresh Mart</title>
+    
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        .sidebar-active {
+            background: linear-gradient(to right, #f0fdf4, #ffffff);
+            color: #16a34a;
+            border-left: 4px solid #16a34a;
+        }
+        .custom-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+        }
+                body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f8fafc; }
+        .product-card { background-color: #ffffff; transition: all 0.3s ease; }
+        .product-card:hover { transform: translateY(-4px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .category-item-active {
+            color: #16a34a;
+            font-weight: 900;
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+        
+        #search-input::placeholder {
+    font-size: 13px; /* Bạn có thể chỉnh số này nhỏ xuống (ví dụ: 12px, 11px) */
+    opacity: 0.8;    /* Làm mờ đi một chút nếu muốn */
+}
+    </style>
+</head>
+
+<script>
+    // 1. Chức năng Ẩn/Hiện Số CCCD
+    let isCCCDHidden = true;
+    const realCCCD = "037199008889";
+    const maskedCCCD = "0371******89";
+
+    function toggleCCCD() {
+        const textElement = document.getElementById('cccd-number');
+        const iconElement = document.getElementById('cccd-icon');
+
+        if (isCCCDHidden) {
+            textElement.innerText = realCCCD;
+            iconElement.classList.replace('fa-eye-slash', 'fa-eye');
+            showToast("Đã hiển thị thông tin nhạy cảm");
+        } else {
+            textElement.innerText = maskedCCCD;
+            iconElement.classList.replace('fa-eye', 'fa-eye-slash');
+        }
+        isCCCDHidden = !isCCCDHidden;
+    }
+
+    // 2. Chức năng Yêu cầu thay đổi (Mở Modal/Thông báo)
+    function requestChangeInfo() {
+        // Bạn có thể mở Modal yêu cầu nhập lý do thay đổi ở đây
+        if(confirm("Lưu ý: Việc thay đổi thông tin định danh yêu cầu xét duyệt từ 24h-48h. Bạn có muốn tiếp tục?")) {
+            showToast("Đã mở yêu cầu chỉnh sửa định danh.");
+        }
+    }
+
+    // 3. Chức năng Xuất chứng thư (Download)
+    function handleExtract() {
+        showToast("Đang khởi tạo chứng thư kỹ thuật số...");
+        
+        // Hiệu ứng giả lập tiến trình
+        setTimeout(() => {
+            showToast("Đang đóng gói tệp PDF bảo mật...");
+        }, 1500);
+
+        setTimeout(() => {
+            showToast("Tải xuống thành công: FM_Certificate.pdf");
+        }, 3000);
+    }
+
+    // 4. Chức năng Đồng bộ dữ liệu (Sync)
+    function handleSyncData() {
+        const btn = event.currentTarget;
+        const originalHTML = btn.innerHTML;
+        
+        // Hiệu ứng Loading trên nút
+        btn.innerHTML = '<i class="fas fa-spinner animate-spin mr-3"></i> Đang kết nối...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+            showToast("Dữ liệu định danh đã được đồng bộ mới nhất!");
+        }, 2000);
+    }
+
+    // 5. Hàm Toast (Dùng chung)
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const msg = document.getElementById('toast-message');
+        if (!toast || !msg) return;
+
+        msg.innerText = message;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translate(-50%, -20px)';
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translate(-50%, 40px)';
+        }, 3000);
+    }
+</script>
+
+<body class="bg-[#f8fafc] min-h-screen">
+
+   <!-- Header  -->
+<header class="bg-[#DCEBCF] border-b sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between py-3">
+            
+            <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
+                style="font-family: 'Georgia', serif; margin-left: -2cm;">
+                <a href="../html_main/trang_chu.html">Fresh Mart</a>
+            </h1>
+            
+            <div class="flex-1 max-w-2xl mx-8" style="margin-left: -7cm;">
+                <div class="relative">
+                    <input type="text" text-[16px] id="search-input" oninput="filterProducts()" placeholder="Tìm kiếm trong Fresh Mart" 
+                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4" style="margin-left: -6cm;">
+                <a href="../html_main/gio_hang.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center" style="margin-left: -3cm;">
+                    <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
+                </a>
+
+                <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[14px] font-semibold text-[#456b3f] hover:bg-white transition">
+                    <a href="../html_person/ho_so.html" class="inline-flex items-center">
+                        Ánh Tuyết
+                    </a>
+                </button>
+
+                <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
+            </div>
+        </div>
+    </div>
+
+        <nav class="bg-[#ffffff]  border-white">
+            <div class="max-w-[1920px] mx-auto px-16">
+                <ul class="flex items-center justify-between h-[35px]">
+                    <li><a href="../html_main/trang_chu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
+                    <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
+                    <li><a href="../html_main/trang_san_pham.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
+                    <li><a href="../html_main/trang_cau_hoi.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
+                    <li><a href="../html_main/trang_tin_tuc.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
+                    <li><a href="../html_main/trang_lien_he.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+</header>
+
+    <div class="max-w-8xl mx-auto flex flex-col md:flex-row gap-8 py-10 px-4">
+        
+        <!-- Sidebar -->
+                <!-- Sidebar -->
+        <aside class="w-full md:w-1/4 space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="relative">
+                    <img src="https://i.pravatar.cc/150?img=32" alt="Avatar" class="w-14 h-14 rounded-full border-2 border-green-500 p-0.5 object-cover">
+                    <span class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800">Ánh Tuyết</h3>
+                    <button class="text-xs text-slate-400 hover:text-green-600 transition-colors flex items-center gap-1">
+                        <i class="fas fa-pen"></i> Sửa hồ sơ
+                    </button>
+                </div>
+            </div>
+
+            <nav class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden text-sm">
+                <div class="p-4">
+                    <div class="flex items-center gap-3 text-slate-700 font-semibold mb-2">
+                        <i class="far fa-user-circle text-lg text-green-600"></i>
+                        <span>Tài khoản của tôi</span>
+                    </div>
+                    <ul class="space-y-1">
+                        <li><a href="ho_so.html" class="block pl-9 py-2 text-slate-500 hover:text-green-600 hover:bg-slate-50 transition-all">Hồ sơ</a></li>
+                        <li><a href="dia_chi.html" class="block pl-9 py-2 text-slate-500 hover:text-green-600 hover:bg-slate-50 transition-all">Địa chỉ</a></li>
+                        <li><a href="doi_mat_khau.html" class="block pl-9 py-2 text-slate-500 hover:text-green-600 hover:bg-slate-50 transition-all">Đổi mật khẩu</a></li>
+                        <li><a href="xoa_tai_khoan.html" class="block pl-9 py-2 text-slate-500 hover:text-green-600 hover:bg-slate-50 transition-all">Xóa tài khoản</a></li>
+                        <li><a href="thong_tin.html" class="sidebar-active block pl-9 py-2 font-medium transition-all">Thông tin cá nhân</a></li>
+                    </ul>
+                </div>
+                <div class="border-t border-slate-50 p-4">
+                    <a href="trang_don_mua.html" class="flex items-center gap-3 text-slate-700 font-semibold hover:text-blue-600 transition-colors">
+                        <i class="fas fa-shopping-bag text-blue-500"></i>
+                        <span>Đơn mua</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+<main class="w-full md:w-3/4 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-gradient-to-r from-white to-blue-50/20">
+        <div>
+            <h1 class="text-xl font-bold text-slate-800 uppercase tracking-tight">Xác thực danh tính</h1>
+            <p class="text-sm text-slate-400 mt-1">Thông tin định danh chính chủ trên hệ thống Fresh Mart</p>
+        </div>
+        <div class="flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full border border-green-100">
+            <i class="fas fa-check-double text-green-500 text-xs"></i>
+            <span class="text-[11px] font-black text-green-700 uppercase tracking-wider">Danh tính hợp lệ</span>
+        </div>
+    </div>
+
+    <div class="p-8 max-w-4xl">
+        <div class="space-y-12">
+            
+            <section>
+                <div class="flex items-center justify-between mb-8 border-b border-slate-50 pb-4">
+                    <h3 class="text-xs font-black text-blue-600 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <i class="fas fa-id-card"></i> Hồ sơ pháp lý cá nhân
+                    </h3>
+                    <button onclick="requestChangeInfo()" class="text-[10px] font-bold text-blue-500 hover:text-blue-700 uppercase tracking-widest transition-colors">
+                        <i class="fas fa-edit mr-1"></i> Yêu cầu thay đổi
+                    </button>
+                </div>
+
+                <div class="space-y-8 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Chủ tài khoản</span>
+                        <span id="display-name" class="text-sm font-black text-slate-700">LÊ THỊ ÁNH TUYẾT</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Số CCCD / Hộ chiếu</span>
+                        <div class="flex items-center gap-4">
+                            <span id="cccd-number" class="text-sm font-mono font-bold text-slate-700 tracking-[0.2em]">0371******89</span>
+                            <button onclick="toggleCCCD()" class="text-slate-300 hover:text-blue-500 transition-colors p-2">
+                                <i id="cccd-icon" class="fas fa-eye-slash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ngày cấp văn bản</span>
+                        <span id="display-date" class="text-sm font-bold text-slate-700">12/04/2023</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Email liên kết</span>
+                        <div class="flex items-center gap-3">
+                            <span id="display-email" class="text-sm font-bold text-slate-700">anhtuyet***@gmail.com</span>
+                            <span class="text-[9px] bg-blue-100 text-blue-600 px-2 py-0.5 rounded font-bold uppercase">Chính</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Mức độ tin cậy</span>
+                        <span class="text-[10px] bg-green-100 text-green-600 px-3 py-1 rounded-full font-black uppercase w-fit">Đã xác minh (KYC Lvl 2)</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="pt-10 flex flex-col sm:flex-row gap-4 border-t border-slate-50">
+                <button onclick="handleExtract()" class="flex-1 bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.2em] hover:bg-black transition-all shadow-xl shadow-slate-200 active:scale-95">
+                    <i class="fas fa-file-contract mr-3 text-blue-400"></i> Xuất chứng thư định danh
+                </button>
+                <button onclick="handleSyncData()" class="flex-1 border-2 border-slate-100 text-slate-500 px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.2em] hover:bg-slate-50 transition-all active:scale-95">
+                    <i class="fas fa-sync-alt mr-3 text-green-500"></i> Đồng bộ dữ liệu mới
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

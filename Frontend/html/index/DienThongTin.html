@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh Mart - Thông tin giao hàng</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../../assets/css/globals.css">
+<link rel="stylesheet" href="../../assets/css/CheckOut.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f8fafc; }
+        .product-card { background-color: #ffffff; transition: all 0.3s ease; }
+        .product-card:hover { transform: translateY(-4px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .category-item-active {
+            color: #16a34a;
+            font-weight: 900;
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+        
+        #search-input::placeholder {
+    font-size: 13px; /* Bạn có thể chỉnh số này nhỏ xuống (ví dụ: 12px, 11px) */
+    opacity: 0.8;    /* Làm mờ đi một chút nếu muốn */
+}
+    </style>
+</head>
+<body class="bg-slate-50">
+
+<header class="bg-[#DCEBCF] border-b sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between py-3">
+            
+            <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
+                style="font-family: 'Georgia', serif; margin-left: -2cm;">
+                <a href="../html_main/trang_chu.html">Fresh Mart</a>
+            </h1>
+            
+            <div class="flex-1 max-w-2xl mx-8" style="margin-left: -7cm;">
+                <div class="relative">
+                    <input type="text" text-[16px] id="search-input" oninput="filterProducts()" placeholder="Tìm kiếm trong Fresh Mart" 
+                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4" style="margin-left: -6cm;">
+                <a href="../html_main/gio_hang.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center" style="margin-left: -3cm;">
+                    <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
+                </a>
+
+                <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[14px] font-semibold text-[#456b3f] hover:bg-white transition">
+                    <a href="../html_person/ho_so.html" class="inline-flex items-center">
+                        Ánh Tuyết
+                    </a>
+                </button>
+
+                <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
+            </div>
+        </div>
+    </div>
+
+        <nav class="bg-[#ffffff]  border-white">
+            <div class="max-w-[1920px] mx-auto px-16">
+                <ul class="flex items-center justify-between h-[35px]">
+                    <li><a href="../html_main/trang_chu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
+                    <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
+                    <li><a href="../html_main/trang_san_pham.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
+                    <li><a href="../html_main/trang_cau_hoi.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
+                    <li><a href="../html_main/trang_tin_tuc.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
+                    <li><a href="../html_main/trang_lien_he.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+</header>
+
+
+<div class="steps-bar">
+  <div class="step active"><span class="step-num">1</span><span class="step-label">Thông tin giao hàng</span></div>
+  <div class="step-line"></div>
+  <div class="step"><span class="step-num">2</span><span class="step-label">Thanh toán</span></div>
+  <div class="step-line"></div>
+  <div class="step"><span class="step-num">3</span><span class="step-label">Hoàn tất</span></div>
+</div>
+
+<div class="checkout-layout">
+
+  <div class="checkout-left">
+    <div class="section-title">
+      <i class="fa-solid fa-truck"></i>
+      <h2>Thông tin giao hàng</h2>
+    </div>
+    <p class="required-note">Hãy điền đầy đủ các thông tin có dấu *</p>
+
+    <div class="form-group full">
+      <label><i class="fa-regular fa-user"></i> Họ và tên *</label>
+      <input type="text" id="fullname" placeholder="Nguyễn Văn A" oninput="checkForm()">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label><i class="fa-solid fa-phone"></i> Số điện thoại *</label>
+        <input type="tel" id="phone" placeholder="091234567" oninput="checkForm()">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-regular fa-envelope"></i> Email *</label>
+        <input type="email" id="email" placeholder="abc@gmail.com" oninput="checkForm()">
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <label><i class="fa-solid fa-circle-plus"></i> Địa chỉ *</label>
+      <input type="text" id="address" placeholder="Số nhà, tên phường" oninput="checkForm()">
+    </div>
+
+    <div class="form-row three">
+      <div class="form-group">
+        <label>Tỉnh/Thành phố *</label>
+        <div class="select-wrap">
+          <select id="province" onchange="checkForm()">
+            <option value="">Chọn</option>
+            <option>Hà Nội</option>
+            <option>TP. Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Cần Thơ</option>
+          </select>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Quận/Huyện *</label>
+        <div class="select-wrap">
+          <select id="district" onchange="checkForm()">
+            <option value="">Chọn</option>
+            <option>Quận 1</option>
+            <option>Quận 2</option>
+            <option>Quận 3</option>
+          </select>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Phường/Xã *</label>
+        <div class="select-wrap">
+          <select id="ward" onchange="checkForm()">
+            <option value="">Chọn</option>
+            <option>Phường 1</option>
+            <option>Phường 2</option>
+            <option>Phường 3</option>
+          </select>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full">
+      <label>Ghi chú đơn hàng</label>
+      <input type="text" id="note" placeholder="Ghi chú về đơn hàng">
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" >Quay lại ←</button>
+      <button class="btn-next disabled" id="btnNext" onclick="goNext()">Tiếp tục →</button>
+    </div>
+  </div>
+
+  <div class="checkout-right">
+    <h3 class="order-title">Đơn hàng của bạn</h3>
+    <div class="order-items">
+      <div class="order-item">
+        <img src="../img/bia.png" alt="">
+        <div class="order-item-info">
+          <p class="item-name">[Thùng] Bia Tiger Lon 330ml x 20 Lon</p>
+          <p class="item-qty">Số lượng: 1</p>
+        </div>
+      </div>
+      <div class="order-item">
+        <img src="../img/bingoi.png" alt="">
+        <div class="order-item-info">
+          <p class="item-name">Bí Ngòi Xanh Đà Lạt</p>
+          <p class="item-qty">Số lượng: 3</p>
+        </div>
+      </div>
+      <div class="order-item">
+        <img src="../img/canhga.png" alt="">
+        <div class="order-item-info">
+          <p class="item-name">Cánh Gà Đông Lạnh CP Gói 1kg</p>
+          <p class="item-qty">Số lượng: 1</p>
+        </div>
+      </div>
+      <div class="order-item">
+        <img src="../img/bachibo.png" alt="">
+        <div class="order-item-info">
+          <p class="item-name">Ba Chỉ Bò Mỹ Đông Lạnh T&P 500g</p>
+          <p class="item-qty">Số lượng: 2</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-summary">
+      <div class="summary-row"><span>Tạm tính (3 sản phẩm)</span><span>170.000đ</span></div>
+      <div class="summary-row"><span>Phí vận chuyển</span><span class="green">Miễn phí</span></div>
+      <div class="summary-row" id="discountRow" style="display:none"><span>Giảm giá</span><span class="green" id="discountAmt"></span></div>
+      <div class="voucher-row">
+        <span class="label-voucher">Nhập mã giảm giá</span>
+        <div class="voucher-input-wrap">
+          <input type="text" id="voucherInput" placeholder="Voucher" oninput="resetVoucher()">
+          <button class="btn-apply" onclick="applyVoucher()">Áp dụng</button>
+        </div>
+        <p class="voucher-msg" id="voucherMsg"></p>
+      </div>
+      <div class="summary-total">
+        <span>Tổng</span>
+        <span id="totalAmt">170.000đ</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div id="footer-container"></div>
+    <script src="../../assets/js/main.js"></script>
+
+<script>
+const VALID_VOUCHERS = {
+  'VC30K':    { discount: 30000, label: '30.000đ' },
+  'SUMMER20': { discount: 34000, label: '20%' },
+  'FRESH50K': { discount: 50000, label: '50.000đ' },
+};
+
+// ĐỔI THÀNH BIẾN ĐỘNG TỰ ĐỘNG TÍNH TOÁN
+let BASE_PRICE = 0;
+let appliedDiscount = 0;
+let orderItems = [];
+
+// Hàm tự động bóc tách dữ liệu từ luồng tương tác người dùng
+function loadCheckoutSummary() {
+  const type = sessionStorage.getItem('checkout_type');
+  const rawData = sessionStorage.getItem('checkout_data');
+
+  if (rawData) {
+      orderItems = JSON.parse(rawData);
+  } else {
+      // Trường hợp dự phòng nếu vào trực tiếp trang thông tin mà chưa qua giỏ hàng
+      orderItems = [
+          { id: "SP-001", name: "Cà chua Beef hữu cơ Đà Lạt", price: 60000, quantity: 1, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=400", unit: "Túi 1KG" }
+      ];
+  }
+
+  // Tính tổng giá trị đơn hàng thực tế
+  BASE_PRICE = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  // Render danh sách sản phẩm sang vế phải giao diện
+  const itemsContainer = document.querySelector('.order-items');
+  if (itemsContainer) {
+      itemsContainer.innerHTML = '';
+      orderItems.forEach(item => {
+          itemsContainer.insertAdjacentHTML('beforeend', `
+              <div class="order-item">
+                <img src="${item.image}" alt="${item.name}">
+                <div class="order-item-info">
+                  <p class="item-name">${item.name} (${item.unit || 'Hộp'})</p>
+                  <p class="item-qty">Số lượng: ${item.quantity} — <span class="text-green-700 font-bold">${(item.price * item.quantity).toLocaleString('vi-VN')}đ</span></p>
+                </div>
+              </div>
+          `);
+      });
+  }
+
+  // Cập nhật số tiền hiển thị ban đầu
+  const summaryRows = document.querySelectorAll('.summary-row');
+  if (summaryRows.length > 0) {
+      summaryRows[0].innerHTML = `<span>Tạm tính (${orderItems.length} mặt hàng)</span><span>${BASE_PRICE.toLocaleString('vi-VN')}đ</span>`;
+  }
+  
+  document.getElementById('totalAmt').innerText = BASE_PRICE.toLocaleString('vi-VN') + 'đ';
+}
+
+function checkForm() {
+  const fields = ['fullname','phone','email','address','province','district','ward'];
+  const filled = fields.every(id => document.getElementById(id).value.trim() !== '');
+  const btn = document.getElementById('btnNext');
+  if(btn) {
+      btn.classList.toggle('disabled', !filled);
+      btn.classList.toggle('active', filled);
+  }
+}
+
+function applyVoucher() {
+  const code = document.getElementById('voucherInput').value.trim().toUpperCase();
+  const msg  = document.getElementById('voucherMsg');
+  const discountRow = document.getElementById('discountRow');
+  const discountAmt = document.getElementById('discountAmt');
+  const totalAmt    = document.getElementById('totalAmt');
+
+  if (!code) return;
+
+  if (VALID_VOUCHERS[code]) {
+    const v = VALID_VOUCHERS[code];
+    appliedDiscount = v.discount;
+    const total = BASE_PRICE - appliedDiscount;
+    msg.textContent = '✓ Áp dụng thành công!';
+    msg.className = 'voucher-msg success';
+    discountRow.style.display = 'flex';
+    discountAmt.textContent = '-' + v.label;
+    totalAmt.textContent = (total < 0 ? 0 : total).toLocaleString('vi-VN') + 'đ';
+    
+    sessionStorage.setItem('voucher', code);
+    sessionStorage.setItem('discount', appliedDiscount);
+    sessionStorage.setItem('total', total < 0 ? 0 : total);
+  } else {
+    msg.textContent = '✗ Mã không tồn tại hoặc đã hết hạn';
+    msg.className = 'voucher-msg error';
+    appliedDiscount = 0;
+    discountRow.style.display = 'none';
+    totalAmt.textContent = BASE_PRICE.toLocaleString('vi-VN') + 'đ';
+    sessionStorage.removeItem('voucher');
+    sessionStorage.removeItem('discount');
+    sessionStorage.setItem('total', BASE_PRICE);
+  }
+}
+
+function resetVoucher() {
+  document.getElementById('voucherMsg').textContent = '';
+}
+
+function goNext() {
+  const btn = document.getElementById('btnNext');
+  if (btn.classList.contains('disabled')) return;
+  
+  sessionStorage.setItem('fullname', document.getElementById('fullname').value);
+  sessionStorage.setItem('phone',    document.getElementById('phone').value);
+  if (!sessionStorage.getItem('total')) sessionStorage.setItem('total', BASE_PRICE);
+  window.location.href = 'PhuongThucThanhToan.html';
+}
+
+// Gọi khởi chạy render tóm tắt khi tải trang
+document.addEventListener('DOMContentLoaded', () => {
+    loadCheckoutSummary();
+    checkForm();
+});
+</script>
+</body>
+</html>
