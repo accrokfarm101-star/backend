@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Mart - Tin Tức</title>
+    <!-- CSS & Scripts chung -->
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Font bổ sung cho phần Tin Tức -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .news-section { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header (Giữ nguyên gốc) -->
+    <header class="bg-[#e8f5e9] border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between py-3">
+                
+                <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
+                    style="font-family: 'Georgia', serif; margin-left: -2cm;">
+                    Fresh Mart
+                </h1>
+                
+                <div class="flex-1 max-w-2xl mx-8" style="margin-left: -7cm;">
+                    <div class="relative">
+                        <input type="text" placeholder="Tìm kiếm trong Fresh Mart" 
+                               class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="flex items-center gap-4" style="margin-left: -6cm;">
+                    <button class="relative p-3 hover:bg-green-100 rounded-full" style="margin-left: -3cm;">
+                        <a href="gio_hang.html" class="inline-flex items-center">
+                            <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
+                        </a>
+                    </button>
+
+                    <!-- User Name -->
+                    <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[16px] font-semibold text-[#456b3f] hover:bg-white transition">
+                        <a href="../html_person/ho_so.html" class="inline-flex items-center">
+                            Ánh Tuyết
+                        </a>
+                    </button>
+
+                    <!-- Avatar -->
+                    <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="bg-[#ffffff]  border-white">
+            <div class="max-w-[1920px] mx-auto px-16">
+                <ul class="flex items-center justify-between h-[35px]">
+                    <li><a href="trang_chu.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
+                    <li><a href="trang_gioi_thieu.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
+                    <li><a href="trang_san_pham.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
+                    <li><a href="trang_cau_hoi.html" class="text-[16px] font-semibold text-green-700 hover:text-green-700 transition">Câu hỏi</a></li>
+                    <li><a href="trang_tin_tuc.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
+                    <li><a href="trang_lien_he.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+<main class="max-w-7xl mx-auto px-4 py-16 bg-[#fdfdfd]">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+            <span class="text-green-600 font-bold tracking-[0.3em] uppercase text-[10px] mb-2 block">Fresh Mart Market</span>
+            <h1 class="text-4xl font-black text-slate-800 tracking-tighter italic" style="font-family: 'Georgia', serif;">
+                Giỏ hàng <span class="text-green-600 font-serif">Của bạn</span>
+            </h1>
+        </div>
+        <div class="flex items-center gap-6 bg-white px-6 py-3 rounded-2xl shadow-sm border border-slate-50">
+            <button onclick="toggleSelectAll(true)" class="text-[10px] font-black text-green-700 hover:text-black transition-colors uppercase tracking-widest">Chọn tất cả</button>
+            <div class="w-px h-4 bg-slate-200"></div>
+            <button onclick="toggleSelectAll(false)" class="text-[10px] font-black text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest">Bỏ chọn</button>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-12 items-start">
+        <div class="lg:w-[65%] space-y-6" id="cart-items-container">
+            </div>
+
+        <div class="lg:w-[35%] w-full sticky top-28">
+            <div class="bg-white rounded-[50px] p-10 shadow-[0_30px_100px_rgba(0,0,0,0.04)] border border-slate-50">
+                <h2 class="text-xl font-black text-slate-800 mb-8 uppercase tracking-widest flex items-center gap-3">
+                    <i class="fas fa-receipt text-green-600"></i> Thanh toán
+                </h2>
+                
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Đã chọn</span>
+                        <span id="selected-count" class="font-black text-slate-700 italic">0 sản phẩm</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tạm tính</span>
+                        <span id="subtotal-display" class="font-black text-slate-700 tracking-tighter">0đ</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Giao nhận</span>
+                        <span class="text-[9px] font-black text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase italic">Miễn phí</span>
+                    </div>
+                    
+                    <div class="pt-8 border-t border-dashed border-slate-200">
+                        <div class="flex justify-between items-end mb-10">
+                            <span class="text-xs font-black text-slate-800 uppercase">Tổng cộng</span>
+                            <div class="text-right">
+                                <span id="total-display" class="text-5xl font-[1000] text-[#2f6b2f] tracking-tighter italic">0<span class="text-sm ml-1">đ</span></span>
+                            </div>
+                        </div>
+
+                        <button onclick="handleCheckout()" class="w-full bg-gradient-to-br from-[#2f6b2f] to-[#163a16] text-white py-6 rounded-[30px] font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-green-100 transition-all hover:scale-[1.02] active:scale-95 group">
+                            <a href="../index/DienThongTin.html" class="inline-flex items-center justify-center w-full h-full">
+                            Xác nhận đơn hàng <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 translate-y-10 transition-all duration-500 z-[200] pointer-events-none text-sm font-medium">
+    <span id="toast-message"></span>
+</div>
+  
+    <!-- JavaScript để xử lý đóng mở câu hỏi -->
+<script>
+    // Dữ liệu sản phẩm mẫu
+    let cart = [
+        { id: 1, name: "Cà chua Beef hữu cơ", price: 30000, quantity: 2, image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=300", selected: false },
+        { id: 2, name: "Chuối sứ Miền Tây", price: 20000, quantity: 1, image: "https://images.unsplash.com/photo-1571771894821-ad9902412746?q=80&w=300", selected: false },
+        { id: 3, name: "Dâu tây Đà Lạt", price: 120000, quantity: 1, image: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=300", selected: false }
+    ];
+
+    function renderCart() {
+        const container = document.getElementById('cart-items-container');
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="py-20 text-center font-bold text-slate-300 italic">Giỏ hàng trống...</div>`;
+            updateTotals();
+            return;
+        }
+
+        container.innerHTML = '';
+        cart.forEach(item => {
+            const html = `
+                <div class="group bg-white p-8 rounded-[40px] border border-transparent ${item.selected ? 'border-green-200 shadow-[0_20px_50px_rgba(47,107,47,0.08)]' : 'hover:border-slate-100'} transition-all duration-500 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+                    
+                    <div class="relative flex items-center justify-center">
+                        <input type="checkbox" ${item.selected ? 'checked' : ''} 
+                               onclick="toggleItem(${item.id})"
+                               class="w-8 h-8 rounded-full border-2 border-slate-100 checked:bg-green-600 checked:border-green-600 appearance-none cursor-pointer transition-all duration-300 peer">
+                        <i class="fas fa-check absolute text-white text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"></i>
+                    </div>
+
+                    <div class="w-32 h-32 bg-[#f8fafc] rounded-[35px] flex items-center justify-center overflow-hidden p-4 group-hover:scale-105 transition-transform duration-700">
+                        <img src="${item.image}" class="w-full h-full object-contain" alt="${item.name}">
+                    </div>
+
+                    <div class="flex-1 space-y-1 text-center md:text-left">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-[900] text-slate-800 tracking-tighter">${item.name}</h3>
+                                <p class="text-[9px] font-black text-green-600 uppercase tracking-widest italic opacity-60">Nông sản sạch 100%</p>
+                            </div>
+                            <button onclick="removeItem(${item.id})" class="text-slate-200 hover:text-red-500 transition-colors p-2">
+                                <i class="fas fa-times text-lg"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between pt-6 gap-4">
+                            <span class="text-2xl font-[1000] text-[#2f6b2f] tracking-tighter">${item.price.toLocaleString('vi-VN')}đ</span>
+                            
+                            <div class="flex items-center bg-slate-50 rounded-2xl p-1 border border-slate-100 w-fit mx-auto md:mx-0">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-green-600 transition-colors"><i class="fas fa-minus text-[10px]"></i></button>
+                                <span class="w-10 text-center font-black text-slate-700 text-sm">${item.quantity.toString().padStart(2, '0')}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-green-600 transition-colors"><i class="fas fa-plus text-[10px]"></i></button>
+                            </div>
+
+                            <span class="text-xl font-black text-slate-800 tracking-tighter">${(item.price * item.quantity).toLocaleString('vi-VN')}đ</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+
+        updateTotals();
+    }
+
+    // --- LOGIC FUNCTIONS ---
+
+    function toggleItem(id) {
+        const item = cart.find(i => i.id === id);
+        if (item) item.selected = !item.selected;
+        renderCart();
+    }
+
+    function toggleSelectAll(status) {
+        cart.forEach(i => i.selected = status);
+        renderCart();
+    }
+
+    function changeQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity < 1) item.quantity = 1;
+            renderCart();
+        }
+    }
+
+    function removeItem(id) {
+        cart = cart.filter(i => i.id !== id);
+        renderCart();
+    }
+
+    function updateTotals() {
+        const selectedItems = cart.filter(i => i.selected);
+        const subtotal = selectedItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        
+        document.getElementById('selected-count').innerText = `${selectedItems.length} sản phẩm`;
+        document.getElementById('subtotal-display').innerText = subtotal.toLocaleString('vi-VN') + 'đ';
+        document.getElementById('total-display').innerHTML = subtotal.toLocaleString('vi-VN') + '<span class="text-sm ml-1">đ</span>';
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+    <!-- Footer (Giữ nguyên gốc) -->
+    <div id="footer-container"></div>
+
+    <script src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa hàng thực phẩm sạch | Fresh Mart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f8fafc; }
+        .product-card { background-color: #ffffff; transition: all 0.3s ease; }
+        .product-card:hover { transform: translateY(-4px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .category-item-active {
+            color: #16a34a;
+            font-weight: 900;
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <header class="bg-[#e8f5e9] border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between py-3">
+                <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]" style="font-family: 'Georgia', serif;">
+                    <a href="trang_chu.html">Fresh Mart</a>
+                </h1>
+                
+                <div class="flex-1 max-w-2xl mx-8">
+                    <div class="relative">
+                        <input type="text" id="search-input" oninput="filterProducts()" placeholder="Tìm kiếm sản phẩm sạch..." 
+                               class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white shadow-sm">
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
+                            <i class="fas fa-search text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="gio_hang.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center">
+                        <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
+                    </a>
+                    <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[16px] font-semibold text-[#456b3f] hover:bg-white transition">
+                        Ánh Tuyết
+                    </button>
+                    <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <nav class="bg-[#ffffff] border-white">
+            <div class="max-w-[1920px] mx-auto px-16">
+                <ul class="flex items-center justify-between h-[35px]">
+                    <li><a href="trang_chu.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
+                    <li><a href="trang_gioi_thieu.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
+                    <li><a href="trang_san_pham.html" class="text-[16px] font-semibold text-green-700 hover:text-green-700 transition">Sản phẩm</a></li>
+                    <li><a href="trang_cau_hoi.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
+                    <li><a href="trang_tin_tuc.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
+                    <li><a href="trang_lien_he.html" class="text-[16px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+        
+        <aside class="w-full md:w-1/4 space-y-6 shrink-0">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+                <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 border-b pb-2 flex items-center gap-2">
+                    <i class="fas fa-th-large text-green-600"></i> Danh mục sản phẩm
+                </h3>
+                <nav class="flex flex-col gap-1 text-sm font-bold text-slate-600">
+                    <button onclick="changeCategory('all')" id="cat-all" class="category-item text-left py-2.5 px-4 rounded-xl transition-all category-item-active flex justify-between items-center w-full">
+                        <span>Tất cả</span>
+                    </button>
+                    <button onclick="changeCategory('Thịt cá')" id="cat-thit-ca" class="category-item text-left py-2.5 px-4 rounded-xl transition-all flex justify-between items-center w-full">
+                        <span>Thịt cá</span>
+                    </button>
+                    <button onclick="changeCategory('Rau củ')" id="cat-rau-cu" class="category-item text-left py-2.5 px-4 rounded-xl transition-all flex justify-between items-center w-full">
+                        <span>Rau củ</span>
+                    </button>
+                    <button onclick="changeCategory('Trái cây')" id="cat-trai-cay" class="category-item text-left py-2.5 px-4 rounded-xl transition-all flex justify-between items-center w-full">
+                        <span>Trái cây</span>
+                    </button>
+                    <button onclick="changeCategory('Hạt')" id="cat-hat" class="category-item text-left py-2.5 px-4 rounded-xl transition-all flex justify-between items-center w-full">
+                        <span>Các loại hạt</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4 sticky top-24">
+                <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 border-b pb-2 flex items-center gap-2">
+                    <i class="fas fa-tags text-green-600"></i> Lọc theo giá bán
+                </h3>
+                <div class="flex flex-col gap-2 text-sm font-semibold text-slate-600">
+                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer transition">
+                        <input type="radio" name="price-filter" value="all" checked onclick="changePriceFilter('all')" class="w-4 h-4 accent-green-600">
+                        <span>Tất cả khoảng giá</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer transition">
+                        <input type="radio" name="price-filter" value="under-50" onclick="changePriceFilter(0, 50000)" class="w-4 h-4 accent-green-600">
+                        <span>Dưới 50.000đ</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer transition">
+                        <input type="radio" name="price-filter" value="50-150" onclick="changePriceFilter(50000, 150000)" class="w-4 h-4 accent-green-600">
+                        <span>50.000đ - 150.000đ</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg cursor-pointer transition">
+                        <input type="radio" name="price-filter" value="over-150" onclick="changePriceFilter(150000, 9999999)" class="w-4 h-4 accent-green-600">
+                        <span>Trên 150.000đ</span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <section class="flex-1 space-y-4">
+            <div class="bg-white py-3 px-5 rounded-xl border border-slate-100 flex justify-between items-center text-xs font-bold text-slate-400">
+                <span id="product-count">Đang tính toán số lượng...</span>
+                <span class="italic text-green-600 uppercase tracking-wider"><i class="fas fa-shield-alt"></i> Nông sản an toàn</span>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 translate-y-10 transition-all duration-500 z-[100] pointer-events-none text-sm font-medium">
+        <span id="toast-message"></span>
+    </div>
+
+    <script>
+        let rawProductsData = []; 
+        let activeCategory = 'all';
+        
+        // Khởi tạo khoảng giá lọc mặc định (all)
+        let minPriceFilter = 0;
+        let maxPriceFilter = 99999999;
+
+        // 1. Fetch đọc dữ liệu bất đồng bộ từ file JSON tập trung
+        async function fetchStoreData() {
+            try {
+                const response = await fetch('products.json');
+                if (!response.ok) throw new Error("Lỗi đọc file JSON");
+                rawProductsData = await response.json();
+                
+                filterProducts();
+            } catch (error) {
+                console.error("Lỗi liên kết dữ liệu:", error);
+                document.getElementById('products-grid').innerHTML = `
+                    <div class="col-span-full bg-white p-12 rounded-2xl text-center border text-slate-400 font-medium italic">
+                        Không thể đọc tệp products.json. Vui lòng mở bằng Live Server trong VS Code!
+                    </div>
+                `;
+            }
+        }
+
+        // 2. HÀM TÍNH TOÁN BỘ LỌC KẾP (Danh mục + Từ khóa + Giá cả)
+        function filterProducts() {
+            const grid = document.getElementById('products-grid');
+            const searchKeyword = document.getElementById('search-input').value.toLowerCase().trim();
+
+            // Tiến hành lọc 3 lớp dữ liệu tuần tự
+            let result = rawProductsData;
+
+            // Lớp 1: Lọc Phân loại ngành hàng
+            if (activeCategory !== 'all') {
+                result = result.filter(p => p.category === activeCategory);
+            }
+            // Lớp 2: Lọc khoảng giá bán ra
+            result = result.filter(p => p.price >= minPriceFilter && p.price <= maxPriceFilter);
+
+            // Lớp 3: Lọc từ khóa tìm kiếm (nếu có gõ)
+            if (searchKeyword) {
+                result = result.filter(p => p.name.toLowerCase().includes(searchKeyword));
+            }
+
+            document.getElementById('product-count').innerText = `Tìm thấy: ${result.length} sản phẩm phù hợp`;
+            grid.innerHTML = '';
+
+            if (result.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-white py-24 rounded-2xl text-center text-slate-400 italic border font-medium">
+                        Không tìm thấy thực phẩm nào khớp với bộ lọc hiện tại.
+                    </div>
+                `;
+                return;
+            }
+
+            // Render thẻ sản phẩm ra lưới
+            result.forEach(item => {
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="product-card p-4 rounded-2xl flex flex-col border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
+                        <div class="bg-slate-50/40 rounded-xl h-44 flex items-center justify-center relative mb-4 overflow-hidden p-3">
+                            <a href="chi_tiet_san_pham.html?id=${item.id}">
+                                <img src="${item.image}" class="max-h-36 object-contain hover:scale-110 transition-transform duration-500">
+                            </a>
+                            <span class="absolute top-2 left-2 bg-[#2f6b2f] text-white text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-widest italic shadow-sm">Fresh</span>
+                        </div>
+                        <div class="flex-grow space-y-1">
+                            <div class="flex justify-between items-center text-[10px] font-bold">
+                                <span class="text-green-600 uppercase font-black tracking-wider">${item.category}</span>
+                                <span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded flex items-center gap-1">4.8 <i class="fas fa-star text-[8px]"></i></span>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-800 line-clamp-1">
+                                <a href="chi_tiet_san_pham.html?id=${item.id}" class="hover:text-green-700 transition-colors">${item.name}</a>
+                            </h4>
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${item.unit || 'Đơn vị'}</p>
+                            <p class="text-base font-[1000] text-green-700 pt-1 tracking-tighter">${item.price.toLocaleString('vi-VN')} đ</p>
+                        </div>
+                        <button onclick="triggerToast('Đã thêm sản phẩm này vào giỏ hàng!')" class="mt-4 bg-[#6b9460] py-2.5 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-green-700 transition active:scale-95 shadow-sm">
+                            <i class="fas fa-shopping-cart mr-1"></i> Thêm vào giỏ
+                        </button>
+                    </div>
+                `);
+            });
+        }
+
+        // 3. LOGIC ĐIỀU KHIỂN BỘ LỌC DANH MỤC TRÊN SIDEBAR
+        function changeCategory(categoryName) {
+            activeCategory = categoryName;
+
+            // Reset class của tất cả các nút
+            document.querySelectorAll('.category-item').forEach(btn => {
+                btn.classList.remove('category-item-active');
+            });
+
+            // Tìm và kích hoạt nút vừa chọn
+            let targetId = 'cat-all';
+            if (categoryName === 'Thịt cá') targetId = 'cat-thit-ca';
+            else if (categoryName === 'Rau củ') targetId = 'cat-rau-cu';
+            else if (categoryName === 'Trái cây') targetId = 'cat-trai-cay';
+            else if (categoryName === 'Hạt') targetId = 'cat-hat';
+
+            const activeBtn = document.getElementById(targetId);
+            if (activeBtn) activeBtn.classList.add('category-item-active');
+
+            filterProducts(); // Chạy lại bộ lọc kép
+        }
+
+        // 4. LOGIC ĐIỀU KHIỂN BỘ LỌC GIÁ BÁN
+        function changePriceFilter(min, max) {
+            if(min === 'all') {
+                minPriceFilter = 0;
+                maxPriceFilter = 99999999;
+            } else {
+                minPriceFilter = min;
+                maxPriceFilter = max;
+            }
+            filterProducts(); // Chạy lại bộ lọc kép
+        }
+
+        // 5. TOAST FEEDBACK NHANH
+        function triggerToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.style.opacity = '1'; toast.style.transform = 'translate(-50%, -20px)';
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, 40px)'; }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchStoreData);
+    </script>
+</body>
+</html>
