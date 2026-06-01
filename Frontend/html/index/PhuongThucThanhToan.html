@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fresh Mart - Phương thức thanh toán</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/CheckOut.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Mart - Phương thức thanh toán</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/globals.css">
+    <link rel="stylesheet" href="../../assets/css/CheckOut.css">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-   <style>
+
+    <style>
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f8fafc; }
-        .product-card { background-color: #ffffff; transition: all 0.3s ease; }
-        .product-card:hover { transform: translateY(-4px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .category-item-active {
-            color: #16a34a;
-            font-weight: 900;
-            background-color: #f0fdf4;
-            border-left: 4px solid #16a34a;
-        }
-        
+
         #search-input::placeholder {
-    font-size: 13px; /* Bạn có thể chỉnh số này nhỏ xuống (ví dụ: 12px, 11px) */
-    opacity: 0.8;    /* Làm mờ đi một chút nếu muốn */
-}
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Giao diện nút bấm khi active */
+        .btn-next.active {
+            background-color: #2f6b2f !important;
+            color: white !important;
+        }
+
+        .btn-next.disabled {
+            background-color: #cbd5e1 !important;
+            color: #64748b !important;
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -35,16 +37,14 @@
 <header class="bg-[#DCEBCF] border-b sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between py-3">
-            
-            <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
-                style="font-family: 'Georgia', serif; margin-left: -2cm;">
+            <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]" style="font-family: 'Georgia', serif; margin-left: -2cm;">
                 <a href="../html_main/trang_chu.html">Fresh Mart</a>
             </h1>
-            
+
             <div class="flex-1 max-w-2xl mx-8" style="margin-left: -7cm;">
                 <div class="relative">
-                    <input type="text" text-[16px] id="search-input" oninput="filterProducts()" placeholder="Tìm kiếm trong Fresh Mart" 
-                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm trong Fresh Mart"
+                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white text-[16px]">
                     <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
                         <i class="fas fa-search text-xl"></i>
                     </button>
@@ -55,169 +55,318 @@
                 <a href="../html_main/gio_hang.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center" style="margin-left: -3cm;">
                     <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
                 </a>
-
                 <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[14px] font-semibold text-[#456b3f] hover:bg-white transition">
-                    <a href="../html_person/ho_so.html" class="inline-flex items-center">
-                        Ánh Tuyết
+                    <a href="../html_person/ho_so.html" id="header-user-name" class="inline-flex items-center">
+                        Tài khoản
                     </a>
                 </button>
-
                 <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
             </div>
         </div>
     </div>
 
-        <nav class="bg-[#ffffff]  border-white">
-            <div class="max-w-[1920px] mx-auto px-16">
-                <ul class="flex items-center justify-between h-[35px]">
-                    <li><a href="../html_main/trang_chu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
-                    <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
-                    <li><a href="../html_main/trang_san_pham.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
-                    <li><a href="../html_main/trang_cau_hoi.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
-                    <li><a href="../html_main/trang_tin_tuc.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
-                    <li><a href="../html_main/trang_lien_he.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
-                </ul>
-            </div>
-        </nav>
+    <nav class="bg-[#ffffff] border-white">
+        <div class="max-w-[1920px] mx-auto px-16">
+            <ul class="flex items-center justify-between h-[35px]">
+                <li><a href="../html_main/trang_chu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
+                <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
+                <li><a href="../html_main/trang_san_pham.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
+                <li><a href="../html_main/trang_cau_hoi.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
+                <li><a href="../html_main/trang_tin_tuc.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
+                <li><a href="../html_main/trang_lien_he.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
+            </ul>
+        </div>
+    </nav>
 </header>
 
-
-
-
 <div class="steps-bar">
-  <div class="step done"><span class="step-num">1</span><span class="step-label">Thông tin giao hàng</span></div>
-  <div class="step-line filled"></div>
-  <div class="step active"><span class="step-num">2</span><span class="step-label">Thanh toán</span></div>
-  <div class="step-line"></div>
-  <div class="step"><span class="step-num">3</span><span class="step-label">Hoàn tất</span></div>
+    <div class="step done"><span class="step-num">1</span><span class="step-label">Thông tin giao hàng</span></div>
+    <div class="step-line filled"></div>
+    <div class="step active"><span class="step-num">2</span><span class="step-label">Thanh toán</span></div>
+    <div class="step-line"></div>
+    <div class="step"><span class="step-num">3</span><span class="step-label">Hoàn tất</span></div>
 </div>
 
 <div class="checkout-layout">
-  <div class="checkout-left">
-    <div class="payment-methods">
-      <div class="payment-option" id="opt-cod" onclick="selectMethod('cod')">
-        <div class="radio-circle" id="radio-cod"></div>
-        <div class="payment-info">
-          <p class="pay-title">Thanh toán khi nhận hàng (COD)</p>
-          <p class="pay-desc">Thanh toán bằng tiền mặt khi nhận hàng</p>
+    <div class="checkout-left bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <div class="section-title mb-6">
+            <i class="fa-solid fa-credit-card text-[#2f6b2f] text-2xl mr-3"></i>
+            <h2 class="text-xl font-bold text-slate-800 uppercase tracking-wider">Phương thức thanh toán</h2>
         </div>
-      </div>
-      <div class="payment-option" id="opt-qr" onclick="selectMethod('qr')">
-        <div class="radio-circle" id="radio-qr"></div>
-        <div class="payment-info">
-          <p class="pay-title">Chuyển khoản ngân hàng (Mã QR)</p>
-          <p class="pay-desc">Chuyển khoản đến tài khoản ngân hàng</p>
+
+        <div class="payment-methods space-y-4">
+            <div class="payment-option border border-slate-200 rounded-xl p-4 cursor-pointer hover:bg-green-50 transition flex items-center gap-4" id="opt-cod" onclick="selectMethod('cod')">
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center" id="radio-cod"></div>
+                <div class="payment-info">
+                    <p class="pay-title font-bold text-slate-800">Thanh toán khi nhận hàng (COD)</p>
+                    <p class="pay-desc text-sm text-slate-500 mt-1">Kiểm tra hàng trước khi thanh toán bằng tiền mặt</p>
+                </div>
+            </div>
+            <div class="payment-option border border-slate-200 rounded-xl p-4 cursor-pointer hover:bg-green-50 transition flex items-center gap-4" id="opt-qr" onclick="selectMethod('qr')">
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center" id="radio-qr"></div>
+                <div class="payment-info">
+                    <p class="pay-title font-bold text-slate-800">Chuyển khoản ngân hàng (Mã QR)</p>
+                    <p class="pay-desc text-sm text-slate-500 mt-1">Quét mã QR để thanh toán nhanh chóng</p>
+                </div>
+            </div>
+            <div class="payment-option border border-slate-200 rounded-xl p-4 cursor-pointer hover:bg-green-50 transition flex items-center gap-4" id="opt-wallet" onclick="selectMethod('wallet')">
+                <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center" id="radio-wallet"></div>
+                <div class="payment-info">
+                    <p class="pay-title font-bold text-slate-800">Ví điện tử (ZaloPay, Momo, VNPAY)</p>
+                    <p class="pay-desc text-sm text-slate-500 mt-1">Thanh toán an toàn qua ứng dụng ví điện tử</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="payment-option" id="opt-wallet" onclick="selectMethod('wallet')">
-        <div class="radio-circle" id="radio-wallet"></div>
-        <div class="payment-info">
-          <p class="pay-title">Trả bằng ví điện tử(ZaloPay,...)</p>
-          <p class="pay-desc">Thanh toán bằng các ví</p>
+
+        <div class="hint-box bg-red-50 text-red-500 p-3 rounded-lg text-sm font-bold mt-4" id="hintBox" style="display:none">
+            <i class="fa-solid fa-circle-exclamation mr-2"></i> Hãy chọn một phương thức thanh toán để tiếp tục!
         </div>
-      </div>
+
+        <div class="btn-row flex gap-4 mt-8">
+            <button class="btn-back px-8 py-3 rounded-lg bg-slate-200 font-bold hover:bg-slate-300 transition w-1/3 text-slate-700" onclick="window.location.href='DienThongTin.html'">Quay lại ←</button>
+            <button class="btn-next disabled flex-1 px-8 py-3 rounded-lg font-bold transition shadow-md" id="btnNext" onclick="goNext()">Đặt hàng ngay →</button>
+        </div>
     </div>
 
-    <div class="hint-box" id="hintBox" style="display:none">
-      Hãy chọn phương thức thanh toán để tiếp tục
-    </div>
+    <div class="checkout-right bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <h3 class="order-title text-lg font-bold uppercase tracking-wider mb-4 border-b border-slate-200 pb-3 text-slate-800">Đơn hàng của bạn</h3>
 
-    <div class="btn-row">
-      <button class="btn-back" onclick="window.location.href='DienThongTin.html'">Quay lại ←</button>
-      <button class="btn-next disabled" id="btnNext" onclick="goNext()">Tiếp tục →</button>
-    </div>
-  </div>
+        <div class="order-items space-y-4 max-h-[300px] overflow-y-auto pr-2 mb-6" id="order-items-container">
+        </div>
 
-  <div class="checkout-right">
-    <h3 class="order-title">Đơn hàng của bạn</h3>
-    <div class="order-items">
-      <div class="order-item">
-        <img src="../img/bia.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">[Thùng] Bia Tiger Lon 330ml x 20 Lon</p>
-          <p class="item-qty">Số lượng: 1</p>
+        <div class="order-summary border-t border-slate-200 pt-4 space-y-3" id="summaryBlock">
         </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/bingoi.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Bí Ngòi Xanh Đà Lạt</p>
-          <p class="item-qty">Số lượng: 3</p>
-        </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/canhga.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Cánh Gà Đông Lạnh CP Gói 1kg</p>
-          <p class="item-qty">Số lượng: 1</p>
-        </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/bachibo.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Ba Chỉ Bò Mỹ Đông Lạnh T&P 500g</p>
-          <p class="item-qty">Số lượng: 2</p>
-        </div>
-      </div>
     </div>
-    <div class="order-summary" id="summaryBlock"></div>
-  </div>
 </div>
 
-    <div id="footer-container"></div>
-    <script src="../../assets/js/main.js"></script>
 <script>
-let selectedMethod = '';
+    const API_ORDER_URL = 'http://localhost:8080/api/orders';
+    const API_CART_URL = 'http://localhost:8080/api/cart';
 
-function buildSummary() {
-  const discount  = parseInt(sessionStorage.getItem('discount') || '0');
-  const total     = parseInt(sessionStorage.getItem('total')    || '170000');
-  const voucher   = sessionStorage.getItem('voucher') || '';
-  let html = `
-    <div class="summary-row"><span>Tạm tính (3 sản phẩm)</span><span>170.000đ</span></div>
-    <div class="summary-row"><span>Phí vận chuyển</span><span class="green">Miễn phí</span></div>
-  `;
-  if (discount > 0) html += `<div class="summary-row"><span>Giảm giá</span><span class="green">-${discount.toLocaleString('vi-VN')}đ</span></div>`;
-  html += `
-    <div class="voucher-row">
-      <span class="label-voucher">Nhập mã giảm giá</span>
-      <div class="voucher-input-wrap">
-        <input type="text" value="${voucher}" readonly style="background:#4CAF50;color:#fff;font-weight:700;">
-        <button class="btn-apply">Áp dụng</button>
-      </div>
-    </div>
-    <div class="summary-total"><span>Tổng</span><span>${total.toLocaleString('vi-VN')}đ</span></div>
-  `;
-  document.getElementById('summaryBlock').innerHTML = html;
-}
+    let selectedMethod = '';
+    let orderItems = [];
+    let BASE_PRICE = 0;
 
-function selectMethod(method) {
-  selectedMethod = method;
-  ['cod','qr','wallet'].forEach(m => {
-    document.getElementById('opt-' + m).classList.remove('selected');
-    document.getElementById('radio-' + m).classList.remove('checked');
-  });
-  document.getElementById('opt-'   + method).classList.add('selected');
-  document.getElementById('radio-' + method).classList.add('checked');
+    // 1. TẢI THÔNG TIN TÀI KHOẢN HEADER
+    function loadUserInfo() {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            const user = JSON.parse(userStr);
+            const headerName = document.getElementById('header-user-name');
+            if(headerName) headerName.textContent = user.username || user.userName || 'Tài khoản';
+        }
+    }
 
-  const btn = document.getElementById('btnNext');
-  btn.classList.remove('disabled');
-  btn.classList.add('active');
-  document.getElementById('hintBox').style.display = 'none';
-  sessionStorage.setItem('payMethod', method);
-}
+    // 2. LẤY TOKEN XÁC THỰC
+    function getAuthHeaders() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+            window.location.href = '../html_login_register/dang_nhap.html';
+            return null;
+        }
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        };
+    }
 
-function goNext() {
-  if (!selectedMethod) {
-    document.getElementById('hintBox').style.display = 'block';
-    return;
-  }
-  if (selectedMethod === 'cod')    window.location.href = 'HoanTatThanhToan.html';
-  if (selectedMethod === 'qr')     window.location.href = 'MaQR.html';
-  if (selectedMethod === 'wallet') window.location.href = 'ViDienTu.html';
-}
+    // 3. KHỞI TẠO TÓM TẮT ĐƠN HÀNG (ĐÃ SỬA LỖI ĐỌC TÊN BIẾN Backend)
+    function buildSummary() {
+        const rawData = sessionStorage.getItem('checkout_data');
+        if (!rawData) {
+            alert("Lỗi dữ liệu thanh toán. Đang quay lại trang trước.");
+            window.location.href = 'DienThongTin.html';
+            return;
+        }
 
-buildSummary();
+        orderItems = JSON.parse(rawData);
+        BASE_PRICE = 0;
+
+        const itemsContainer = document.getElementById('order-items-container');
+        itemsContainer.innerHTML = '';
+
+        orderItems.forEach(item => {
+            // Đọc biến chuẩn từ Backend (Fix triệt để undefined)
+            const name = item.productName || item.name || 'Sản phẩm';
+            const price = item.unitPrice || item.price || 0;
+            const qty = item.quantity || 1;
+            const itemTotal = price * qty;
+
+            BASE_PRICE += itemTotal;
+
+            // Xử lý ảnh thông minh chống lỗi
+            let imgUrl = 'https://placehold.co/150x150/e6f4ea/16a34a?text=Nong+San';
+            const rawImg = item.imageUrl || (item.product ? item.product.imageUrl : '');
+            if (rawImg) {
+                if (rawImg.startsWith('http') || rawImg.startsWith('data:') || rawImg.startsWith('../')) {
+                    imgUrl = rawImg;
+                } else {
+                    imgUrl = '../image/' + rawImg;
+                }
+            }
+
+            itemsContainer.insertAdjacentHTML('beforeend', `
+                <div class="order-item flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-100 shadow-sm">
+                    <img src="${imgUrl}" onerror="this.src='https://placehold.co/150x150/e6f4ea/16a34a?text=Loi+Anh'" alt="${name}" class="w-14 h-14 object-cover rounded-lg border border-slate-50">
+                    <div class="order-item-info flex-1">
+                        <p class="item-name font-bold text-sm text-slate-800 line-clamp-1">${name}</p>
+                        <p class="item-qty text-xs text-slate-500 mt-1">Số lượng: ${qty}</p>
+                    </div>
+                    <p class="text-sm font-bold text-green-700">${itemTotal.toLocaleString('vi-VN')}đ</p>
+                </div>
+            `);
+        });
+
+        // Tính toán Voucher & Hiển thị tổng tiền
+        const discount = parseInt(sessionStorage.getItem('discount') || '0');
+        let total = BASE_PRICE - discount;
+        if (total < 0) total = 0;
+
+        const voucher = sessionStorage.getItem('voucher') || '';
+
+        let html = `
+            <div class="summary-row flex justify-between text-slate-600 font-medium">
+                <span>Tạm tính (${orderItems.length} sản phẩm)</span>
+                <span>${BASE_PRICE.toLocaleString('vi-VN')}đ</span>
+            </div>
+            <div class="summary-row flex justify-between text-slate-600 font-medium">
+                <span>Phí vận chuyển</span>
+                <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">Miễn phí</span>
+            </div>
+        `;
+        if (discount > 0) {
+            html += `
+            <div class="summary-row flex justify-between text-green-600 font-medium">
+                <span>Giảm giá</span>
+                <span class="font-bold">-${discount.toLocaleString('vi-VN')}đ</span>
+            </div>`;
+        }
+        if (voucher) {
+            html += `
+            <div class="voucher-row mt-2 pt-2 border-t border-slate-200 border-dashed">
+                <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Mã giảm giá đang dùng:</span>
+                <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded inline-block">${voucher}</span>
+            </div>`;
+        }
+
+        html += `
+            <div class="summary-total flex justify-between items-end border-t border-slate-200 mt-4 pt-4">
+                <span class="text-lg font-black uppercase text-slate-800">Tổng thanh toán</span>
+                <span class="text-2xl font-black text-[#2f6b2f] tracking-tight">${total.toLocaleString('vi-VN')}đ</span>
+            </div>
+        `;
+        document.getElementById('summaryBlock').innerHTML = html;
+    }
+
+    // 4. XỬ LÝ CHỌN PHƯƠNG THỨC THANH TOÁN
+    function selectMethod(method) {
+        selectedMethod = method;
+
+        // Reset CSS
+        ['cod','qr','wallet'].forEach(m => {
+            const opt = document.getElementById('opt-' + m);
+            const radio = document.getElementById('radio-' + m);
+            if(opt) opt.classList.remove('border-green-500', 'bg-green-50');
+            if(radio) {
+                radio.innerHTML = '';
+                radio.classList.remove('border-green-600');
+            }
+        });
+
+        // Áp dụng CSS cho option được chọn (Mô phỏng radio button hiện đại)
+        const selectedOpt = document.getElementById('opt-' + method);
+        const selectedRadio = document.getElementById('radio-' + method);
+
+        if(selectedOpt) selectedOpt.classList.add('border-green-500', 'bg-green-50');
+        if(selectedRadio) {
+            selectedRadio.classList.add('border-green-600');
+            selectedRadio.innerHTML = '<div class="w-2.5 h-2.5 bg-green-600 rounded-full"></div>';
+        }
+
+        const btn = document.getElementById('btnNext');
+        if(btn) {
+            btn.classList.remove('disabled');
+            btn.classList.add('active');
+        }
+        document.getElementById('hintBox').style.display = 'none';
+    }
+
+    // 5. GỌI API TẠO ĐƠN HÀNG (SUBMIT)
+    // 5. GỌI API TẠO ĐƠN HÀNG (SUBMIT)
+    async function goNext() {
+        if (!selectedMethod) {
+            document.getElementById('hintBox').style.display = 'block';
+            return;
+        }
+
+        const btn = document.getElementById('btnNext');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang xử lý...';
+        btn.classList.add('opacity-70', 'cursor-not-allowed', 'pointer-events-none');
+
+        let paymentEnum = "CASH";
+        if (selectedMethod === 'qr') paymentEnum = "BANK_TRANSFER";
+        if (selectedMethod === 'wallet') paymentEnum = "MOMO";
+
+        const payload = {
+            orderItems: orderItems.map(item => ({
+                productId: item.productId || (item.product ? item.product.id : item.id),
+                quantity: item.quantity,
+                price: item.unitPrice || item.price || 0
+            })),
+            paymentMethod: paymentEnum,
+            shippingAddress: sessionStorage.getItem('order_shippingAddress') || "Chưa cung cấp",
+            phoneNumber: sessionStorage.getItem('order_phoneNumber') || "",
+            notes: sessionStorage.getItem('order_notes') || ""
+        };
+
+        try {
+            const headers = getAuthHeaders();
+            if(!headers) return;
+
+            const response = await fetch(API_ORDER_URL, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                // Xóa giỏ hàng trong Database
+                if (sessionStorage.getItem('checkout_type') === 'cart') {
+                    await fetch(API_CART_URL, { method: 'DELETE', headers: headers });
+                    localStorage.removeItem('fresh_mart_cart');
+                }
+
+                // LƯU Ý: Đã bỏ đi các dòng removeItem ở đây để trang Mã QR có dữ liệu để đọc!
+                // Lưu thêm phương thức thanh toán để trang Hoàn Tất hiển thị đúng chữ
+                sessionStorage.setItem('payMethod', selectedMethod);
+
+                // Chuyển trang
+                if (selectedMethod === 'cod') window.location.href = 'HoanTatThanhToan.html';
+                else if (selectedMethod === 'qr') window.location.href = 'MaQR.html';
+                else if (selectedMethod === 'wallet') window.location.href = 'ViDienTu.html';
+
+            } else {
+                alert(result.message || "Có lỗi xảy ra khi tạo đơn hàng!");
+                resetButton(btn);
+            }
+        } catch (error) {
+            console.error("Lỗi:", error);
+            alert("Lỗi kết nối máy chủ, không thể tạo đơn hàng.");
+            resetButton(btn);
+        }
+    }
+
+    function resetButton(btn) {
+        btn.textContent = "Đặt hàng ngay →";
+        btn.classList.remove('opacity-70', 'cursor-not-allowed', 'pointer-events-none');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadUserInfo();
+        buildSummary();
+    });
 </script>
 </body>
 </html>

@@ -17,6 +17,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/cart")
+@CrossOrigin(origins = "*")
 public class CartController {
 
     @Autowired

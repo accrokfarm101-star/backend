@@ -1,154 +1,203 @@
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Fresh Mart - Đăng Nhập</title>-->
+<!--  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">-->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">-->
+<!--  <link rel="stylesheet" href="../../assets/css/globals.css">-->
+<!--  <link rel="stylesheet" href="../../assets/css/DangNhap.css">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<nav class="navbar">-->
+<!--  <span class="nav-brand">Fresh Mart</span>-->
+<!--  <div class="nav-search">-->
+<!--    <input type="text" placeholder="Tìm kiếm trong Fresh Mart">-->
+<!--    <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--  </div>-->
+<!--  <div class="nav-icons">-->
+<!--    <button class="nav-icon-btn"><i class="fa-solid fa-cart-shopping"></i></button>-->
+<!--    <button class="nav-icon-btn"><i class="fa-solid fa-heart"></i></button>-->
+<!--    <button class="nav-btn btn-register">Đăng ký</button>-->
+<!--    <button class="nav-btn btn-login">Đăng nhập</button>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<!--<div class="page-body">-->
+<!--  <div class="login-card">-->
+<!--    <h2>Đăng Nhập</h2>-->
+<!--    <p class="login-subtitle">-->
+<!--      Chào mừng bạn đến với chúng tôi !<br>-->
+<!--      Vui lòng nhập thông tin của bạn-->
+<!--    </p>-->
+
+<!--    <div class="form-group">-->
+<!--      <label for="email">Email hoặc tên đăng nhập</label>-->
+<!--      <input type="text" id="email" placeholder="">-->
+<!--      <div class="field-error" id="emailError">Vui lòng nhập email hoặc tên đăng nhập.</div>-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--      <label for="password">Mật khẩu</label>-->
+<!--      <input type="password" id="password" placeholder="">-->
+<!--      <div class="field-error" id="passwordError">Vui lòng nhập mật khẩu.</div>-->
+<!--    </div>-->
+
+<!--    <div class="forgot-row">-->
+<!--      <a class="forgot-link" href="#">Quên mật khẩu ?</a>-->
+<!--    </div>-->
+
+<!--    <button class="btn-submit" id="btnSubmit" onclick="handleLogin()">Đăng nhập</button>-->
+
+<!--    <div class="register-row">-->
+<!--      Chưa có tài khoản ? <a class="register-link" href="#">Đăng ký</a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="toast" id="toast"></div>-->
+
+<!--<footer>-->
+<!--  <div class="footer-grid">-->
+<!--    <div class="footer-col">-->
+<!--      <h4>Fresh Mart</h4>-->
+<!--      <p class="footer-brand-tagline">Xanh từ nguồn – Sạch đến bàn ăn</p>-->
+<!--    </div>-->
+<!--    <div class="footer-col">-->
+<!--      <h4>Hỗ trợ</h4>-->
+<!--      <a href="#">Phương thức thanh toán</a>-->
+<!--      <a href="#">Chính sách giao hàng</a>-->
+<!--      <a href="#">Chính sách đổi trả</a>-->
+<!--      <a href="#">Phản ánh chất lượng</a>-->
+<!--    </div>-->
+<!--    <div class="footer-col">-->
+<!--      <h4>Liên hệ</h4>-->
+<!--      <p>Email: support@freshmart.com</p>-->
+<!--      <p>Hotline: 1900 1234</p>-->
+<!--    </div>-->
+<!--    <div class="footer-col">-->
+<!--      <h4>Kết nối</h4>-->
+<!--      <div class="social-icons">-->
+<!--        <i class="fa-brands fa-facebook social-icon"></i>-->
+<!--        <i class="fa-brands fa-tiktok social-icon"></i>-->
+<!--        <i class="fa-brands fa-instagram social-icon"></i>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</footer>-->
+<!--<script src="../../assets/js/main.js"></script>-->
+<!--<script>-->
+<!--  const API_BASE = 'http://localhost:8080';-->
+
+<!--  function showToast(msg, type = 'error') {-->
+<!--    const t = document.getElementById('toast');-->
+<!--    t.textContent = msg;-->
+<!--    t.className = 'toast ' + type + ' show';-->
+<!--    clearTimeout(t._timer);-->
+<!--    t._timer = setTimeout(() => t.classList.remove('show'), 3000);-->
+<!--  }-->
+
+<!--  function setLoading(isLoading) {-->
+<!--    const btn = document.getElementById('btnSubmit');-->
+<!--    if (isLoading) {-->
+<!--      btn.disabled = true;-->
+<!--      btn.textContent = 'Đang đăng nhập...';-->
+<!--    } else {-->
+<!--      btn.disabled = false;-->
+<!--      btn.textContent = 'Đăng nhập';-->
+<!--    }-->
+<!--  }-->
+
+<!--  async function handleLogin() {-->
+<!--    const usernameOrEmail = document.getElementById('email').value.trim();-->
+<!--    const password        = document.getElementById('password').value;-->
+<!--    const emailErr        = document.getElementById('emailError');-->
+<!--    const passErr         = document.getElementById('passwordError');-->
+<!--    const emailInp        = document.getElementById('email');-->
+<!--    const passInp         = document.getElementById('password');-->
+
+<!--    let valid = true;-->
+
+<!--    // Validate usernameOrEmail-->
+<!--    if (!usernameOrEmail) {-->
+<!--      emailInp.classList.add('error');-->
+<!--      emailErr.classList.add('show');-->
+<!--      valid = false;-->
+<!--    } else {-->
+<!--      emailInp.classList.remove('error');-->
+<!--      emailErr.classList.remove('show');-->
+<!--    }-->
+
+<!--    // Validate password-->
+<!--    if (!password) {-->
+<!--      passInp.classList.add('error');-->
+<!--      passErr.classList.add('show');-->
+<!--      valid = false;-->
+<!--    } else {-->
+<!--      passInp.classList.remove('error');-->
+<!--      passErr.classList.remove('show');-->
+<!--    }-->
+
+<!--    if (!valid) {-->
+<!--      showToast('Vui lòng điền đầy đủ thông tin.');-->
+<!--      return;-->
+<!--    }-->
+
+<!--    setLoading(true);-->
+
+<!--    try {-->
+<!--      const res = await fetch(`${API_BASE}/api/auth/login`, {-->
+<!--        method: 'POST',-->
+<!--        headers: { 'Content-Type': 'application/json' },-->
+<!--        body: JSON.stringify({ usernameOrEmail, password })-->
+<!--      });-->
+
+<!--      const data = await res.json();-->
+
+<!--      if (!res.ok || data.success === false) {-->
+<!--        showToast(data.message || 'Tên đăng nhập hoặc mật khẩu không đúng.');-->
+<!--        return;-->
+<!--      }-->
+
+<!--      // Lưu token và thông tin user-->
+<!--      localStorage.setItem('token', data.data.token);-->
+<!--      localStorage.setItem('user', JSON.stringify(data.data));-->
+
+<!--      showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');-->
+<!--      setTimeout(() => {-->
+<!--        window.location.href = 'QuanLyDonHang.html';-->
+<!--      }, 1200);-->
+
+<!--    } catch (err) {-->
+<!--      console.error('Login error:', err);-->
+<!--      showToast('Không thể kết nối đến máy chủ. Vui lòng thử lại.');-->
+<!--    } finally {-->
+<!--      setLoading(false);-->
+<!--    }-->
+<!--  }-->
+
+<!--  // Cho phép Enter để submit-->
+<!--  document.addEventListener('keydown', e => {-->
+<!--    if (e.key === 'Enter') handleLogin();-->
+<!--  });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fresh Mart - Đăng Nhập Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/DangNhap.css">
+  <meta http-equiv="refresh" content="0; url=../html/html_login_register/dang_nhap.html">
 </head>
 <body>
-
-<nav class="navbar">
-  <span class="nav-brand">Fresh Mart</span>
-
-  <div class="nav-search">
-    <input type="text" placeholder="Tìm kiếm trong Fresh Mart">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </div>
-
-  <div class="nav-icons">
-    <button class="nav-icon-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-    <button class="nav-icon-btn"><i class="fa-solid fa-heart"></i></button>
-    <button class="nav-btn btn-register">Đăng ký</button>
-    <button class="nav-btn btn-login">Đăng nhập</button>
-  </div>
-</nav>
-
-<div class="page-body">
-  <div class="login-card">
-    <h2>Đăng Nhập</h2>
-    <p class="login-subtitle">
-      Chào mừng bạn đến với chúng tôi !<br>
-      Vui lòng nhập thông tin của bạn
-    </p>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="">
-      <div class="field-error" id="emailError">Vui lòng nhập email hợp lệ.</div>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Mật khẩu</label>
-      <input type="password" id="password" placeholder="">
-      <div class="field-error" id="passwordError">Vui lòng nhập mật khẩu.</div>
-    </div>
-
-    <div class="forgot-row">
-      <a class="forgot-link" href="#">Quên mật khẩu ?</a>
-    </div>
-
-    <button class="btn-submit" onclick="handleLogin()">Đăng nhập</button>
-
-    <div class="register-row">
-      Chưa có tài khoản ? <a class="register-link" href="#">Đăng ký</a>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<footer>
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h4>Fresh Mart</h4>
-      <p class="footer-brand-tagline">Xanh từ nguồn – Sạch đến bàn ăn</p>
-    </div>
-
-    <div class="footer-col">
-      <h4>Hỗ trợ</h4>
-      <a href="#">Phương thức thanh toán</a>
-      <a href="#">Chính sách giao hàng</a>
-      <a href="#">Chính sách đổi trả</a>
-      <a href="#">Phản ánh chất lượng</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Liên hệ</h4>
-      <p>Email: support@freshmart.com</p>
-      <p>Hotline: 1900 1234</p>
-    </div>
-
-    <div class="footer-col">
-      <h4>Kết nối</h4>
-      <div class="social-icons">
-        <i class="fa-brands fa-facebook social-icon"></i>
-        <i class="fa-brands fa-tiktok social-icon"></i>
-        <i class="fa-brands fa-instagram social-icon"></i>
-      </div>
-    </div>
-  </div>
-</footer>
-
 <script>
-function showToast(msg, type = 'error') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = 'toast ' + type + ' show';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function handleLogin() {
-  const email    = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-  const emailErr = document.getElementById('emailError');
-  const passErr  = document.getElementById('passwordError');
-  const emailInp = document.getElementById('email');
-  const passInp  = document.getElementById('password');
-
-  let valid = true;
-
-  // Validate email
-  const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !emailReg.test(email)) {
-    emailInp.classList.add('error');
-    emailErr.classList.add('show');
-    valid = false;
-  } else {
-    emailInp.classList.remove('error');
-    emailErr.classList.remove('show');
-  }
-
-  // Validate password
-  if (!password) {
-    passInp.classList.add('error');
-    passErr.classList.add('show');
-    valid = false;
-  } else {
-    passInp.classList.remove('error');
-    passErr.classList.remove('show');
-  }
-
-  if (!valid) {
-    showToast('Vui lòng điền đầy đủ thông tin.');
-    return;
-  }
-
-  // Demo: giả lập đăng nhập thành công
-  showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-  setTimeout(() => {
-    window.location.href = "QuanLyDonHang.html";
-  }, 1200);
-}
-
-// Cho phép Enter để submit
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleLogin();
-});
+  // Hoặc dùng JS để điều hướng nếu thẻ meta bị chặn
+  window.location.href = '../html/html_login_register/dang_nhap.html';
 </script>
 </body>
 </html>

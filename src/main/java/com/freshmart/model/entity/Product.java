@@ -37,7 +37,7 @@ public class Product {
     @Column(nullable = false)
     private Integer stock;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "LONGTEXT")
     private String imageUrl;
 
     private String category;

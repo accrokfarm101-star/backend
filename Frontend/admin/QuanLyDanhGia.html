@@ -1,243 +1,664 @@
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="vi">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Freshmart Admin - Quản lý đánh giá</title>-->
+<!--  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">-->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">-->
+<!--  <link rel="stylesheet" href="../../assets/css/globals.css">-->
+<!--  <link rel="stylesheet" href="../../assets/css/QuanLyDanhGia.css">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<header class="top-header">-->
+<!--  <div class="brand">-->
+<!--    <span class="brand-icon"><i class="fa-solid fa-shop"></i></span>-->
+<!--    Freshmart Admin-->
+<!--  </div>-->
+<!--  <div class="header-title-block">-->
+<!--    <h1>Quản lý đánh giá</h1>-->
+<!--    <p>Quản lý đánh giá của khách hàng</p>-->
+<!--  </div>-->
+<!--</header>-->
+
+<!--<div class="layout">-->
+<!--  <aside class="sidebar">-->
+<!--    <nav class="nav-menu">-->
+<!--      <a class="nav-item" href="../admin/QuanLyDonHang.html">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-cart-arrow-down"></i></span>-->
+<!--        Quản lý đơn hàng-->
+<!--      </a>-->
+<!--      <a class="nav-item" href="../admin/QuanLySanPham.html">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-box"></i></span>-->
+<!--        Quản lý sản phẩm-->
+<!--      </a>-->
+<!--      <a class="nav-item active">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-comments"></i></span>-->
+<!--        Quản lý đánh giá-->
+<!--      </a>-->
+<!--      <a class="nav-item" href="../admin/QuanLyVoucher.html">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-tags"></i></span>-->
+<!--        Quản lý voucher-->
+<!--      </a>-->
+<!--      <a class="nav-item">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>-->
+<!--        Quản lý AI-->
+<!--      </a>-->
+<!--      <a class="nav-item">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span>-->
+<!--        Báo cáo-->
+<!--      </a>-->
+<!--    </nav>-->
+<!--    <div class="nav-divider"></div>-->
+<!--    <div class="nav-bottom">-->
+<!--      <a class="nav-item">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-house"></i></span>-->
+<!--        Về trang chủ-->
+<!--      </a>-->
+<!--      <a class="nav-item" href="../index/DangNhap.html">-->
+<!--        <span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>-->
+<!--        Đăng xuất-->
+<!--      </a>-->
+<!--      <div class="user-badge">-->
+<!--        <div class="user-avatar"><i class="fa-solid fa-circle-user"></i></div>-->
+<!--        Admin-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </aside>-->
+
+<!--  <main class="main">-->
+<!--    <div class="review-toolbar">-->
+<!--      <div class="search-box">-->
+<!--        <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--        <input type="text" id="searchInput"-->
+<!--               placeholder="Tìm theo tên, email, sản phẩm hoặc nội dung">-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="table-card">-->
+<!--      <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>Người đánh giá</th>-->
+<!--          <th>Sản phẩm</th>-->
+<!--          <th>Đánh giá</th>-->
+<!--          <th>Nội dung</th>-->
+<!--          <th>Ngày đánh giá</th>-->
+<!--          <th>Hành động</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody id="reviewTable"></tbody>-->
+<!--      </table>-->
+
+<!--      <div class="empty-state" id="emptyState" style="display:none;">-->
+<!--        <span class="empty-text" id="emptyText">Không tìm thấy đánh giá nào.</span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </main>-->
+<!--</div>-->
+
+<!--<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">-->
+<!--  <div class="modal-box">-->
+<!--    <div class="modal-header">-->
+<!--      <span class="modal-title">Chi tiết đánh giá</span>-->
+<!--      <button class="modal-close" onclick="closeModal()">&times;</button>-->
+<!--    </div>-->
+<!--    <div class="modal-field">-->
+<!--      <div class="modal-label">Người đánh giá</div>-->
+<!--      <div class="modal-value" id="mUser"></div>-->
+<!--    </div>-->
+<!--    <div class="modal-field">-->
+<!--      <div class="modal-label">Sản phẩm</div>-->
+<!--      <div class="modal-value" id="mProduct"></div>-->
+<!--    </div>-->
+<!--    <div class="modal-field">-->
+<!--      <div class="modal-label">Đánh giá</div>-->
+<!--      <div class="modal-stars" id="mStars"></div>-->
+<!--    </div>-->
+<!--    <div class="modal-field">-->
+<!--      <div class="modal-label">Nội dung</div>-->
+<!--      <div class="modal-value" id="mContent"></div>-->
+<!--    </div>-->
+<!--    <div class="modal-field">-->
+<!--      <div class="modal-label">Ngày đánh giá</div>-->
+<!--      <div class="modal-value" id="mDate"></div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<script src="../../assets/js/main.js"></script>-->
+<!--<script>-->
+<!--  const API_BASE = 'http://localhost:8080';-->
+
+<!--  // Lấy token từ localStorage (đã lưu sau khi đăng nhập)-->
+<!--  function getAuthHeaders() {-->
+<!--    const token = localStorage.getItem('token');-->
+<!--    return {-->
+<!--      'Content-Type': 'application/json',-->
+<!--      'Authorization': `Bearer ${token}`-->
+<!--    };-->
+<!--  }-->
+
+<!--  let reviews    = [];   // toàn bộ data từ API-->
+<!--  let searchQuery = '';-->
+
+<!--  const reviewTable = document.getElementById('reviewTable');-->
+<!--  const emptyState  = document.getElementById('emptyState');-->
+<!--  const emptyText   = document.getElementById('emptyText');-->
+
+<!--  // ── FORMAT NGÀY ──-->
+<!--  function formatDate(dateStr) {-->
+<!--    if (!dateStr) return '';-->
+<!--    const d = new Date(dateStr);-->
+<!--    if (isNaN(d)) return dateStr;-->
+<!--    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;-->
+<!--  }-->
+
+<!--  // ── SAO ──-->
+<!--  function starsHTML(n) {-->
+<!--    return Array.from({length: 5}, (_, i) =>-->
+<!--      `<i class="fa-${i < n ? 'solid' : 'regular'} fa-star"></i>`-->
+<!--    ).join('');-->
+<!--  }-->
+
+<!--  // ── [GET] LẤY TẤT CẢ ĐÁNH GIÁ ──-->
+<!--  // ReviewController không có endpoint GET /api/reviews (lấy tất cả)-->
+<!--  // → gọi GET /api/reviews/product/{productId} cần productId-->
+<!--  // → Cách tốt nhất cho trang admin: lấy tất cả sản phẩm trước, rồi lấy review của từng sản phẩm-->
+<!--  async function fetchAllReviews() {-->
+<!--    try {-->
+<!--      // Bước 1: Lấy danh sách tất cả sản phẩm-->
+<!--      const productRes = await fetch(`${API_BASE}/api/products`, {-->
+<!--        headers: getAuthHeaders()-->
+<!--      });-->
+<!--      const productData = await productRes.json();-->
+<!--      const products = productData.data || [];-->
+
+<!--      // Bước 2: Với mỗi sản phẩm, lấy danh sách review-->
+<!--      const reviewPromises = products.map(p =>-->
+<!--        fetch(`${API_BASE}/api/reviews/product/${p.id}`, {-->
+<!--          headers: getAuthHeaders()-->
+<!--        })-->
+<!--        .then(r => r.json())-->
+<!--        .then(data => (data.data || []).map(rv => ({-->
+<!--          ...rv,-->
+<!--          productName: p.name   // gắn thêm tên sản phẩm vào mỗi review-->
+<!--        })))-->
+<!--        .catch(() => [])-->
+<!--      );-->
+
+<!--      const results = await Promise.all(reviewPromises);-->
+<!--      reviews = results.flat(); // gộp tất cả review lại-->
+<!--      renderReviews(getFiltered());-->
+
+<!--    } catch (err) {-->
+<!--      console.error('Lỗi khi tải đánh giá:', err);-->
+<!--      emptyState.style.display = 'flex';-->
+<!--      emptyText.textContent = 'Không thể kết nối đến máy chủ.';-->
+<!--    }-->
+<!--  }-->
+
+<!--  // ── [DELETE] XÓA ĐÁNH GIÁ (ADMIN) ──-->
+<!--  async function deleteReview(reviewId) {-->
+<!--    const review = reviews.find(r => r.id === reviewId);-->
+<!--    if (!review) return;-->
+
+<!--    if (!confirm(`Xóa đánh giá của "${review.username || review.userId}"?`)) return;-->
+
+<!--    try {-->
+<!--      const res = await fetch(`${API_BASE}/api/reviews/${reviewId}/admin`, {-->
+<!--        method: 'DELETE',-->
+<!--        headers: getAuthHeaders()-->
+<!--      });-->
+
+<!--      if (res.ok) {-->
+<!--        reviews = reviews.filter(r => r.id !== reviewId);-->
+<!--        renderReviews(getFiltered());-->
+<!--      } else {-->
+<!--        const data = await res.json();-->
+<!--        alert(data.message || 'Xóa thất bại.');-->
+<!--      }-->
+<!--    } catch (err) {-->
+<!--      console.error('Lỗi xóa đánh giá:', err);-->
+<!--      alert('Không thể kết nối đến máy chủ.');-->
+<!--    }-->
+<!--  }-->
+
+<!--  // ── RENDER ──-->
+<!--  function renderReviews(list) {-->
+<!--    reviewTable.innerHTML = '';-->
+
+<!--    if (list.length === 0) {-->
+<!--      emptyState.style.display = 'flex';-->
+<!--      emptyText.textContent = searchQuery-->
+<!--        ? 'Không tìm thấy đánh giá phù hợp.'-->
+<!--        : 'Chưa có đánh giá nào.';-->
+<!--      return;-->
+<!--    }-->
+
+<!--    emptyState.style.display = 'none';-->
+
+<!--    list.forEach((r) => {-->
+<!--      const tr = document.createElement('tr');-->
+<!--      tr.innerHTML = `-->
+<!--        <td>${r.userName || r.userId || 'Ẩn danh'}</td>-->
+<!--        <td>${r.productName || r.productId || ''}</td>-->
+<!--        <td>-->
+<!--          <div class="rating-stars">${starsHTML(r.rating)}</div>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <div class="review-content">${r.comment || r.content || ''}</div>-->
+<!--        </td>-->
+<!--        <td class="review-date">${formatDate(r.createdAt || r.date)}</td>-->
+<!--        <td>-->
+<!--          <div class="action-btns">-->
+<!--            <button class="action-btn" title="Xem chi tiết" onclick="openModal(${r.id})">-->
+<!--              <i class="fa-solid fa-eye"></i>-->
+<!--            </button>-->
+<!--            <button class="action-btn delete" title="Xóa" onclick="deleteReview(${r.id})">-->
+<!--              <i class="fa-solid fa-trash"></i>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </td>-->
+<!--      `;-->
+<!--      reviewTable.appendChild(tr);-->
+<!--    });-->
+<!--  }-->
+
+<!--  // ── LỌC ──-->
+<!--  function getFiltered() {-->
+<!--    if (!searchQuery) return reviews;-->
+<!--    const q = searchQuery.toLowerCase();-->
+<!--    return reviews.filter(r =>-->
+<!--      (r.useName || '').toLowerCase().includes(q) ||-->
+<!--      (r.productName || '').toLowerCase().includes(q) ||-->
+<!--      (r.comment || r.content || '').toLowerCase().includes(q)-->
+<!--    );-->
+<!--  }-->
+
+<!--  // ── MODAL ──-->
+<!--  function openModal(reviewId) {-->
+<!--    const r = reviews.find(rv => rv.id === reviewId);-->
+<!--    if (!r) return;-->
+<!--    document.getElementById('mUser').textContent    = r.userName || r.userId || 'Ẩn danh';-->
+<!--    document.getElementById('mProduct').textContent = r.productName || r.productId || '';-->
+<!--    document.getElementById('mStars').innerHTML     = starsHTML(r.rating);-->
+<!--    document.getElementById('mContent').textContent = r.comment || r.content || '';-->
+<!--    document.getElementById('mDate').textContent    = formatDate(r.createdAt || r.date);-->
+<!--    document.getElementById('modalOverlay').classList.add('open');-->
+<!--  }-->
+
+<!--  function closeModal() {-->
+<!--    document.getElementById('modalOverlay').classList.remove('open');-->
+<!--  }-->
+
+<!--  function closeModalOutside(e) {-->
+<!--    if (e.target === document.getElementById('modalOverlay')) closeModal();-->
+<!--  }-->
+
+<!--  // ── TÌM KIẾM ──-->
+<!--  document.getElementById('searchInput').addEventListener('input', function () {-->
+<!--    searchQuery = this.value.trim();-->
+<!--    renderReviews(getFiltered());-->
+<!--  });-->
+
+<!--  // ── KHỞI ĐỘNG ──-->
+<!--  fetchAllReviews();-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freshmart Admin - Quản lý đánh giá</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/QuanLyDanhGia.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freshmart Admin - Quản lý đánh giá</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+    body { font-family: 'Be Vietnam Pro', sans-serif; }
+
+    /* Hiệu ứng loading quay vòng */
+    .loader {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #22c55e;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
-<body>
+<body class="bg-gray-50 flex min-h-screen text-gray-800">
 
-<header class="top-header">
-  <div class="brand">
-    <span class="brand-icon"><i class="fa-solid fa-shop"></i></span>
-    Freshmart Admin
+<script>
+  (function protectAdminRoute() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user || user.role !== 'ROLE_ADMIN') {
+          // Đã sửa đường dẫn chuẩn xác
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  })();
+</script>
+
+<aside class="w-64 bg-white border-r border-gray-200 p-6 flex flex-col fixed h-full z-10">
+  <div class="text-green-700 font-bold text-xl mb-10 flex items-center gap-3">
+    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700">
+      <i class="fa-solid fa-shop"></i>
+    </div>
+    Freshmart
   </div>
-  <div class="header-title-block">
-    <h1>Quản lý đánh giá</h1>
-    <p>Quản lý đánh giá của khách hàng</p>
+
+  <nav class="flex flex-col gap-2 flex-1">
+    <a href="QuanLyDonHang.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-cart-arrow-down w-6"></i> Đơn hàng
+    </a>
+    <a href="QuanLySanPham.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-box w-6"></i> Sản phẩm
+    </a>
+    <a href="QuanLyDanhGia.html" class="p-3 rounded-xl bg-green-600 text-white font-semibold shadow-lg shadow-green-200 transition flex items-center">
+      <i class="fa-solid fa-comments w-6"></i> Đánh giá
+    </a>
+    <a href="QuanLyVoucher.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-tags w-6"></i> Voucher
+    </a>
+  </nav>
+
+  <div class="border-t border-gray-100 pt-4 mt-4">
+    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl mb-2">
+      <div class="w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold">A</div>
+      <div class="text-sm font-semibold">Admin Panel</div>
+    </div>
+    <button onclick="handleLogout()" class="w-full text-left text-red-500 font-medium p-3 hover:bg-red-50 rounded-xl transition flex items-center">
+      <i class="fa-solid fa-right-from-bracket w-6"></i> Đăng xuất
+    </button>
   </div>
-</header>
+</aside>
 
-<div class="layout">
+<main class="flex-1 ml-64 p-8">
+  <div class="mb-8 flex justify-between items-end">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Quản lý đánh giá</h1>
+      <p class="text-gray-500 text-sm mt-1">Kiểm soát phản hồi và trải nghiệm của khách hàng</p>
+    </div>
+  </div>
 
-  <aside class="sidebar">
-    <nav class="nav-menu">
-      <a class="nav-item" href="../admin/QuanLyDonHang.html">
-        <span class="nav-icon"><i class="fa-solid fa-cart-arrow-down"></i></span>
-        Quản lý đơn hàng
-      </a>
-      <a class="nav-item" href="../admin/QuanLySanPham.html">
-        <span class="nav-icon"><i class="fa-solid fa-box"></i></span>
-        Quản lý sản phẩm
-      </a>
-      <a class="nav-item active">
-        <span class="nav-icon"><i class="fa-solid fa-comments"></i></span>
-        Quản lý đánh giá
-      </a>
-      <a class="nav-item" href="../admin/QuanLyVoucher.html">
-        <span class="nav-icon"><i class="fa-solid fa-tags"></i></span>
-        Quản lý voucher
-      </a>
-      <a class="nav-item">
-        <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
-        Quản lý AI
-      </a>
-      <a class="nav-item">
-        <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span>
-        Báo cáo
-      </a>
-    </nav>
+  <div class="mb-6 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex items-center max-w-md relative">
+    <i class="fa-solid fa-magnifying-glass absolute left-5 text-gray-400"></i>
+    <input type="text" id="searchInput" placeholder="Tìm tên khách, sản phẩm hoặc nội dung..."
+           class="w-full pl-10 pr-4 py-2 bg-transparent outline-none text-sm text-gray-700">
+  </div>
 
-    <div class="nav-divider"></div>
+  <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50 border-b border-gray-100">
+      <tr>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Khách hàng</th>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Sản phẩm</th>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Đánh giá</th>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Nội dung</th>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Ngày gửi</th>
+        <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Thao tác</th>
+      </tr>
+      </thead>
+      <tbody id="reviewTable" class="divide-y divide-gray-100 text-sm">
+      <tr>
+        <td colspan="6" class="text-center py-10">
+          <div class="flex flex-col items-center justify-center text-gray-400">
+            <div class="loader mb-3"></div>
+            <p>Đang tải dữ liệu...</p>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-    <div class="nav-bottom">
-      <a class="nav-item">
-        <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
-        Về trang chủ
-      </a>
-      <a class="nav-item" href="../index/DangNhap.html">
-        <span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-        Đăng xuất
-      </a>
-      <div class="user-badge">
-        <div class="user-avatar"><i class="fa-solid fa-circle-user"></i></div>
-        Admin
+    <div id="emptyState" class="hidden flex-col items-center justify-center py-12 text-gray-400">
+      <i class="fa-regular fa-folder-open text-4xl mb-3 text-gray-300"></i>
+      <p id="emptyText">Không tìm thấy đánh giá nào.</p>
+    </div>
+  </div>
+</main>
+
+<div id="modalOverlay" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-opacity duration-300 opacity-0" onclick="closeModalOutside(event)">
+  <div class="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl transform transition-transform duration-300 scale-95" id="modalBox">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-gray-900">Chi tiết đánh giá</h3>
+      <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="space-y-4">
+      <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+        <p class="text-xs font-bold text-gray-400 uppercase mb-1">Người đánh giá</p>
+        <p class="font-medium text-gray-900 flex items-center gap-2" id="mUser"></p>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+        <p class="text-xs font-bold text-gray-400 uppercase mb-1">Sản phẩm</p>
+        <p class="font-medium text-green-700" id="mProduct"></p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+          <p class="text-xs font-bold text-gray-400 uppercase mb-1">Số sao</p>
+          <p class="text-yellow-500 text-lg tracking-widest" id="mStars"></p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+          <p class="text-xs font-bold text-gray-400 uppercase mb-1">Ngày gửi</p>
+          <p class="font-medium text-gray-700" id="mDate"></p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+        <p class="text-xs font-bold text-blue-400 uppercase mb-1">Nội dung</p>
+        <p class="text-gray-700 leading-relaxed" id="mContent"></p>
       </div>
     </div>
-  </aside>
 
-  <main class="main">
-
-    <div class="review-toolbar">
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput"
-          placeholder="Tìm theo tên, email, sản phẩm hoặc nội dung">
-      </div>
-    </div>
-
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th>Người đánh giá</th>
-            <th>Sản phẩm</th>
-            <th>Đánh giá</th>
-            <th>Nội dung</th>
-            <th>Ngày đánh giá</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody id="reviewTable"></tbody>
-      </table>
-
-      <div class="empty-state" id="emptyState" style="display:none;">
-        <span class="empty-text" id="emptyText">Không tìm thấy đánh giá nào.</span>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span class="modal-title">Chi tiết đánh giá</span>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Người đánh giá</div>
-      <div class="modal-value" id="mUser"></div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Sản phẩm</div>
-      <div class="modal-value" id="mProduct"></div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Đánh giá</div>
-      <div class="modal-stars" id="mStars"></div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Nội dung</div>
-      <div class="modal-value" id="mContent"></div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Ngày đánh giá</div>
-      <div class="modal-value" id="mDate"></div>
-    </div>
+    <button onclick="closeModal()" class="w-full mt-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition shadow-md shadow-gray-900/20">
+      Đóng cửa sổ
+    </button>
   </div>
 </div>
 
 <script>
-let reviews = [
-  { id: 1, user: 'Nguyễn Văn An',   product: 'Táo',           rating: 5, content: 'Sản phẩm tươi ngon, giao hàng nhanh, đóng gói cẩn thận.', date: '02/02/2026' },
-  { id: 2, user: 'Trần Thị Bình',   product: 'Ổi ruột đỏ',    rating: 4, content: 'Ổi ngon, ngọt. Sẽ mua lại lần sau.', date: '05/03/2026' },
-  { id: 3, user: 'Lê Minh Châu',    product: 'Ổi ruột trắng', rating: 3, content: 'Bình thường, không quá đặc biệt nhưng tươi.', date: '10/04/2026' },
-  { id: 4, user: 'Phạm Quốc Dũng',  product: 'Chuối siêu to', rating: 5, content: 'Chuối to, chín vừa, ngọt lịm. Rất hài lòng!', date: '12/04/2026' },
-  { id: 5, user: 'Hoàng Thị Mai',   product: 'Táo',           rating: 2, content: 'Táo hơi nhỏ so với hình ảnh, nhưng vẫn ngon.', date: '15/04/2026' },
-];
+  const API_BASE = 'http://localhost:8080';
+  let reviews = [];
+  let searchQuery = '';
 
-let searchQuery = '';
-
-const reviewTable = document.getElementById('reviewTable');
-const emptyState  = document.getElementById('emptyState');
-const emptyText   = document.getElementById('emptyText');
-
-function starsHTML(n) {
-  return Array.from({length: 5}, (_, i) =>
-    `<i class="fa-${i < n ? 'solid' : 'regular'} fa-star"></i>`
-  ).join('');
-}
-
-function renderReviews(list) {
-  reviewTable.innerHTML = '';
-
-  if (list.length === 0) {
-    emptyState.style.display = 'flex';
-    emptyText.textContent = searchQuery
-      ? 'Không tìm thấy đánh giá phù hợp.'
-      : 'Chưa có đánh giá nào.';
-    return;
+  // Lấy Token
+  function getAuthHeaders() {
+      return {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      };
   }
 
-  emptyState.style.display = 'none';
+  // Đăng xuất
+  function handleLogout() {
+      if(confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          // Đã sửa đường dẫn chuẩn xác
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  }
 
-  list.forEach((r) => {
-    const realIdx = reviews.indexOf(r);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${r.user}</td>
-      <td>${r.product}</td>
-      <td>
-        <div class="rating-stars">${starsHTML(r.rating)}</div>
-      </td>
-      <td>
-        <div class="review-content">${r.content}</div>
-      </td>
-      <td class="review-date">${r.date}</td>
-      <td>
-        <div class="action-btns">
-          <button class="action-btn" title="Xem chi tiết" onclick="openModal(${realIdx})">
-            <i class="fa-solid fa-eye"></i>
-          </button>
-          <button class="action-btn delete" title="Xóa" onclick="deleteReview(${realIdx})">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
-      </td>
-    `;
-    reviewTable.appendChild(tr);
+  // Format ngày
+  function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  }
+
+  // Lấy tất cả đánh giá
+  async function fetchAllReviews() {
+      try {
+          const productRes = await fetch(`${API_BASE}/api/products`, { headers: getAuthHeaders() });
+          const productData = await productRes.json();
+          const products = productData.data || [];
+
+          const reviewPromises = products.map(p =>
+              fetch(`${API_BASE}/api/reviews/product/${p.id}`, { headers: getAuthHeaders() })
+              .then(r => r.json())
+              .then(data => (data.data || []).map(rv => ({ ...rv, productName: p.name })))
+              .catch(() => [])
+          );
+
+          const results = await Promise.all(reviewPromises);
+          reviews = results.flat().sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+          renderReviews(getFiltered());
+
+      } catch (err) {
+          console.error('Lỗi khi tải đánh giá:', err);
+          document.getElementById('reviewTable').innerHTML = '';
+          document.getElementById('emptyState').classList.replace('hidden', 'flex');
+          document.getElementById('emptyText').textContent = 'Lỗi kết nối máy chủ.';
+      }
+  }
+
+  // Xóa đánh giá
+  async function deleteReview(reviewId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) return;
+
+      try {
+          const res = await fetch(`${API_BASE}/api/reviews/${reviewId}/admin`, {
+              method: 'DELETE',
+              headers: getAuthHeaders()
+          });
+
+          if (res.ok) {
+              reviews = reviews.filter(r => r.id !== reviewId);
+              renderReviews(getFiltered());
+          } else {
+              alert('Xóa thất bại.');
+          }
+      } catch (err) {
+          alert('Lỗi kết nối đến máy chủ.');
+      }
+  }
+
+  // Lọc theo tìm kiếm
+  function getFiltered() {
+      if (!searchQuery) return reviews;
+      const q = searchQuery.toLowerCase();
+      return reviews.filter(r =>
+          (r.userName || '').toLowerCase().includes(q) ||
+          (r.productName || '').toLowerCase().includes(q) ||
+          (r.comment || '').toLowerCase().includes(q)
+      );
+  }
+
+  // Hiển thị lên bảng HTML
+  function renderReviews(list) {
+      const tbody = document.getElementById('reviewTable');
+      const emptyState = document.getElementById('emptyState');
+
+      if (list.length === 0) {
+          tbody.innerHTML = '';
+          emptyState.classList.replace('hidden', 'flex');
+          document.getElementById('emptyText').textContent = searchQuery ? 'Không tìm thấy kết quả phù hợp.' : 'Chưa có đánh giá nào.';
+          return;
+      }
+
+      emptyState.classList.replace('flex', 'hidden');
+
+      tbody.innerHTML = list.map(r => {
+          const uName = r.userName || r.userId || 'Ẩn danh';
+          const initial = uName.charAt(0).toUpperCase();
+          const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+
+          return `
+              <tr class="hover:bg-green-50/50 transition duration-150">
+                  <td class="py-4 px-6">
+                      <div class="flex items-center gap-3">
+                          <div class="w-8 h-8 rounded-full bg-green-100 text-green-700 font-bold flex items-center justify-center text-xs">
+                              ${initial}
+                          </div>
+                          <span class="font-medium text-gray-900">${uName}</span>
+                      </div>
+                  </td>
+                  <td class="py-4 px-6 text-gray-600 font-medium">${r.productName || ''}</td>
+                  <td class="py-4 px-6 text-yellow-500 tracking-widest text-lg">${stars}</td>
+                  <td class="py-4 px-6 text-gray-500 truncate max-w-[200px]" title="${r.comment || ''}">${r.comment || ''}</td>
+                  <td class="py-4 px-6 text-gray-400">${formatDate(r.createdAt || r.date)}</td>
+                  <td class="py-4 px-6 text-center">
+                      <button onclick="openModal(${r.id})" class="w-8 h-8 rounded-lg bg-gray-50 text-blue-500 hover:bg-blue-100 hover:text-blue-600 transition mr-2" title="Xem">
+                          <i class="fa-solid fa-eye"></i>
+                      </button>
+                      <button onclick="deleteReview(${r.id})" class="w-8 h-8 rounded-lg bg-gray-50 text-red-400 hover:bg-red-100 hover:text-red-600 transition" title="Xóa">
+                          <i class="fa-solid fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+          `;
+      }).join('');
+  }
+
+  // Modal Controller
+  function openModal(reviewId) {
+      const r = reviews.find(rv => rv.id === reviewId);
+      if (!r) return;
+
+      const uName = r.userName || r.userId || 'Ẩn danh';
+      const initial = uName.charAt(0).toUpperCase();
+
+      document.getElementById('mUser').innerHTML = `
+          <div class="w-6 h-6 rounded-full bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">
+              ${initial}
+          </div>
+          ${uName}
+      `;
+      document.getElementById('mProduct').textContent = r.productName || '';
+      document.getElementById('mStars').textContent   = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      document.getElementById('mContent').textContent = r.comment || 'Không có bình luận.';
+      document.getElementById('mDate').textContent    = formatDate(r.createdAt || r.date);
+
+      const overlay = document.getElementById('modalOverlay');
+      const box = document.getElementById('modalBox');
+      overlay.classList.replace('hidden', 'flex');
+
+      // Timeout for animation
+      setTimeout(() => {
+          overlay.classList.remove('opacity-0');
+          box.classList.replace('scale-95', 'scale-100');
+      }, 10);
+  }
+
+  function closeModal() {
+      const overlay = document.getElementById('modalOverlay');
+      const box = document.getElementById('modalBox');
+
+      overlay.classList.add('opacity-0');
+      box.classList.replace('scale-100', 'scale-95');
+
+      setTimeout(() => {
+          overlay.classList.replace('flex', 'hidden');
+      }, 300);
+  }
+
+  function closeModalOutside(e) {
+      if (e.target.id === 'modalOverlay') closeModal();
+  }
+
+  // Tìm kiếm
+  document.getElementById('searchInput').addEventListener('input', function () {
+      searchQuery = this.value.trim();
+      renderReviews(getFiltered());
   });
-}
 
-function deleteReview(idx) {
-  if (confirm(`Xóa đánh giá của "${reviews[idx].user}"?`)) {
-    reviews.splice(idx, 1);
-    renderReviews(getFiltered());
-  }
-}
-
-function getFiltered() {
-  if (!searchQuery) return reviews;
-  const q = searchQuery.toLowerCase();
-  return reviews.filter(r =>
-    r.user.toLowerCase().includes(q) ||
-    r.product.toLowerCase().includes(q) ||
-    r.content.toLowerCase().includes(q)
-  );
-}
-
-// ── MODAL ──
-function openModal(idx) {
-  const r = reviews[idx];
-  document.getElementById('mUser').textContent    = r.user;
-  document.getElementById('mProduct').textContent = r.product;
-  document.getElementById('mStars').innerHTML     = starsHTML(r.rating);
-  document.getElementById('mContent').textContent = r.content;
-  document.getElementById('mDate').textContent    = r.date;
-  document.getElementById('modalOverlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-}
-
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
-
-// ── TÌM KIẾM ──
-document.getElementById('searchInput').addEventListener('input', function () {
-  searchQuery = this.value.trim();
-  renderReviews(getFiltered());
-});
-
-// Init
-renderReviews(reviews);
+  // Khởi chạy
+  fetchAllReviews();
 </script>
 </body>
 </html>

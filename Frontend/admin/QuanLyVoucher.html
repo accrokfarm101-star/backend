@@ -1,319 +1,341 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freshmart Admin - Quản lý voucher</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/QuanLyVoucher.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freshmart Admin - Quản lý Voucher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+    body { font-family: 'Be Vietnam Pro', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    .loader {
+        border: 3px solid #f3f3f3; border-top: 3px solid #22c55e;
+        border-radius: 50%; width: 24px; height: 24px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
-<body>
-
-<header class="top-header">
-  <div class="brand">
-    <span class="brand-icon"><i class="fa-solid fa-shop"></i></span>
-    Freshmart Admin
-  </div>
-  <div class="header-title-block">
-    <h1>Quản lý voucher</h1>
-    <p>Quản lý, thêm mới và chỉnh sửa các voucher</p>
-  </div>
-</header>
-
-<div class="layout">
-
-  <aside class="sidebar">
-    <nav class="nav-menu">
-      <a class="nav-item" href="../admin/QuanLyDonHang.html"><span class="nav-icon"><i class="fa-solid fa-cart-arrow-down"></i></span> Quản lý đơn hàng</a>
-      <a class="nav-item" href="../admin/QuanLySanPham.html"><span class="nav-icon"><i class="fa-solid fa-box"></i></span> Quản lý sản phẩm</a>
-      <a class="nav-item" href="../admin/QuanLyDanhGia.html"><span class="nav-icon"><i class="fa-solid fa-comments"></i></span> Quản lý đánh giá</a>
-      <a class="nav-item active" href="#"><span class="nav-icon"><i class="fa-solid fa-tags"></i></span> Quản lý voucher</a>
-      <a class="nav-item" href="#"><span class="nav-icon"><i class="fa-solid fa-robot"></i></span> Quản lý AI</a>
-      <a class="nav-item" href="#"><span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span> Báo cáo</a>
-    </nav>
-    <div class="nav-divider"></div>
-    <div class="nav-bottom">
-      <a class="nav-item" href="#"><span class="nav-icon"><i class="fa-solid fa-house"></i></span> Về trang chủ</a>
-      <a class="nav-item" href="../index/DangNhap.html"><span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span> Đăng xuất</a>
-      <div class="user-badge">
-        <div class="user-avatar"><i class="fa-solid fa-circle-user"></i></div>
-        Admin
-      </div>
-    </div>
-  </aside>
-
-  <main class="main">
-    <div class="vc-card">
-
-      <div class="vc-toolbar">
-        <div class="vc-search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="vcSearch" placeholder="Tìm kiếm theo mã voucher">
-        </div>
-        <button class="btn-add-vc" onclick="toggleForm()">
-          <i class="fa-solid fa-plus"></i> Thêm voucher
-        </button>
-      </div>
-
-      <div class="vc-table-wrap">
-        <table class="vc-table">
-          <thead>
-            <tr>
-              <th>Mã voucher</th>
-              <th>Loại giảm giá</th>
-              <th>Giá trị</th>
-              <th>Ngày bắt đầu</th>
-              <th>Ngày kết thúc</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="vcTable"></tbody>
-        </table>
-
-        <!-- Empty state -->
-        <div class="vc-empty" id="vcEmpty">
-          <span id="vcEmptyText">Chưa có voucher nào.</span>
-        </div>
-      </div>
-
-      <!--  FORM THÊM VOUCHER (inline, hiện khi click nút) -->
-      <div class="vc-form-wrap" id="vcFormWrap" style="display:none;">
-        <div class="vc-form">
-
-          <div class="vc-form-row">
-            <label>Mã voucher :</label>
-            <div class="vc-field-wrap">
-              <input type="text" id="fCode" placeholder="VD: SUMMER20">
-              <!--  Tooltip mã không hợp lệ -->
-              <div class="vc-tooltip" id="tooltipCode">Mã không hợp lệ!</div>
-            </div>
-          </div>
-
-          <div class="vc-form-row">
-            <label>Loại giảm giá :</label>
-            <div class="vc-field-wrap">
-              <select id="fType">
-                <option value="">-- Chọn loại --</option>
-                <option value="percent">Phần trăm (%)</option>
-                <option value="fixed">Số tiền cố định (đ)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="vc-form-row">
-            <label>Giá trị :</label>
-            <div class="vc-field-wrap">
-              <input type="text" id="fValue" placeholder="VD: 20 hoặc 50000">
-            </div>
-          </div>
-
-          <div class="vc-form-row">
-            <label>Ngày bắt đầu :</label>
-            <div class="vc-field-wrap">
-              <input type="date" id="fStart">
-              <!-- [CASE 4] Tooltip ngày không hợp lệ -->
-              <div class="vc-tooltip" id="tooltipDate">Ngày nhập không hợp lệ !</div>
-            </div>
-          </div>
-
-          <div class="vc-form-row">
-            <label>Ngày kết thúc :</label>
-            <div class="vc-field-wrap">
-              <input type="date" id="fEnd">
-            </div>
-          </div>
-
-          <div class="vc-form-row">
-            <label>Điều khoản sử dụng :</label>
-            <div class="vc-field-wrap">
-              <input type="text" id="fTerms" placeholder="VD: Áp dụng đơn từ 100.000đ">
-            </div>
-          </div>
-
-          <div class="vc-form-actions">
-            <button class="btn-cancel-vc" onclick="toggleForm()">Hủy</button>
-            <button class="btn-submit-vc" onclick="submitVoucher()">
-              <i class="fa-solid fa-plus"></i> Thêm voucher
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </main>
-</div>
+<body class="bg-gray-50 flex min-h-screen text-gray-800 relative">
 
 <script>
-let vouchers = [
-  { code: 'SUMMER20', type: 'percent', value: '20%',      start: '01/05/2026', end: '31/05/2026', terms: 'Áp dụng đơn từ 100.000đ', status: 'active'   },
-  { code: 'FRESH50K', type: 'fixed',   value: '50.000đ',  start: '01/04/2026', end: '30/04/2026', terms: 'Không giới hạn',          status: 'expired'  },
-  { code: 'NEWUSER',  type: 'percent', value: '15%',      start: '01/01/2026', end: '31/12/2026', terms: 'Chỉ dành cho khách mới',  status: 'active'   },
-];
+  (function protectAdminRoute() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user || user.role !== 'ROLE_ADMIN') {
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  })();
+</script>
 
-let searchQuery = '';
-let formOpen    = false;
+<aside class="w-64 bg-white border-r border-gray-200 p-6 flex flex-col fixed h-full z-20">
+  <div class="text-green-700 font-bold text-xl mb-10 flex items-center gap-3">
+    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700">
+      <i class="fa-solid fa-shop"></i>
+    </div>
+    Freshmart
+  </div>
 
-// TOGGLE FORM
-function toggleForm() {
-  formOpen = !formOpen;
-  document.getElementById('vcFormWrap').style.display = formOpen ? 'block' : 'none';
-  if (formOpen) clearForm();
-}
+  <nav class="flex flex-col gap-2 flex-1">
+    <a href="QuanLyDonHang.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-cart-arrow-down w-6"></i> Đơn hàng
+    </a>
+    <a href="QuanLySanPham.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-box w-6"></i> Sản phẩm
+    </a>
+    <a href="QuanLyDanhGia.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-comments w-6"></i> Đánh giá
+    </a>
+    <a href="QuanLyVoucher.html" class="p-3 rounded-xl bg-green-600 text-white font-semibold shadow-lg shadow-green-200 transition flex items-center">
+      <i class="fa-solid fa-tags w-6"></i> Voucher
+    </a>
+  </nav>
 
-function clearForm() {
-  ['fCode','fType','fValue','fStart','fEnd','fTerms'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  hideTooltip('tooltipCode');
-  hideTooltip('tooltipDate');
-}
+  <div class="border-t border-gray-100 pt-4 mt-4">
+    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl mb-2">
+      <div class="w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold">A</div>
+      <div class="text-sm font-semibold">Admin Panel</div>
+    </div>
+    <button onclick="handleLogout()" class="w-full text-left text-red-500 font-medium p-3 hover:bg-red-50 rounded-xl transition flex items-center">
+      <i class="fa-solid fa-right-from-bracket w-6"></i> Đăng xuất
+    </button>
+  </div>
+</aside>
 
-// RENDER TABLE
-function getFiltered() {
-  const q = searchQuery.toLowerCase();
-  return vouchers.filter(v => v.code.toLowerCase().includes(q));
-}
+<main class="flex-1 ml-64 p-8">
 
-function renderTable() {
-  const tbody = document.getElementById('vcTable');
-  const empty = document.getElementById('vcEmpty');
-  const list  = getFiltered();
+  <div class="mb-8 flex justify-between items-end">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Quản lý Voucher</h1>
+      <p class="text-gray-500 text-sm mt-1">Quản lý, thêm mới và theo dõi các mã giảm giá</p>
+    </div>
+    <button onclick="toggleForm()" class="bg-green-600 text-white font-semibold py-2.5 px-4 rounded-xl hover:bg-green-700 shadow-md shadow-green-200 transition flex items-center gap-2">
+      <i class="fa-solid fa-plus"></i> Thêm Voucher
+    </button>
+  </div>
 
-  tbody.innerHTML = '';
+  <div id="vcFormWrap" class="hidden mb-8 transition-all duration-300 origin-top">
+    <div class="bg-white rounded-3xl shadow-sm border border-green-100 p-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-bold text-gray-800">Tạo mã giảm giá mới</h2>
+        <button onclick="toggleForm()" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
 
-  if (list.length === 0) {
-    empty.style.display = 'flex';
-    // chưa có voucher / tìm không thấy
-    document.getElementById('vcEmptyText').textContent = searchQuery
-      ? 'Không tìm thấy voucher phù hợp'
-      : 'Chưa có voucher nào.';
-    return;
-  }
-
-  empty.style.display = 'none';
-
-  list.forEach((v) => {
-    const realIdx = vouchers.indexOf(v);
-    const isActive = v.status === 'active';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="vc-code">${v.code}</td>
-      <td>${v.type === 'percent' ? 'Phần trăm (%)' : 'Số tiền cố định'}</td>
-      <td>${v.value}</td>
-      <td>${v.start}</td>
-      <td>${v.end}</td>
-      <td>
-        <span class="vc-badge ${isActive ? 'active' : 'expired'}">
-          ${isActive ? 'Đang hoạt động' : 'Hết hạn'}
-        </span>
-      </td>
-      <td>
-        <div class="action-btns">
-          <button class="action-btn" title="Chỉnh sửa" onclick="editVoucher(${realIdx})">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
-          <button class="action-btn delete" title="Xóa" onclick="deleteVoucher(${realIdx})">
-            <i class="fa-solid fa-trash"></i>
-          </button>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Mã Voucher (Code) <span class="text-red-500">*</span></label>
+          <input type="text" id="fCode" placeholder="VD: SUMMER20 (Chỉ chữ HOA & số)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition uppercase">
+          <p id="tooltipCode" class="hidden text-xs text-red-500 mt-1 font-medium"><i class="fa-solid fa-circle-exclamation"></i> Mã từ 3-20 ký tự, không chứa ký tự đặc biệt!</p>
         </div>
-      </td>
-    `;
-    tbody.appendChild(tr);
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Loại giảm giá <span class="text-red-500">*</span></label>
+            <select id="fType" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 outline-none transition bg-white">
+              <option value="">-- Chọn loại --</option>
+              <option value="percent">Phần trăm (%)</option>
+              <option value="fixed">Tiền cố định (đ)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Giá trị <span class="text-red-500">*</span></label>
+            <input type="number" id="fValue" placeholder="VD: 20" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 outline-none transition">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Hạn sử dụng <span class="text-red-500">*</span></label>
+          <input type="datetime-local" id="fEnd" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 outline-none transition text-gray-600">
+          <p id="tooltipDate" class="hidden text-xs text-red-500 mt-1 font-medium"><i class="fa-solid fa-circle-exclamation"></i> Ngày kết thúc phải lớn hơn hiện tại!</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Đơn tối thiểu (đ)</label>
+          <input type="number" id="fTerms" placeholder="VD: 100000 (Mặc định: 0)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 outline-none transition">
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-end gap-3">
+        <button onclick="toggleForm()" class="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition">Hủy bỏ</button>
+        <button onclick="submitVoucher()" class="px-6 py-2.5 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-md shadow-green-200">Lưu Voucher</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
+    <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+      <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center w-80 relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 text-gray-400"></i>
+        <input type="text" id="vcSearch" placeholder="Tìm theo mã voucher..."
+               class="w-full pl-10 pr-4 py-1.5 bg-transparent outline-none text-sm text-gray-700">
+      </div>
+    </div>
+
+    <div class="overflow-x-auto no-scrollbar min-h-[300px]">
+      <table class="w-full text-left min-w-[800px]">
+        <thead class="bg-gray-50/80 border-b border-gray-100">
+        <tr>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Mã Voucher</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Loại giảm</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Mức giảm</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Ngày tạo</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Hạn dùng</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Trạng thái</th>
+          <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="vcTable" class="divide-y divide-gray-100 text-sm">
+        <tr><td colspan="7" class="text-center py-12 text-gray-400"><div class="loader mx-auto mb-3"></div>Đang tải dữ liệu...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="vcEmpty" class="hidden flex-col items-center justify-center py-16 text-gray-400 bg-white">
+      <i class="fa-solid fa-ticket-simple text-5xl mb-3 text-gray-300"></i>
+      <p id="vcEmptyText" class="font-medium">Chưa có voucher nào.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const API_VOUCHER_URL = 'http://localhost:8080/api/vouchers';
+
+  let vouchers = [];
+  let searchQuery = '';
+  let formOpen = false;
+
+  // Đăng xuất
+  function handleLogout() {
+      if(confirm("Bạn có chắc muốn đăng xuất khỏi Admin?")) {
+          localStorage.clear();
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  }
+
+  function getAuthHeaders() {
+      return {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+      };
+  }
+
+  document.addEventListener('DOMContentLoaded', fetchVouchers);
+
+  // [GET] TẢI DỮ LIỆU
+  async function fetchVouchers() {
+      try {
+          const response = await fetch(API_VOUCHER_URL, { headers: getAuthHeaders() });
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+              // Sắp xếp voucher mới nhất lên đầu
+              vouchers = (result.data || []).sort((a,b) => b.id - a.id);
+              renderTable();
+          } else {
+              showEmpty(result.message || "Lỗi tải danh sách Voucher");
+          }
+      } catch (error) {
+          showEmpty("Không thể kết nối đến máy chủ.");
+      }
+  }
+
+  // RENDER BẢNG
+  function renderTable() {
+      const tbody = document.getElementById('vcTable');
+      const empty = document.getElementById('vcEmpty');
+      const q = searchQuery.toLowerCase();
+
+      const list = vouchers.filter(v => (v.code || '').toLowerCase().includes(q));
+
+      if (list.length === 0) {
+          tbody.innerHTML = '';
+          empty.classList.replace('hidden', 'flex');
+          document.getElementById('vcEmptyText').textContent = searchQuery ? 'Không tìm thấy voucher phù hợp' : 'Chưa có voucher nào.';
+          return;
+      }
+
+      empty.classList.replace('flex', 'hidden');
+
+      tbody.innerHTML = list.map(v => {
+          const isExpired = new Date(v.expiryDate) < new Date() || v.status === 'INACTIVE';
+          const typeLabel = v.discountType === 'PERCENTAGE' ? 'Phần trăm' : 'Tiền cố định';
+          const valLabel = v.discountType === 'PERCENTAGE' ? `<span class="text-blue-600 bg-blue-50 px-2 py-1 rounded font-bold">${v.discountValue}%</span>` : `<span class="text-green-600 bg-green-50 px-2 py-1 rounded font-bold">${Number(v.discountValue).toLocaleString('vi-VN')} đ</span>`;
+
+          const badgeClass = !isExpired ? 'bg-green-50 text-green-600 border-green-200' : 'bg-red-50 text-red-500 border-red-200';
+          const badgeText = !isExpired ? 'Hoạt động' : 'Hết hạn';
+
+          return `
+          <tr class="hover:bg-gray-50/50 transition">
+              <td class="py-4 px-6 font-black text-gray-800 tracking-wider">${v.code}</td>
+              <td class="py-4 px-6 text-gray-600 font-medium">${typeLabel}</td>
+              <td class="py-4 px-6">${valLabel}</td>
+              <td class="py-4 px-6 text-gray-500">${formatDisplayDate(v.createdAt)}</td>
+              <td class="py-4 px-6 text-gray-800 font-medium">${formatDisplayDate(v.expiryDate)}</td>
+              <td class="py-4 px-6">
+                  <span class="px-3 py-1 text-xs font-bold rounded-full border ${badgeClass}">${badgeText}</span>
+              </td>
+              <td class="py-4 px-6 text-right">
+                  <button onclick="deleteVoucher(${v.id}, '${v.code}')" class="w-8 h-8 rounded-lg bg-gray-50 text-red-400 hover:bg-red-100 hover:text-red-600 transition" title="Xóa">
+                      <i class="fa-solid fa-trash"></i>
+                  </button>
+              </td>
+          </tr>
+          `;
+      }).join('');
+  }
+
+  function showEmpty(msg) {
+      document.getElementById('vcTable').innerHTML = '';
+      document.getElementById('vcEmpty').classList.replace('hidden', 'flex');
+      document.getElementById('vcEmptyText').textContent = msg;
+  }
+
+  // [POST] THÊM VOUCHER
+  async function submitVoucher() {
+      const code  = document.getElementById('fCode').value.trim().toUpperCase();
+      const type  = document.getElementById('fType').value;
+      const value = document.getElementById('fValue').value.trim();
+      const end   = document.getElementById('fEnd').value;
+      const terms = document.getElementById('fTerms').value.trim();
+
+      let valid = true;
+
+      const codeReg = /^[A-Z0-9]{3,20}$/;
+      if (!code || !codeReg.test(code)) {
+          document.getElementById('tooltipCode').classList.remove('hidden'); valid = false;
+      } else { document.getElementById('tooltipCode').classList.add('hidden'); }
+
+      if (!end || new Date(end) <= new Date()) {
+          document.getElementById('tooltipDate').classList.remove('hidden'); valid = false;
+      } else { document.getElementById('tooltipDate').classList.add('hidden'); }
+
+      if (!valid) return;
+      if (!type || !value) { alert("Vui lòng nhập Loại giảm giá và Giá trị!"); return; }
+
+      const payload = {
+          code: code,
+          discountType: type === 'percent' ? 'PERCENTAGE' : 'FIXED_AMOUNT',
+          discountValue: parseFloat(value),
+          expiryDate: new Date(end).toISOString(),
+          minOrderAmount: parseFloat(terms) || 0,
+          status: 'ACTIVE'
+      };
+
+      try {
+          const response = await fetch(API_VOUCHER_URL, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify(payload) });
+          const result = await response.json();
+
+          if(response.ok && result.success) {
+              toggleForm();
+              fetchVouchers();
+          } else { alert(result.message || "Tạo Voucher thất bại!"); }
+      } catch (error) { alert("Lỗi kết nối máy chủ."); }
+  }
+
+  // [DELETE] XÓA VOUCHER
+  async function deleteVoucher(id, code) {
+      if (!confirm(`Bạn có chắc muốn xóa vĩnh viễn voucher [${code}]?`)) return;
+
+      try {
+          const response = await fetch(`${API_VOUCHER_URL}/${id}`, { method: 'DELETE', headers: getAuthHeaders() });
+          if(response.ok) { fetchVouchers(); }
+          else { const r = await response.json(); alert(r.message || "Không thể xóa Voucher này."); }
+      } catch(error) { alert("Lỗi kết nối máy chủ."); }
+  }
+
+  // UI Helpers
+  function toggleForm() {
+      formOpen = !formOpen;
+      const formWrap = document.getElementById('vcFormWrap');
+      if (formOpen) {
+          formWrap.classList.remove('hidden');
+          clearForm();
+      } else {
+          formWrap.classList.add('hidden');
+      }
+  }
+
+  function clearForm() {
+      ['fCode','fType','fValue','fEnd','fTerms'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('tooltipCode').classList.add('hidden');
+      document.getElementById('tooltipDate').classList.add('hidden');
+  }
+
+  function formatDisplayDate(isoString) {
+      if(!isoString) return '-';
+      const dt = new Date(isoString);
+      return `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}/${dt.getFullYear()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+  }
+
+  // Search
+  document.getElementById('vcSearch').addEventListener('input', function () {
+      searchQuery = this.value.trim();
+      renderTable();
   });
-}
-
-// SUBMIT FORM 
-function submitVoucher() {
-  const code  = document.getElementById('fCode').value.trim().toUpperCase();
-  const type  = document.getElementById('fType').value;
-  const value = document.getElementById('fValue').value.trim();
-  const start = document.getElementById('fStart').value;
-  const end   = document.getElementById('fEnd').value;
-  const terms = document.getElementById('fTerms').value.trim();
-
-  let valid = true;
-
-  // Validate mã voucher: ít nhất 3 ký tự chữ/số, không ký tự đặc biệt
-  const codeReg = /^[A-Z0-9]{3,20}$/;
-  if (!code || !codeReg.test(code)) {
-    showTooltip('tooltipCode');
-    valid = false;
-  } else {
-    hideTooltip('tooltipCode');
-  }
-
-  // Validate ngày: start phải trước end
-  const startDate = new Date(start);
-  const endDate   = new Date(end);
-  if (!start || !end || startDate >= endDate) {
-    showTooltip('tooltipDate');
-    valid = false;
-  } else {
-    hideTooltip('tooltipDate');
-  }
-
-  if (!valid) return;
-
-  const fmt = d => {
-    const dt = new Date(d);
-    return `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}/${dt.getFullYear()}`;
-  };
-
-  vouchers.push({
-    code,
-    type,
-    value: type === 'percent' ? `${value}%` : `${Number(value).toLocaleString('vi-VN')}đ`,
-    start: fmt(start),
-    end:   fmt(end),
-    terms,
-    status: new Date(end) >= new Date() ? 'active' : 'expired',
-  });
-
-  toggleForm();
-  renderTable();
-}
-
-// EDIT (điền lại form) 
-function editVoucher(idx) {
-  const v = vouchers[idx];
-  formOpen = true;
-  document.getElementById('vcFormWrap').style.display = 'block';
-  document.getElementById('fCode').value  = v.code;
-  document.getElementById('fType').value  = v.type;
-  document.getElementById('fTerms').value = v.terms;
-  window._editIdx = idx;
-}
-
-// DELETE 
-function deleteVoucher(idx) {
-  if (confirm(`Xóa voucher "${vouchers[idx].code}"?`)) {
-    vouchers.splice(idx, 1);
-    renderTable();
-  }
-}
-
-// TOOLTIPS 
-let tooltipTimers = {};
-function showTooltip(id) {
-  document.getElementById(id).classList.add('show');
-  clearTimeout(tooltipTimers[id]);
-  tooltipTimers[id] = setTimeout(() => hideTooltip(id), 3000);
-}
-function hideTooltip(id) {
-  document.getElementById(id).classList.remove('show');
-}
-
-// SEARCH 
-document.getElementById('vcSearch').addEventListener('input', function () {
-  searchQuery = this.value.trim();
-  renderTable();
-});
-
-renderTable();
 </script>
 </body>
 </html>

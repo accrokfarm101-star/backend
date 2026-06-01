@@ -178,7 +178,7 @@
 </div>
 
 <div id="footer-container"></div>
-
+<script src="../../assets/js/main.js"></script>
 <script>
     // Hàm bổ trợ tăng giảm số lượng nút bấm cục bộ ăn khớp với main.js
     function changeQuantity(val) {
@@ -204,8 +204,175 @@
         // Gọi hàm chuyển hướng cấp tốc mua ngay trong main.js
         globalBuyNow();
     }
-</script>
-
 <script src="../../assets/js/main.js"></script>
+<script>
+    // 1. CẤU HÌNH API VÀ BIẾN TOÀN CỤC
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    const API_URL = 'http://localhost:8080/api/products';
+    let currentProduct = null;
+
+    // 2. TẢI DỮ LIỆU KHI TRANG KHỞI CHẠY
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Nếu không có ID trên URL, đẩy về trang danh sách
+        if (!productId) {
+            window.location.href = 'trang_san_pham.html';
+            return;
+        }
+
+        await loadProductDetail();
+        await loadRelatedProducts();
+    });
+
+    // 3. HÀM TẢI CHI TIẾT SẢN PHẨM CHÍNH
+    async function loadProductDetail() {
+        try {
+            const response = await fetch(`${API_URL}/${productId}`);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                currentProduct = result.data;
+                renderProductDetail(currentProduct);
+            } else {
+                showToast(result.message || "Không tìm thấy sản phẩm");
+                setTimeout(() => window.location.href = 'trang_san_pham.html', 1500);
+            }
+        } catch (error) {
+            console.error("Lỗi kết nối:", error);
+            showToast("Lỗi kết nối đến máy chủ!");
+        }
+    }
+
+    // 4. HÀM ĐỔ DỮ LIỆU LÊN GIAO DIỆN (DOM)
+    function renderProductDetail(p) {
+        // Tiêu đề trình duyệt
+        document.title = `${p.name} | Fresh Mart`;
+
+        // Breadcrumb (Đường dẫn)
+        document.getElementById('breadcrumb-category').textContent = p.category || 'Danh mục';
+        document.getElementById('breadcrumb-category').href = `trang_san_pham.html?category=${p.category || 'all'}`;
+        document.getElementById('breadcrumb-title').textContent = p.name;
+
+        // Thông tin cơ bản
+        document.getElementById('product-title').textContent = p.name;
+        document.getElementById('product-price').textContent = `${p.price.toLocaleString('vi-VN')} đ`;
+        document.getElementById('main-product-img').src = p.imageUrl || 'https://via.placeholder.com/500?text=No+Image';
+
+        // Mô tả
+        document.getElementById('product-short-desc').textContent = p.description || 'Đang cập nhật mô tả...';
+        document.getElementById('product-full-desc').textContent = p.description || 'Sản phẩm đang được đồng bộ thông tin chi tiết dài...';
+
+        // Xử lý trạng thái hết hàng (Dựa vào Enum hoặc số lượng)
+        const isOutOfStock = p.status === 'OUT_OF_STOCK' || p.stock === 0;
+        if (isOutOfStock) {
+            const btnAdd = document.querySelector('button[onclick="addToCart()"]');
+            const btnBuy = document.querySelector('button[onclick="buyNow()"]');
+            const qtyInput = document.getElementById('quantity-input');
+
+            if (btnAdd) {
+                btnAdd.disabled = true;
+                btnAdd.innerHTML = '<i class="fas fa-ban"></i> Tạm hết hàng';
+                btnAdd.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            if (btnBuy) {
+                btnBuy.disabled = true;
+                btnBuy.classList.add('opacity-50', 'cursor-not-allowed', 'bg-slate-400', 'border-slate-400');
+            }
+            if (qtyInput) qtyInput.value = 0;
+        }
+    }
+
+    // 5. HÀM TẢI SẢN PHẨM TƯƠNG TỰ CÙNG DANH MỤC
+    async function loadRelatedProducts() {
+        if (!currentProduct) return;
+
+        try {
+            const response = await fetch(API_URL);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                // Lọc ra các sản phẩm cùng danh mục, khác ID hiện tại, và lấy tối đa 4 cái
+                const related = result.data
+                    .filter(p => p.category === currentProduct.category && String(p.id) !== String(productId))
+                    .slice(0, 4);
+
+                const container = document.getElementById('related-products-container');
+
+                if (related.length > 0) {
+                    container.innerHTML = related.map(p => `
+                        <div class="product-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col p-4 hover:shadow-md transition">
+                            <a href="chi_tiet_san_pham.html?id=${p.id}" class="flex flex-col h-full">
+                                <img src="${p.imageUrl || 'https://via.placeholder.com/300'}" class="w-full h-40 object-cover rounded-xl mb-4">
+                                <h3 class="font-bold text-gray-800 text-[13px] mb-1 line-clamp-2">${p.name}</h3>
+                                <div class="text-green-600 font-black text-base mt-auto">${p.price.toLocaleString('vi-VN')} đ</div>
+                            </a>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="text-slate-400 text-sm italic col-span-full">Chưa có sản phẩm tương tự trong danh mục này.</p>';
+                }
+            }
+        } catch (error) {
+            console.error("Lỗi tải SP tương tự:", error);
+        }
+    }
+
+    // 6. XỬ LÝ SỰ KIỆN NÚT BẤM
+    function changeQuantity(val) {
+        if (!currentProduct || currentProduct.status === 'OUT_OF_STOCK' || currentProduct.stock === 0) return;
+
+        const input = document.getElementById('quantity-input');
+        let currentQty = parseInt(input.value) || 1;
+        currentQty += val;
+
+        if (currentQty < 1) currentQty = 1;
+
+        // Chặn không cho tăng quá số lượng tồn kho
+        if (currentProduct.stock && currentQty > currentProduct.stock) {
+            currentQty = currentProduct.stock;
+            showToast('Đã đạt giới hạn số lượng tồn kho của hệ thống!');
+        }
+
+        input.value = currentQty;
+    }
+
+    function addToCart() {
+        if (!currentProduct) return;
+        const qty = parseInt(document.getElementById('quantity-input').value) || 1;
+
+        // Tích hợp API gọi CartController tại đây sau này
+        if (typeof globalAddToCart === 'function') {
+            globalAddToCart(currentProduct.id, qty);
+        } else {
+            showToast(`Đã thêm ${qty} x ${currentProduct.name} vào giỏ hàng!`);
+        }
+    }
+
+    function buyNow() {
+        if (!currentProduct) return;
+        addToCart();
+        // Sau khi thêm vào giỏ, delay 1 giây để xem thông báo rồi chuyển trang
+        setTimeout(() => {
+            if (typeof globalBuyNow === 'function') {
+                globalBuyNow();
+            } else {
+                window.location.href = 'gio_hang.html';
+            }
+        }, 1000);
+    }
+
+    // 7. HIỂN THỊ THÔNG BÁO (TOAST)
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const msgSpan = document.getElementById('toast-message');
+        if(toast && msgSpan) {
+            msgSpan.textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 3000);
+        }
+    }
+</script>
 </body>
 </html>

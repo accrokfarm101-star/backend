@@ -154,6 +154,7 @@ public class CartServiceImpl implements CartService {
                             .quantity(item.getQuantity())
                             .unitPrice(item.getUnitPrice())
                             .totalPrice(item.getTotalPrice())
+                            .imageUrl(item.getProduct().getImageUrl()) // <--- DÒNG NÀY ĐÃ ĐƯỢC THÊM VÀO
                             .build())
                     .collect(Collectors.toList());
         }

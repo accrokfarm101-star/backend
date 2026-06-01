@@ -1,166 +1,483 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fresh Mart - Thanh toán QR</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/CheckOut.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Mart - Thanh toán QR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/globals.css">
+    <link rel="stylesheet" href="../../assets/css/CheckOut.css">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-   <style>
+    <style>
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f8fafc; }
-        .product-card { background-color: #ffffff; transition: all 0.3s ease; }
-        .product-card:hover { transform: translateY(-4px); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .category-item-active {
-            color: #16a34a;
-            font-weight: 900;
-            background-color: #f0fdf4;
-            border-left: 4px solid #16a34a;
+
+        /* ── Countdown ring ── */
+        .countdown-ring { position: relative; width: 64px; height: 64px; }
+        .countdown-ring svg { transform: rotate(-90deg); }
+        .ring-bg  { fill: none; stroke: #e2e8f0; stroke-width: 4; }
+        .ring-bar { fill: none; stroke: #2f6b2f; stroke-width: 4;
+                    stroke-dasharray: 176; stroke-dashoffset: 0;
+                    transition: stroke-dashoffset 1s linear; }
+        .countdown-num {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; font-weight: 800; color: #2f6b2f;
         }
-        
-        #search-input::placeholder {
-    font-size: 13px; /* Bạn có thể chỉnh số này nhỏ xuống (ví dụ: 12px, 11px) */
-    opacity: 0.8;    /* Làm mờ đi một chút nếu muốn */
-}
+
+        /* ── Bank info rows ── */
+        .bank-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; border-radius: 12px;
+            background: #f0fdf4; margin-bottom: 8px;
+        }
+        .bank-row .label { font-size: 13px; color: #64748b; font-weight: 500; }
+        .bank-row .value { font-size: 14px; color: #1e293b; font-weight: 700; }
+        .copy-btn {
+            background: #dcfce7; color: #166534; border: none;
+            padding: 4px 10px; border-radius: 8px; font-size: 12px;
+            font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .copy-btn:hover { background: #bbf7d0; }
+
+        /* ── Status badge ── */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #fef9c3; color: #854d0e;
+            padding: 8px 18px; border-radius: 99px;
+            font-size: 13px; font-weight: 700;
+            border: 1.5px solid #fde68a;
+        }
+        .status-badge.confirmed {
+            background: #dcfce7; color: #166534;
+            border-color: #86efac;
+        }
+
+        /* ── QR pulse animation ── */
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(47,107,47,0.3); }
+            50%       { box-shadow: 0 0 0 12px rgba(47,107,47,0); }
+        }
+        .qr-pulse { animation: pulse-green 2s infinite; }
+
+        /* ── Steps bar ── */
+        .steps-bar { display:flex; align-items:center; justify-content:center;
+                     gap:0; padding: 20px 0 10px; background:#fff;
+                     border-bottom: 1px solid #e2e8f0; }
+        .step { display:flex; flex-direction:column; align-items:center; gap:4px; }
+        .step-num { width:32px; height:32px; border-radius:50%;
+                    display:flex; align-items:center; justify-content:center;
+                    font-weight:700; font-size:14px;
+                    background:#e2e8f0; color:#64748b; }
+        .step.done .step-num  { background:#2f6b2f; color:#fff; }
+        .step.active .step-num{ background:#2f6b2f; color:#fff; }
+        .step-label { font-size:12px; font-weight:600; color:#64748b; }
+        .step.active .step-label { color:#2f6b2f; }
+        .step-line  { width:80px; height:2px; background:#e2e8f0; margin-bottom:16px; }
+        .step-line.filled { background:#2f6b2f; }
     </style>
 </head>
 <body class="bg-slate-50">
 
+<!-- ── HEADER ── -->
 <header class="bg-[#DCEBCF] border-b sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between py-3">
-            
             <h1 class="text-[40px] leading-none font-bold italic text-[#2f6b2f]"
-                style="font-family: 'Georgia', serif; margin-left: -2cm;">
+                style="font-family:'Georgia',serif; margin-left:-2cm;">
                 <a href="../html_main/trang_chu.html">Fresh Mart</a>
             </h1>
-            
-            <div class="flex-1 max-w-2xl mx-8" style="margin-left: -7cm;">
+            <div class="flex-1 max-w-2xl mx-8" style="margin-left:-7cm;">
                 <div class="relative">
-                    <input type="text" text-[16px] id="search-input" oninput="filterProducts()" placeholder="Tìm kiếm trong Fresh Mart" 
-                           class="w-full py-3 px-5 rounded-full border border-green-200 focus:outline-none focus:border-green-500 bg-white">
+                    <input type="text" placeholder="Tìm kiếm trong Fresh Mart"
+                           class="w-full py-3 px-5 rounded-full border border-green-200
+                                  focus:outline-none focus:border-green-500 bg-white text-[16px]">
                     <button class="absolute right-4 top-1/2 -translate-y-1/2 text-green-600">
                         <i class="fas fa-search text-xl"></i>
                     </button>
                 </div>
             </div>
-
-            <div class="flex items-center gap-4" style="margin-left: -6cm;">
-                <a href="../html_main/gio_hang.html" class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center" style="margin-left: -3cm;">
+            <div class="flex items-center gap-4" style="margin-left:-6cm;">
+                <a href="../html_main/gio_hang.html"
+                   class="relative p-3 hover:bg-green-100 rounded-full inline-flex items-center"
+                   style="margin-left:-3cm;">
                     <i class="fas fa-shopping-cart text-3xl text-green-700"></i>
                 </a>
-
                 <button class="bg-[#f6f7ef] px-6 py-2 rounded-3xl text-[14px] font-semibold text-[#456b3f] hover:bg-white transition">
-                    <a href="../html_person/ho_so.html" class="inline-flex items-center">
-                        Ánh Tuyết
-                    </a>
+                    <a href="../html_person/ho_so.html" id="header-user-name">Tài khoản</a>
                 </button>
-
-                <img src="https://i.pravatar.cc/120?img=32" alt="avatar" class="w-[50px] h-[50px] rounded-full object-cover">
+                <img src="https://i.pravatar.cc/120?img=32" alt="avatar"
+                     class="w-[50px] h-[50px] rounded-full object-cover">
             </div>
         </div>
     </div>
-
-        <nav class="bg-[#ffffff]  border-white">
-            <div class="max-w-[1920px] mx-auto px-16">
-                <ul class="flex items-center justify-between h-[35px]">
-                    <li><a href="../html_main/trang_chu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Trang chủ</a></li>
-                    <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Giới thiệu</a></li>
-                    <li><a href="../html_main/trang_san_pham.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Sản phẩm</a></li>
-                    <li><a href="../html_main/trang_cau_hoi.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Câu hỏi</a></li>
-                    <li><a href="../html_main/trang_tin_tuc.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Tin tức</a></li>
-                    <li><a href="../html_main/trang_lien_he.html" class="text-[14px] font-semibold text-black hover:text-green-700 transition">Liên hệ</a></li>
-                </ul>
-            </div>
-        </nav>
+    <nav class="bg-white border-white">
+        <div class="max-w-[1920px] mx-auto px-16">
+            <ul class="flex items-center justify-between h-[35px]">
+                <li><a href="../html_main/trang_chu.html"       class="text-[14px] font-semibold text-black hover:text-green-700">Trang chủ</a></li>
+                <li><a href="../html_main/trang_gioi_thieu.html" class="text-[14px] font-semibold text-black hover:text-green-700">Giới thiệu</a></li>
+                <li><a href="../html_main/trang_san_pham.html"   class="text-[14px] font-semibold text-black hover:text-green-700">Sản phẩm</a></li>
+                <li><a href="../html_main/trang_cau_hoi.html"    class="text-[14px] font-semibold text-black hover:text-green-700">Câu hỏi</a></li>
+                <li><a href="../html_main/trang_tin_tuc.html"    class="text-[14px] font-semibold text-black hover:text-green-700">Tin tức</a></li>
+                <li><a href="../html_main/trang_lien_he.html"    class="text-[14px] font-semibold text-black hover:text-green-700">Liên hệ</a></li>
+            </ul>
+        </div>
+    </nav>
 </header>
 
-
-
-
+<!-- ── STEPS ── -->
 <div class="steps-bar">
-  <div class="step done"><span class="step-num">1</span><span class="step-label">Thông tin giao hàng</span></div>
-  <div class="step-line filled"></div>
-  <div class="step active"><span class="step-num">2</span><span class="step-label">Thanh toán</span></div>
-  <div class="step-line"></div>
-  <div class="step"><span class="step-num">3</span><span class="step-label">Hoàn tất</span></div>
+    <div class="step done">
+        <span class="step-num"><i class="fas fa-check text-xs"></i></span>
+        <span class="step-label">Thông tin giao hàng</span>
+    </div>
+    <div class="step-line filled"></div>
+    <div class="step active">
+        <span class="step-num">2</span>
+        <span class="step-label">Thanh toán</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+        <span class="step-num">3</span>
+        <span class="step-label">Hoàn tất</span>
+    </div>
 </div>
 
+<!-- ── MAIN LAYOUT ── -->
 <div class="checkout-layout">
-  <div class="checkout-left">
-    <h2 class="qr-title">Chuyển khoản ngân hàng (Mã QR)</h2>
-    <div class="qr-wrap">
-      <div class="qr-wrap">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=STK:1234567890-FRESHMART" 
-            alt="Mã QR chuyển khoản" class="qr-code">
-      </div>
+
+    <!-- LEFT: QR Panel -->
+    <div class="checkout-left bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+
+        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+            <i class="fa-solid fa-qrcode text-[#2f6b2f] text-2xl"></i>
+            <h2 class="text-xl font-bold text-slate-800 uppercase tracking-wider">
+                Chuyển khoản qua mã QR
+            </h2>
+        </div>
+
+        <!-- Status -->
+        <div class="flex justify-center mb-5">
+            <div class="status-badge" id="statusBadge">
+                <i class="fas fa-clock"></i>
+                Đang chờ thanh toán...
+            </div>
+        </div>
+
+        <!-- QR + countdown -->
+        <div class="flex flex-col items-center gap-4 mb-6">
+            <div class="relative">
+                <div class="p-3 bg-white border-2 border-green-500 rounded-2xl shadow-lg qr-pulse">
+                    <img id="qrImg"
+                         src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=placeholder"
+                         alt="Mã QR" class="w-[220px] h-[220px] object-cover rounded-lg">
+                </div>
+            </div>
+
+            <!-- Countdown timer -->
+            <div class="flex items-center gap-3">
+                <div class="countdown-ring">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <circle class="ring-bg" cx="32" cy="32" r="28"/>
+                        <circle class="ring-bar" id="ringBar" cx="32" cy="32" r="28"/>
+                    </svg>
+                    <div class="countdown-num" id="countdownNum">15:00</div>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-slate-700">Thời gian còn lại</p>
+                    <p class="text-xs text-slate-400">QR hết hạn sau thời gian trên</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank info -->
+        <div class="mb-6">
+            <p class="text-xs font-bold text-slate-400 uppercase mb-3">Thông tin chuyển khoản</p>
+
+            <div class="bank-row">
+                <div>
+                    <div class="label">Ngân hàng</div>
+                    <div class="value">Vietcombank</div>
+                </div>
+            </div>
+
+            <div class="bank-row">
+                <div>
+                    <div class="label">Số tài khoản</div>
+                    <div class="value" id="bankAccount">1234567890</div>
+                </div>
+                <button class="copy-btn" onclick="copyText('1234567890', this)">
+                    <i class="fas fa-copy mr-1"></i>Sao chép
+                </button>
+            </div>
+
+            <div class="bank-row">
+                <div>
+                    <div class="label">Chủ tài khoản</div>
+                    <div class="value">FRESH MART</div>
+                </div>
+            </div>
+
+            <div class="bank-row">
+                <div>
+                    <div class="label">Số tiền</div>
+                    <div class="value text-green-700 text-base" id="transferAmount">---</div>
+                </div>
+                <button class="copy-btn" onclick="copyText(rawTotal.toString(), this)" id="copyAmountBtn">
+                    <i class="fas fa-copy mr-1"></i>Sao chép
+                </button>
+            </div>
+
+            <div class="bank-row">
+                <div>
+                    <div class="label">Nội dung chuyển khoản</div>
+                    <div class="value text-green-700" id="transferNote">FRESHMART THANH TOAN</div>
+                </div>
+                <button class="copy-btn" onclick="copyText(document.getElementById('transferNote').textContent, this)">
+                    <i class="fas fa-copy mr-1"></i>Sao chép
+                </button>
+            </div>
+        </div>
+
+        <p class="text-xs text-slate-400 text-center mb-6">
+            <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+            Giao dịch được bảo mật. Hệ thống tự động xác nhận sau khi nhận tiền.
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex gap-4">
+            <button onclick="window.location.href='PhuongThucThanhToan.html'"
+                    class="w-1/3 px-6 py-3 rounded-xl bg-slate-100 font-bold
+                           hover:bg-slate-200 transition text-slate-700">
+                ← Quay lại
+            </button>
+            <button id="btnConfirm" onclick="goNext()"
+                    class="flex-1 px-6 py-3 rounded-xl font-bold transition shadow-md
+                           bg-[#2f6b2f] hover:bg-[#245224] text-white">
+                Đã thanh toán xong →
+            </button>
+        </div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn-back" onclick="window.location.href='PhuongThucThanhToan.html'">Quay lại ←</button>
-      <button class="btn-next active" onclick="window.location.href='HoanTatThanhToan.html'">Tiếp tục →</button>
+    <!-- RIGHT: Order summary -->
+    <div class="checkout-right bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <h3 class="text-lg font-bold uppercase tracking-wider mb-4
+                   border-b border-slate-200 pb-3 text-slate-800">
+            Đơn hàng của bạn
+        </h3>
+        <div class="space-y-4 max-h-[320px] overflow-y-auto pr-1 mb-6"
+             id="order-items-container"></div>
+        <div class="border-t border-slate-200 pt-4 space-y-3"
+             id="summaryBlock"></div>
     </div>
-  </div>
-
-  
-  <div class="checkout-right">
-    <h3 class="order-title">Đơn hàng của bạn</h3>
-    <div class="order-items">
-      <div class="order-item">
-        <img src="../img/bia.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">[Thùng] Bia Tiger Lon 330ml x 20 Lon</p>
-          <p class="item-qty">Số lượng: 1</p>
-        </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/bingoi.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Bí Ngòi Xanh Đà Lạt</p>
-          <p class="item-qty">Số lượng: 3</p>
-        </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/canhga.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Cánh Gà Đông Lạnh CP Gói 1kg</p>
-          <p class="item-qty">Số lượng: 1</p>
-        </div>
-      </div>
-      <div class="order-item">
-        <img src="../img/bachibo.png" alt="">
-        <div class="order-item-info">
-          <p class="item-name">Ba Chỉ Bò Mỹ Đông Lạnh T&P 500g</p>
-          <p class="item-qty">Số lượng: 2</p>
-        </div>
-      </div>
-    </div>
-    <div class="order-summary" id="summaryBlock"></div>
-  </div>
 </div>
-    <div id="footer-container"></div>
-    <script src="../../assets/js/main.js"></script>
+
+<!-- Toast -->
+<div id="toast" style="
+    position:fixed; bottom:2rem; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:#166534; color:#fff;
+    padding:10px 24px; border-radius:12px;
+    font-weight:600; font-size:14px;
+    opacity:0; transition:all 0.3s; z-index:9999;
+    pointer-events:none;
+"></div>
 
 <script>
-(function(){
-  const discount = parseInt(sessionStorage.getItem('discount') || '0');
-  const total    = parseInt(sessionStorage.getItem('total')    || '170000');
-  const voucher  = sessionStorage.getItem('voucher') || '';
-  let html = `<div class="summary-row"><span>Tạm tính (3 sản phẩm)</span><span>170.000đ</span></div>
-              <div class="summary-row"><span>Phí vận chuyển</span><span class="green">Miễn phí</span></div>`;
-  if (discount > 0) html += `<div class="summary-row"><span>Giảm giá</span><span class="green">-${discount.toLocaleString('vi-VN')}đ</span></div>`;
-  html += `<div class="voucher-row"><span class="label-voucher">Nhập mã giảm giá</span>
-    <div class="voucher-input-wrap"><input type="text" value="${voucher}" readonly style="background:#4CAF50;color:#fff;font-weight:700;">
-    <button class="btn-apply">Áp dụng</button></div></div>
-    <div class="summary-total"><span>Tổng</span><span>${total.toLocaleString('vi-VN')}đ</span></div>`;
-  document.getElementById('summaryBlock').innerHTML = html;
-})();
+    let orderItems = [];
+    let BASE_PRICE = 0;
+    let rawTotal   = 0;
+    let countdownInterval = null;
+
+    // ── HEADER ──
+    function loadUserInfo() {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user) {
+            const el = document.getElementById('header-user-name');
+            if (el) el.textContent = user.username || 'Tài khoản';
+        }
+    }
+
+    // ── TOAST ──
+    function showToast(msg, color = '#166534') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.background = color;
+        t.style.opacity = '1';
+        t.style.transform = 'translateX(-50%) translateY(0)';
+        clearTimeout(t._t);
+        t._t = setTimeout(() => {
+            t.style.opacity = '0';
+            t.style.transform = 'translateX(-50%) translateY(20px)';
+        }, 2500);
+    }
+
+    // ── COPY ──
+    function copyText(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i>Đã sao chép';
+            btn.style.background = '#bbf7d0';
+            setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+        });
+    }
+
+    // ── COUNTDOWN (15 phút) ──
+    function startCountdown(seconds = 900) {
+        const numEl  = document.getElementById('countdownNum');
+        const ringEl = document.getElementById('ringBar');
+        const total  = seconds;
+        const circumference = 2 * Math.PI * 28; // r=28
+
+        countdownInterval = setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                numEl.textContent = '00:00';
+                numEl.style.color = '#dc2626';
+                ringEl.style.stroke = '#dc2626';
+                showToast('QR đã hết hạn. Vui lòng quay lại chọn lại phương thức thanh toán.', '#991b1b');
+                return;
+            }
+            const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const s = String(seconds % 60).padStart(2, '0');
+            numEl.textContent = `${m}:${s}`;
+
+            // Update ring
+            const offset = circumference * (1 - seconds / total);
+            ringEl.style.strokeDashoffset = offset;
+
+            // Đỏ khi còn dưới 2 phút
+            if (seconds < 120) {
+                numEl.style.color = '#dc2626';
+                ringEl.style.stroke = '#dc2626';
+            }
+        }, 1000);
+    }
+
+    // ── BUILD ORDER SUMMARY ──
+    function buildSummary() {
+        const rawData = sessionStorage.getItem('checkout_data');
+        if (!rawData) {
+            alert('Lỗi dữ liệu thanh toán. Đang quay lại trang trước.');
+            window.location.href = 'DienThongTin.html';
+            return;
+        }
+
+        orderItems = JSON.parse(rawData);
+        BASE_PRICE = 0;
+
+        const container = document.getElementById('order-items-container');
+        container.innerHTML = '';
+
+        orderItems.forEach(item => {
+            const name     = item.productName || item.name || 'Sản phẩm';
+            const price    = item.unitPrice   || item.price || 0;
+            const qty      = item.quantity    || 1;
+            const total    = price * qty;
+            BASE_PRICE    += total;
+
+            let imgUrl = 'https://placehold.co/150x150/e6f4ea/16a34a?text=SP';
+            const rawImg = item.imageUrl || (item.product ? item.product.imageUrl : '');
+            if (rawImg) {
+                imgUrl = rawImg.startsWith('http') || rawImg.startsWith('data:')
+                    ? rawImg : '../image/' + rawImg;
+            }
+
+            container.insertAdjacentHTML('beforeend', `
+                <div class="flex items-center gap-3 bg-white p-2 rounded-xl
+                            border border-slate-100 shadow-sm">
+                    <img src="${imgUrl}"
+                         onerror="this.src='https://placehold.co/150x150/e6f4ea/16a34a?text=SP'"
+                         class="w-14 h-14 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm text-slate-800 line-clamp-1">${name}</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Số lượng: ${qty}</p>
+                    </div>
+                    <p class="text-sm font-bold text-green-700 whitespace-nowrap">
+                        ${total.toLocaleString('vi-VN')}đ
+                    </p>
+                </div>
+            `);
+        });
+
+        const discount = parseInt(sessionStorage.getItem('discount') || '0');
+        rawTotal = Math.max(BASE_PRICE - discount, 0);
+        const voucher = sessionStorage.getItem('voucher') || '';
+
+        // Cập nhật QR với số tiền thật
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const note = `FRESHMART ${(user.username || 'THANH TOAN').toUpperCase()}`;
+        document.getElementById('transferNote').textContent = note;
+        document.getElementById('transferAmount').textContent =
+            rawTotal.toLocaleString('vi-VN') + 'đ';
+        document.getElementById('qrImg').src =
+            `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=` +
+            encodeURIComponent(`STK:1234567890|Amount:${rawTotal}|Note:${note}`);
+
+        // Summary block
+        let html = `
+            <div class="flex justify-between text-slate-600 font-medium">
+                <span>Tạm tính (${orderItems.length} sản phẩm)</span>
+                <span>${BASE_PRICE.toLocaleString('vi-VN')}đ</span>
+            </div>
+            <div class="flex justify-between text-slate-600 font-medium">
+                <span>Phí vận chuyển</span>
+                <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                    Miễn phí
+                </span>
+            </div>
+        `;
+        if (discount > 0) html += `
+            <div class="flex justify-between text-green-600 font-medium">
+                <span>Giảm giá</span>
+                <span class="font-bold">-${discount.toLocaleString('vi-VN')}đ</span>
+            </div>`;
+        if (voucher) html += `
+            <div class="mt-2 pt-2 border-t border-dashed border-slate-200">
+                <span class="text-xs text-slate-500 uppercase font-bold block mb-1">
+                    Mã giảm giá:
+                </span>
+                <span class="bg-green-600 text-white text-xs font-bold
+                             px-3 py-1 rounded inline-block">${voucher}</span>
+            </div>`;
+        html += `
+            <div class="flex justify-between items-end
+                        border-t border-slate-200 mt-4 pt-4">
+                <span class="text-lg font-black uppercase text-slate-800">Tổng thanh toán</span>
+                <span class="text-2xl font-black text-[#2f6b2f]">
+                    ${rawTotal.toLocaleString('vi-VN')}đ
+                </span>
+            </div>`;
+        document.getElementById('summaryBlock').innerHTML = html;
+    }
+
+    // ── CONFIRM ──
+    function goNext() {
+        const btn = document.getElementById('btnConfirm');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang xác nhận...';
+        btn.disabled  = true;
+
+        // Cập nhật status badge
+        const badge = document.getElementById('statusBadge');
+        badge.className = 'status-badge confirmed';
+        badge.innerHTML = '<i class="fas fa-check-circle"></i> Xác nhận thanh toán thành công';
+
+        clearInterval(countdownInterval);
+
+        setTimeout(() => {
+            sessionStorage.setItem('payMethod', 'qr');
+            window.location.href = 'HoanTatThanhToan.html';
+        }, 1200);
+    }
+
+    // ── INIT ──
+    document.addEventListener('DOMContentLoaded', () => {
+        loadUserInfo();
+        buildSummary();
+        startCountdown(900); // 15 phút
+    });
 </script>
 </body>
 </html>

@@ -1,33 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('%c✅ Fresh Mart hệ thống loaded successfully!', 'color: #15803d; font-size: 14px; font-weight: bold');
-    
+    console.log('%c✅ Fresh Mart hệ thống kết nối Backend loaded successfully!', 'color: #15803d; font-size: 14px; font-weight: bold');
+
     loadHeaderFooter();
     initGlobalSearch(); // Kích hoạt tính năng tìm kiếm đồng bộ cho tất cả các trang
-    
+
     // Kiểm tra trang hiện tại dựa trên các ID đặc trưng để kích hoạt hàm tương ứng
     if (document.getElementById('carouselTrack') && document.getElementById('all-products-grid')) {
-        initHomePage(); 
+        initHomePage();
     }
-    
+
     if (document.getElementById('products-grid') && document.getElementById('cat-all')) {
-        fetchStoreData(); 
+        fetchStoreData();
     }
-    
+
     if (document.getElementById('main-product-img') && document.getElementById('thumbnail-container')) {
-        loadProductsData(); 
+        loadProductsData();
     }
 });
+
+// Cấu hình URL cơ sở kết nối đến API Spring Boot
+const BASE_API_URL = 'http://localhost:8080/api';
 
 // ==================== LOAD HEADER & FOOTER ====================
 function getTemplateBasePath() {
     const path = window.location.pathname.replace(/\\/g, '/').toLowerCase();
+
     if (path.includes('/html_login_register/')) {
-        return '';
+        return '';                              // cùng thư mục
     }
     if (path.includes('/html_main/') || path.includes('/html_person/')) {
-        return '../html_login_register/';
+        return '../html_login_register/';       // lên 1 cấp
     }
-    return 'html_login_register/';
+    if (path.includes('/index/')) {
+        return '../html_login_register/';       // ← THÊM: html/index/ lên 1 cấp
+    }
+    if (path.includes('/admin/')) {
+        return '../html/html_login_register/';  // ← THÊM: admin/ lên rồi vào html/
+    }
+    return 'html_login_register/';             // fallback gốc project
 }
 
 function loadHeaderFooter() {
@@ -71,7 +81,7 @@ function initGlobalSearch() {
 
         const urlParams = new URLSearchParams(window.location.search);
         const searchParam = urlParams.get('search');
-        
+
         if (searchParam && document.getElementById('products-grid')) {
             searchInput.value = searchParam;
             setTimeout(() => { filterProducts(); }, 100);
@@ -93,7 +103,7 @@ function initGlobalSearch() {
 
 function executeSearch(keyword) {
     const isProductPage = document.getElementById('products-grid') && document.getElementById('cat-all');
-    
+
     if (isProductPage) {
         filterProducts();
     } else {
@@ -108,14 +118,15 @@ let currentIndex = 0;
 
 async function initHomePage() {
     try {
-        const response = await fetch('products.json');
-        if (!response.ok) throw new Error("Không tìm thấy file products.json");
+        // ĐỔI: Gọi API lấy toàn bộ sản phẩm từ Spring Boot thay vì file json cũ
+        const response = await fetch(`${BASE_API_URL}/products`);
+        if (!response.ok) throw new Error("Không thể kết nối tới API Backend Spring Boot");
         rawProductsDatabase = await response.json();
 
         renderBestPriceCarousel();
         renderAllStoreProducts();
     } catch (error) {
-        console.error("Lỗi đồng bộ dữ liệu trang chủ:", error);
+        console.error("Lỗi đồng bộ dữ liệu trang chủ với Backend:", error);
     }
 }
 
@@ -123,20 +134,21 @@ function renderBestPriceCarousel() {
     const track = document.getElementById('carouselTrack');
     if (!track) return;
     const top7LastProducts = rawProductsDatabase.slice(-7);
-    
+
     track.innerHTML = '';
     top7LastProducts.forEach(item => {
+        // ĐỔI: Sử dụng item.imageUrl thay vì item.image để khớp Entity Product.java
         track.insertAdjacentHTML('beforeend', `
             <div class="product-card min-w-[calc(25%-18px)] md:min-w-[calc(25%-18px)] sm:min-w-[calc(50%-12px)] border rounded-3xl overflow-hidden flex flex-col shadow-sm">
                 <div class="h-52 overflow-hidden bg-slate-50 flex items-center justify-center p-4 relative">
                     <a href="chi_tiet_san_pham.html?id=${item.id}" class="w-full h-full flex items-center justify-center">
-                        <img src="${item.image}" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-500" alt="${item.name}">
+                        <img src="${item.imageUrl || 'default-product.jpg'}" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-500" alt="${item.name}">
                     </a>
                     <span class="absolute top-3 left-3 bg-red-500 text-white font-black text-[9px] uppercase px-2 py-0.5 rounded shadow-sm tracking-widest italic">Giá sốc</span>
                 </div>
                 <div class="product-info p-5 flex-grow flex flex-col justify-between space-y-2">
                     <div>
-                        <p class="text-green-600 font-bold text-xs uppercase tracking-wider">${item.category}</p>
+                        <p class="text-green-600 font-bold text-xs uppercase tracking-wider">${item.category || 'Nông Sản'}</p>
                         <h4 class="font-bold text-slate-800 text-base line-clamp-1"><a href="chi_tiet_san_pham.html?id=${item.id}" class="hover:text-green-700">${item.name}</a></h4>
                     </div>
                     <div>
@@ -156,19 +168,20 @@ function renderAllStoreProducts() {
     const grid = document.getElementById('all-products-grid');
     if (!grid) return;
     grid.innerHTML = '';
-    
+
     rawProductsDatabase.forEach(item => {
+        // ĐỔI: Đổi item.image thành item.imageUrl
         grid.insertAdjacentHTML('beforeend', `
             <div class="product-card p-4 rounded-2xl flex flex-col border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
                 <div class="bg-slate-50/50 rounded-xl h-44 flex items-center justify-center relative mb-4 overflow-hidden p-3">
                     <a href="chi_tiet_san_pham.html?id=${item.id}">
-                        <img src="${item.image}" class="max-h-36 object-contain hover:scale-110 transition-transform duration-500">
+                        <img src="${item.imageUrl || 'default-product.jpg'}" class="max-h-36 object-contain hover:scale-110 transition-transform duration-500">
                     </a>
                     <span class="absolute top-2 left-2 bg-[#2f6b2f] text-white text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-widest italic shadow-sm">Fresh</span>
                 </div>
                 <div class="flex-grow space-y-1">
                     <div class="flex justify-between items-center text-[10px] font-bold">
-                        <span class="text-green-600 uppercase font-black tracking-wider">${item.category}</span>
+                        <span class="text-green-600 uppercase font-black tracking-wider">${item.category || 'Nông Sản'}</span>
                         <span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded flex items-center gap-1">4.8 <i class="fas fa-star text-[8px]"></i></span>
                     </div>
                     <h4 class="font-bold text-sm text-slate-800 line-clamp-1">
@@ -206,21 +219,23 @@ function redirectToCategory(catName) {
 
 
 // ==================== LOGIC PHÂN TRANG 2: TRANG_SAN_PHAM.HTML ====================
-let rawProductsData = []; 
+let rawProductsData = [];
 let minPriceFilter = 0;
 let maxPriceFilter = 99999999;
+let activeCategory = 'all';
 
 async function fetchStoreData() {
     try {
-        const response = await fetch('products.json');
-        if (!response.ok) throw new Error("Lỗi đọc file JSON");
+        // ĐỔI: Lấy dữ liệu sản phẩm từ API Backend thay vì file json cũ
+        const response = await fetch(`${BASE_API_URL}/products`);
+        if (!response.ok) throw new Error("Lỗi đọc dữ liệu từ Server API");
         rawProductsData = await response.json();
-        
+
         const urlParams = new URLSearchParams(window.location.search);
-        
+
         const searchParam = urlParams.get('search');
         const catParam = urlParams.get('category');
-        
+
         if (searchParam) {
             const searchInput = document.getElementById('search-input');
             if (searchInput) searchInput.value = searchParam;
@@ -231,7 +246,7 @@ async function fetchStoreData() {
             filterProducts();
         }
     } catch (error) {
-        console.error("Lỗi liên kết dữ liệu:", error);
+        console.error("Lỗi liên kết dữ liệu danh sách sản phẩm:", error);
     }
 }
 
@@ -243,7 +258,7 @@ function filterProducts() {
 
     let result = rawProductsData;
 
-    if (typeof activeCategory !== 'undefined' && activeCategory !== 'all') {
+    if (activeCategory !== 'all') {
         result = result.filter(p => p.category === activeCategory);
     }
     result = result.filter(p => p.price >= minPriceFilter && p.price <= maxPriceFilter);
@@ -254,7 +269,7 @@ function filterProducts() {
 
     const countEl = document.getElementById('product-count');
     if (countEl) countEl.innerText = `Tìm thấy: ${result.length} sản phẩm phù hợp`;
-    
+
     grid.innerHTML = '';
 
     if (result.length === 0) {
@@ -263,17 +278,18 @@ function filterProducts() {
     }
 
     result.forEach(item => {
+        // ĐỔI: Đổi item.image thành item.imageUrl
         grid.insertAdjacentHTML('beforeend', `
             <div class="product-card p-4 rounded-2xl flex flex-col border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
                 <div class="bg-slate-50/40 rounded-xl h-44 flex items-center justify-center relative mb-4 overflow-hidden p-3">
                     <a href="chi_tiet_san_pham.html?id=${item.id}">
-                        <img src="${item.image}" class="max-h-36 object-contain hover:scale-110 transition-transform duration-500">
+                        <img src="${item.imageUrl || 'default-product.jpg'}" class="max-h-36 object-contain hover:scale-110 transition-transform duration-500">
                     </a>
                     <span class="absolute top-2 left-2 bg-[#2f6b2f] text-white text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-widest italic shadow-sm">Fresh</span>
                 </div>
                 <div class="flex-grow space-y-1">
                     <div class="flex justify-between items-center text-[10px] font-bold">
-                        <span class="text-green-600 uppercase font-black tracking-wider">${item.category}</span>
+                        <span class="text-green-600 uppercase font-black tracking-wider">${item.category || 'Nông Sản'}</span>
                         <span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded flex items-center gap-1">4.8 <i class="fas fa-star text-[8px]"></i></span>
                     </div>
                     <h4 class="font-bold text-sm text-slate-800 line-clamp-1">
@@ -299,8 +315,8 @@ function changeCategory(categoryName) {
 
     let targetId = 'cat-all';
     if (categoryName === 'Thịt cá') targetId = 'cat-thit-ca';
-    else if (categoryName === 'Rau củ') targetId = 'cat-rau-cu';
-    else if (categoryName === 'Trái cây') targetId = 'cat-trai-cay';
+    else if (categoryName === 'Rau củ' || categoryName === 'Rau Củ Quả') targetId = 'cat-rau-cu';
+    else if (categoryName === 'Trái cây' || categoryName === 'Trái Cây') targetId = 'cat-trai-cay';
     else if (categoryName === 'Hạt') targetId = 'cat-hat';
 
     const activeBtn = document.getElementById(targetId);
@@ -327,10 +343,11 @@ let activeProduct = null;
 
 async function loadProductsData() {
     try {
-        const response = await fetch('products.json');
-        if (!response.ok) throw new Error('Gặp sự cố khi đọc tệp tin cơ sở dữ liệu products.json');
+        // ĐỔI: Đồng bộ lấy dữ liệu chi tiết qua API Backend
+        const response = await fetch(`${BASE_API_URL}/products`);
+        if (!response.ok) throw new Error('Gặp sự cố khi đọc dữ liệu sản phẩm từ Server API');
         productsDatabase = await response.json();
-        
+
         initProductPage();
     } catch (error) {
         console.error("Lỗi đồng bộ dữ liệu chi tiết:", error);
@@ -339,22 +356,23 @@ async function loadProductsData() {
 
 function initProductPage() {
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id') || 'SP-001';
+    const productId = urlParams.get('id');
 
-    activeProduct = productsDatabase.find(p => p.id === productId);
+    // Chuyển đổi ID sang kiểu số hoặc chuỗi tùy thiết kế Backend (ở đây parse Long/String tự động)
+    activeProduct = productsDatabase.find(p => p.id == productId);
     if (!activeProduct) return;
 
     if(document.getElementById('page-title')) document.getElementById('page-title').innerText = `${activeProduct.name} - Fresh Mart`;
     if(document.getElementById('breadcrumb-title')) document.getElementById('breadcrumb-title').innerText = activeProduct.name;
-    if(document.getElementById('breadcrumb-category')) document.getElementById('breadcrumb-category').innerText = activeProduct.category;
+    if(document.getElementById('breadcrumb-category')) document.getElementById('breadcrumb-category').innerText = activeProduct.category || 'Nông Sản';
     if(document.getElementById('product-title')) document.getElementById('product-title').innerText = activeProduct.name;
-    if(document.getElementById('product-unit')) document.getElementById('product-unit').innerText = activeProduct.unit;
+    if(document.getElementById('product-unit')) document.getElementById('product-unit').innerText = activeProduct.unit || 'Túi / KG';
     if(document.getElementById('product-price')) document.getElementById('product-price').innerText = activeProduct.price.toLocaleString('vi-VN') + " đ";
-    if(document.getElementById('main-product-img')) document.getElementById('main-product-img').src = activeProduct.image;
-    if(document.getElementById('db-unit')) document.getElementById('db-unit').innerText = activeProduct.unit;
+    if(document.getElementById('main-product-img')) document.getElementById('main-product-img').src = activeProduct.imageUrl || 'default-product.jpg';
+    if(document.getElementById('db-unit')) document.getElementById('db-unit').innerText = activeProduct.unit || 'KG';
 
-    if(document.getElementById('product-short-desc')) document.getElementById('product-short-desc').innerText = activeProduct.shortDesc || 'Nông sản hữu cơ sạch đạt chuẩn vệ sinh thực phẩm.';
-    if(document.getElementById('product-full-desc')) document.getElementById('product-full-desc').innerText = activeProduct.fullDesc || 'Thông tin mô tả chi tiết sản phẩm đang được cập nhật.';
+    if(document.getElementById('product-short-desc')) document.getElementById('product-short-desc').innerText = activeProduct.description || 'Nông sản hữu cơ sạch đạt chuẩn vệ sinh thực phẩm.';
+    if(document.getElementById('product-full-desc')) document.getElementById('product-full-desc').innerText = activeProduct.description || 'Thông tin mô tả chi tiết sản phẩm đang được cập nhật.';
 
     const dbSource = document.getElementById('db-source');
     if (dbSource) {
@@ -370,7 +388,7 @@ function initProductPage() {
     const thumbContainer = document.getElementById('thumbnail-container');
     if (thumbContainer) {
         thumbContainer.innerHTML = `
-            <img src="${activeProduct.image}" onclick="changeMainImage(this.src)" class="w-16 h-16 rounded-lg border-2 border-green-500 p-1 object-cover cursor-pointer shadow-sm bg-white">
+            <img src="${activeProduct.imageUrl || 'default-product.jpg'}" onclick="changeMainImage(this.src)" class="w-16 h-16 rounded-lg border-2 border-green-500 p-1 object-cover cursor-pointer shadow-sm bg-white">
             <img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=150" onclick="changeMainImage(this.src)" class="w-16 h-16 rounded-lg border border-gray-200 p-1 object-cover cursor-pointer hover:border-green-500 shadow-sm opacity-70 hover:opacity-100">
         `;
     }
@@ -394,34 +412,35 @@ function changeMainImage(src) {
 function renderRelatedProducts() {
     const container = document.getElementById('related-products-container');
     if (!container) return;
-    
+
     let list = productsDatabase.filter(p => p.category === activeProduct.category && p.id !== activeProduct.id);
     if (list.length < 4) {
         const extra = productsDatabase.filter(p => p.id !== activeProduct.id && p.category !== activeProduct.category);
         list = list.concat(extra);
     }
-    
+
     const shuffleList = list.slice(0, 4);
     container.innerHTML = '';
-    
+
     shuffleList.forEach(item => {
+        // ĐỔI: Đổi item.image thành item.imageUrl
         container.insertAdjacentHTML('beforeend', `
             <div class="product-card p-4 rounded-2xl flex flex-col border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
                 <div class="bg-slate-50/50 rounded-xl h-40 flex items-center justify-center relative mb-4 overflow-hidden p-2">
                     <a href="chi_tiet_san_pham.html?id=${item.id}">
-                        <img src="${item.image}" class="max-h-32 object-contain hover:scale-110 transition-transform duration-500">
+                        <img src="${item.imageUrl || 'default-product.jpg'}" class="max-h-32 object-contain hover:scale-110 transition-transform duration-500">
                     </a>
                     <span class="absolute top-2 left-2 bg-[#2f6b2f] text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Fresh</span>
                 </div>
                 <div class="flex-grow space-y-1">
                     <div class="flex justify-between items-center text-[10px] font-bold">
-                        <span class="text-green-600 uppercase italic">${item.category}</span>
+                        <span class="text-green-600 uppercase italic">${item.category || 'Nông Sản'}</span>
                         <span class="bg-yellow-50 text-yellow-600 px-1.5 py-0.5 rounded flex items-center gap-1">4.8 <i class="fas fa-star text-[8px]"></i></span>
                     </div>
                     <h4 class="font-bold text-sm text-slate-800 line-clamp-1">
                         <a href="chi_tiet_san_pham.html?id=${item.id}">${item.name}</a>
                     </h4>
-                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${item.unit}</p>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${item.unit || 'Đơn vị'}</p>
                     <p class="text-base font-black text-green-700 pt-1">${item.price.toLocaleString('vi-VN')} đ</p>
                 </div>
                 <button onclick="globalAddToCart('${item.id}', 1)" class="mt-4 bg-[#6b9460] py-2.5 text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-green-700 transition">
@@ -434,7 +453,6 @@ function renderRelatedProducts() {
 
 
 // ==================== ENGINE NGHIỆP VỤ GIỎ HÀNG TOÀN CỤC ====================
-// Hàm thêm vào giỏ hàng chung từ bất cứ đâu (Trang chủ, Danh sách, Thẻ gợi ý)
 async function globalAddToCart(id, inputQty = null) {
     let qty = inputQty ? parseInt(inputQty) : 1;
     const qtyInput = document.getElementById('quantity-input');
@@ -443,14 +461,15 @@ async function globalAddToCart(id, inputQty = null) {
     }
 
     try {
-        const response = await fetch('products.json');
+        // ĐỔI: Gọi API Backend lấy thông tin sản phẩm thay vì file json cũ
+        const response = await fetch(`${BASE_API_URL}/products`);
         const db = await response.json();
-        const pInfo = db.find(p => p.id === id);
-        
+        const pInfo = db.find(p => p.id == id);
+
         if (!pInfo) return;
 
         let localCart = JSON.parse(localStorage.getItem('fresh_mart_cart')) || [];
-        let existed = localCart.find(item => item.id === id);
+        let existed = localCart.find(item => item.id == id);
 
         if (existed) {
             existed.quantity += qty;
@@ -459,10 +478,10 @@ async function globalAddToCart(id, inputQty = null) {
                 id: pInfo.id,
                 name: pInfo.name,
                 price: pInfo.price,
-                image: pInfo.image,
+                image: pInfo.imageUrl, // Đồng bộ trường hình ảnh với database
                 unit: pInfo.unit || 'KG',
                 quantity: qty,
-                selected: true // Mặc định tích chọn khi thêm mới
+                selected: true
             });
         }
 
@@ -473,16 +492,14 @@ async function globalAddToCart(id, inputQty = null) {
     }
 }
 
-// Hàm nghiệp vụ xử lý nút MUA NGAY (Nhảy thẳng sang điền thông tin và chỉ định duy nhất sản phẩm đó)
 async function globalBuyNow() {
     if (!activeProduct) return;
-    
-    // Tạo bản ghi đơn hàng mua ngay độc lập truyền thẳng qua sessionStorage
+
     const buyNowOrder = [{
         id: activeProduct.id,
         name: activeProduct.name,
         price: activeProduct.price,
-        image: activeProduct.image,
+        image: activeProduct.imageUrl, // Đổi sang imageUrl
         unit: activeProduct.unit || 'KG',
         quantity: parseInt(document.getElementById('quantity-input').value) || 1
     }];

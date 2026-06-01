@@ -1,504 +1,586 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freshmart Admin - Quản lý sản phẩm</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="../../assets/css/globals.css">
-<link rel="stylesheet" href="../../assets/css/QuanLySanPham.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freshmart Admin - Quản lý sản phẩm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+    body { font-family: 'Be Vietnam Pro', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    .loader {
+        border: 3px solid #f3f3f3; border-top: 3px solid #22c55e;
+        border-radius: 50%; width: 24px; height: 24px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
-<body>
-
-<header class="top-header">
-  <div class="brand">
-    <span class="brand-icon"><i class="fa-solid fa-shop"></i></span>
-    Freshmart Admin
-  </div>
-  <div class="header-title-block">
-    <h1>Quản lý Sản phẩm</h1>
-    <p>Quản lý và cập nhật thông tin sản phẩm của bạn tại đây.</p>
-  </div>
-</header>
-
-<div class="layout">
-
-  <aside class="sidebar">
-    <nav class="nav-menu">
-      <a class="nav-item" href="../admin/QuanLyDonHang.html">
-        <span class="nav-icon"><i class="fa-solid fa-cart-arrow-down"></i></span> Quản lý đơn hàng
-      </a>
-      <a class="nav-item active" href="#">
-        <span class="nav-icon"><i class="fa-solid fa-box"></i></span> Quản lý sản phẩm
-      </a>
-      <a class="nav-item" href="../admin/QuanLyDanhGia.html">
-        <span class="nav-icon"><i class="fa-solid fa-comments"></i></span> Quản lý đánh giá
-      </a>
-      <a class="nav-item" href="../admin/QuanLyVoucher.html">
-        <span class="nav-icon"><i class="fa-solid fa-tags"></i></span> Quản lý voucher
-      </a>
-      <a class="nav-item" href="#">
-        <span class="nav-icon"><i class="fa-solid fa-robot"></i></span> Quản lý AI
-      </a>
-      <a class="nav-item" href="#">
-        <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span> Báo cáo
-      </a>
-    </nav>
-    <div class="nav-divider"></div>
-    <div class="nav-bottom">
-      <a class="nav-item" href="#">
-        <span class="nav-icon"><i class="fa-solid fa-house"></i></span> Về trang chủ
-      </a>
-      <a class="nav-item" href="../index/DangNhap.html">
-        <span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span> Đăng xuất
-      </a>
-      <div class="user-badge">
-        <div class="user-avatar"><i class="fa-solid fa-circle-user"></i></div>
-        Admin
-      </div>
-    </div>
-  </aside>
-
-  <main class="main">
-
-    <div id="viewList">
-      <div class="sp-toolbar">
-        <button class="btn-export"><i class="fa-solid fa-download"></i> Xuất file</button>
-        <button class="btn-add" onclick="showView('viewAdd')">
-          <i class="fa-solid fa-plus"></i> thêm sản phẩm
-        </button>
-      </div>
-
-      <div class="sp-search-row">
-        <div class="sp-search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input id="spSearchInput" type="text" placeholder="Tên sản phẩm....">
-        </div>
-        <div class="sp-filter-group">
-          <button class="sp-filter-btn"><i class="fa-solid fa-sliders"></i> Lọc</button>
-          <button class="sp-filter-btn"><i class="fa-solid fa-arrow-down-wide-short"></i> Sắp xếp</button>
-        </div>
-      </div>
-
-      <div class="sp-table-card">
-        <table class="sp-table">
-          <thead>
-            <tr>
-              <th class="col-check"><input type="checkbox" id="checkAll" onchange="toggleAll(this)"></th>
-              <th>SẢN PHẨM</th>
-              <th>Mã SP</th>
-              <th>DANH MỤC</th>
-              <th>GIÁ</th>
-              <th>SỐ LƯỢNG</th>
-              <th>TRẠNG THÁI</th>
-              <th>HÀNH ĐỘNG</th>
-            </tr>
-          </thead>
-          <tbody id="spTable"></tbody>
-        </table>
-
-        <div class="sp-empty" id="spEmpty" style="display:none;">
-          <span class="sp-empty-text" id="spEmptyText">Không tìm thấy sản phẩm phù hợp.</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="viewAdd" style="display:none;">
-      <div class="form-topbar">
-        <button class="btn-back" onclick="showView('viewList')">
-          <i class="fa-solid fa-chevron-left"></i> Quay lại
-        </button>
-        <button class="btn-add" onclick="submitAddProduct()">
-          <i class="fa-solid fa-plus"></i> thêm sản phẩm
-        </button>
-      </div>
-      <h2 class="form-title">Thêm sản phẩm mới</h2>
-      <p class="form-subtitle">Điền thông tin chi tiết cho sản phẩm mới</p>
-
-      <div class="form-card">
-        <div class="form-section-title">Thông tin chung</div>
-        <div class="form-grid-3">
-          <div class="form-field">
-            <label>Tên sản phẩm</label>
-            <input type="text" id="addName" placeholder="">
-            <!-- [CASE 5] Tooltip tên đã tồn tại -->
-            <div class="field-tooltip" id="tooltipAddName">Tên sản phẩm đã tồn tại</div>
-          </div>
-          <div class="form-field">
-            <label>Mã sản phẩm</label>
-            <input type="text" id="addCode" placeholder="">
-          </div>
-          <div class="form-field">
-            <label>Danh mục</label>
-            <input type="text" id="addCategory" placeholder="">
-            <!-- [CASE 4] Tooltip danh mục tồn tại -->
-            <div class="field-tooltip" id="tooltipAddCategory">Danh mục tồn tại</div>
-          </div>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label>Giá</label>
-            <input type="text" id="addPrice" placeholder="">
-          </div>
-          <div class="form-field">
-            <label>Số lượng</label>
-            <input type="text" id="addQty" placeholder="">
-          </div>
-        </div>
-        <div class="form-field">
-          <label>Mô tả</label>
-          <textarea id="addDesc" rows="4"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Hình ảnh</label>
-          <div class="img-upload-box" onclick="document.getElementById('addImgFile').click()">
-            <img id="addImgPreview" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:6px;">
-            <div id="addImgPlaceholder">
-              <i class="fa-regular fa-image"></i>
-              <span>+Thêm ảnh</span>
-            </div>
-            <input type="file" id="addImgFile" accept="image/*" style="display:none" onchange="previewImg('addImgFile','addImgPreview','addImgPlaceholder')">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-card" style="margin-top:16px;">
-        <div class="form-section-title">Biến thể khác</div>
-        <table class="variant-table">
-          <thead>
-            <tr>
-              <th>Màu sắc</th>
-              <th>Kích thước</th>
-              <th>Số lượng tồn</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="variantTableAdd"><tr><td colspan="4" class="variant-empty">Chưa có biến thể nào.</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="viewEdit" style="display:none;">
-      <div class="form-topbar">
-        <button class="btn-back" onclick="showView('viewList')">
-          <i class="fa-solid fa-chevron-left"></i> Quay lại
-        </button>
-      </div>
-      <h2 class="form-title">Chỉnh sửa sản phẩm</h2>
-      <p class="form-subtitle">Cập nhật thông tin chi tiết trong của hàng</p>
-
-      <div class="form-card">
-        <div class="form-section-title">Thông tin chung</div>
-        <div class="form-grid-3">
-          <div class="form-field">
-            <label>Tên sản phẩm</label>
-            <input type="text" id="editName" placeholder="">
-            <!-- [CASE 5] Tooltip tên đã tồn tại -->
-            <div class="field-tooltip" id="tooltipEditName">Tên sản phẩm đã tồn tại</div>
-          </div>
-          <div class="form-field">
-            <label>Mã sản phẩm</label>
-            <input type="text" id="editCode" placeholder="">
-          </div>
-          <div class="form-field">
-            <label>Danh mục</label>
-            <input type="text" id="editCategory" placeholder="">
-          </div>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label>Giá</label>
-            <input type="text" id="editPrice" placeholder="">
-          </div>
-          <div class="form-field">
-            <label>Số lượng</label>
-            <input type="text" id="editQty" placeholder="">
-          </div>
-        </div>
-        <div class="form-field">
-          <label>Mô tả</label>
-          <textarea id="editDesc" rows="4"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Hình ảnh</label>
-          <div class="img-upload-box" onclick="document.getElementById('editImgFile').click()">
-            <img id="editImgPreview" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:6px;">
-            <div id="editImgPlaceholder">
-              <i class="fa-regular fa-image"></i>
-              <span>+Thêm ảnh</span>
-            </div>
-            <input type="file" id="editImgFile" accept="image/*" style="display:none" onchange="previewImg('editImgFile','editImgPreview','editImgPlaceholder')">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-card" style="margin-top:16px;">
-        <div class="form-section-title">Biến thể khác</div>
-        <table class="variant-table">
-          <thead>
-            <tr>
-              <th>Màu sắc</th>
-              <th>Kích thước</th>
-              <th>Số lượng tồn</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody id="variantTableEdit"><tr><td colspan="4" class="variant-empty">Chưa có biến thể nào.</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<div class="sp-tooltip-warn" id="spTooltipWarn">
-  Sản phẩm đang trong đơn hàng một số thông tin không thể chỉnh sửa !
-</div>
+<body class="bg-gray-50 flex min-h-screen text-gray-800">
 
 <script>
+  (function protectAdminRoute() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user || user.role !== 'ROLE_ADMIN') {
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  })();
+</script>
 
-let products = [
-  {
-    id: 1,
-    name: '[Thùng] Bia Tiger Lon 330ml x 20 Lon',
-    code: 'TP0001',
-    category: 'Đồ uống',
-    price: '40.000đ',
-    qty: 1,
-    status: 'in-stock',
-    image: '../img/bia.png',
-    inOrder: true
-  },
+<aside class="w-64 bg-white border-r border-gray-200 p-6 flex flex-col fixed h-full z-20">
+  <div class="text-green-700 font-bold text-xl mb-10 flex items-center gap-3">
+    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-700">
+      <i class="fa-solid fa-shop"></i>
+    </div>
+    Freshmart
+  </div>
 
-  {
-    id: 2,
-    name: 'Bí Ngòi Xanh Đà Lạt',
-    code: 'TP0002',
-    category: 'Hoa quả',
-    price: '30.000đ',
-    qty: 3,
-    status: 'in-stock',
-    image: '../img/bingoi.png',
-    inOrder: false
-  },
+  <nav class="flex flex-col gap-2 flex-1">
+    <a href="QuanLyDonHang.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-cart-arrow-down w-6"></i> Đơn hàng
+    </a>
+    <a href="QuanLySanPham.html" class="p-3 rounded-xl bg-green-600 text-white font-semibold shadow-lg shadow-green-200 transition flex items-center">
+      <i class="fa-solid fa-box w-6"></i> Sản phẩm
+    </a>
+    <a href="QuanLyDanhGia.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-comments w-6"></i> Đánh giá
+    </a>
+    <a href="QuanLyVoucher.html" class="p-3 rounded-xl text-gray-600 font-medium hover:bg-green-50 hover:text-green-700 transition flex items-center">
+      <i class="fa-solid fa-tags w-6"></i> Voucher
+    </a>
+  </nav>
 
-  {
-    id: 3,
-    name: 'Cánh Gà Đông Lạnh CP Gói 1kg',
-    code: 'TP0003',
-    category: 'Thịt',
-    price: '56.000đ',
-    qty: 1,
-    status: 'in-stock',
-    image: '../img/canhga.png',
-    inOrder: false
-  },
+  <div class="border-t border-gray-100 pt-4 mt-4">
+    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl mb-2">
+      <div class="w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold">A</div>
+      <div class="text-sm font-semibold">Admin Panel</div>
+    </div>
+    <button onclick="handleLogout()" class="w-full text-left text-red-500 font-medium p-3 hover:bg-red-50 rounded-xl transition flex items-center">
+      <i class="fa-solid fa-right-from-bracket w-6"></i> Đăng xuất
+    </button>
+  </div>
+</aside>
 
-  {
-    id: 4,
-    name: 'Ba Chỉ Bò Mỹ Đông Lạnh T&P 500g',
-    code: 'TP0004',
-    category: 'Thịt',
-    price: '100.000đ',
-    qty: 2,
-    status: 'in-stock',
-    image: '../img/bachibo.png',
-    inOrder: false
-  },
-];
+<main class="flex-1 ml-64 p-8 relative">
 
-let spSearch     = '';
-let editIdx      = null;
-let warnTimer    = null;
+  <div id="viewList">
+    <div class="mb-8 flex justify-between items-end">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Quản lý Sản phẩm</h1>
+        <p class="text-gray-500 text-sm mt-1">Quản lý kho hàng, giá cả và tình trạng nông sản</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="bg-white border border-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl hover:bg-gray-50 transition flex items-center gap-2">
+          <i class="fa-solid fa-download"></i> Xuất file
+        </button>
+        <button onclick="showView('viewAdd')" class="bg-green-600 text-white font-semibold py-2.5 px-4 rounded-xl hover:bg-green-700 shadow-md shadow-green-200 transition flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Thêm sản phẩm
+        </button>
+      </div>
+    </div>
 
-// VIEWS 
-function showView(id) {
-  ['viewList','viewAdd','viewEdit'].forEach(v => {
-    document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
-  });
-  if (id === 'viewList') renderProducts();
-}
+    <div class="mb-6 flex gap-4 items-center">
+      <div class="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex items-center flex-1 relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-5 text-gray-400"></i>
+        <input type="text" id="spSearchInput" placeholder="Tìm theo tên hoặc mã sản phẩm..."
+               class="w-full pl-10 pr-4 py-2 bg-transparent outline-none text-sm text-gray-700">
+      </div>
 
-// RENDER BẢNG 
-function renderProducts() {
-  const tbody  = document.getElementById('spTable');
-  const empty  = document.getElementById('spEmpty');
-  const q      = spSearch.toLowerCase();
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q)
-  );
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-4 py-2 flex items-center w-56">
+        <select id="statusFilter" class="w-full bg-transparent outline-none text-sm font-medium text-gray-600 cursor-pointer appearance-none">
+          <option value="">Tất cả trạng thái</option>
+          <option value="IN_STOCK">Còn hàng</option>
+          <option value="OUT_OF_STOCK">Hết hàng</option>
+          <option value="INACTIVE">Ngừng bán</option>
+        </select>
+        <i class="fa-solid fa-chevron-down text-gray-400 ml-2 text-xs"></i>
+      </div>
+    </div>
 
-  tbody.innerHTML = '';
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative min-h-[400px]">
+      <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left min-w-[900px]">
+          <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider w-10">
+              <input type="checkbox" onchange="toggleAll(this)" class="w-4 h-4 accent-green-600 rounded">
+            </th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Sản phẩm</th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Danh mục</th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Giá bán</th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Tồn kho</th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Trạng thái</th>
+            <th class="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody id="spTable" class="divide-y divide-gray-100 text-sm">
+          <tr><td colspan="7" class="text-center py-12 text-gray-400"><div class="loader mx-auto mb-3"></div>Đang tải dữ liệu...</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-  if (filtered.length === 0) {
-    empty.style.display = 'flex';
-    document.getElementById('spEmptyText').textContent = spSearch
-      ? 'Không tìm thấy sản phẩm phù hợp.'
-      : 'Chưa có sản phẩm nào.';
-    return;
-  }
+      <div id="spEmpty" class="hidden flex-col items-center justify-center py-16 text-gray-400">
+        <i class="fa-solid fa-box-open text-5xl mb-3 text-gray-300"></i>
+        <p id="spEmptyText" class="font-medium">Không tìm thấy sản phẩm nào.</p>
+      </div>
+    </div>
+  </div>
 
-  empty.style.display = 'none';
-  filtered.forEach((p, i) => {
-    const realIdx = products.indexOf(p);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="col-check"><input type="checkbox" class="row-check"></td>
-      <td class="sp-name-cell">
-        <img src="${p.image}" class="sp-img">
-        <span>${p.name}</span>
-      </td>
-      <td>${p.code}</td>
-      <td>${p.category}</td>
-      <td>${p.price}</td>
-      <td>${p.qty}</td>
-      <td><span class="badge-stock">Còn hàng</span></td>
-      <td>
-        <div class="action-btns">
-          <button class="action-btn" title="Chỉnh sửa" onclick="openEdit(${realIdx}, event)">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
-          <button class="action-btn delete" title="Xóa" onclick="deleteSP(${realIdx})">
-            <i class="fa-solid fa-trash"></i>
-          </button>
+  <div id="viewAdd" class="hidden">
+    <div class="mb-8 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <button onclick="showView('viewList')" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition">
+          <i class="fa-solid fa-arrow-left text-gray-600"></i>
+        </button>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Thêm sản phẩm mới</h1>
+          <p class="text-gray-500 text-sm">Điền thông tin chi tiết để đăng bán</p>
         </div>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
+      </div>
+      <button onclick="submitAddProduct()" class="bg-green-600 text-white font-semibold py-2.5 px-6 rounded-xl hover:bg-green-700 shadow-md shadow-green-200 transition flex items-center gap-2">
+        <i class="fa-solid fa-floppy-disk"></i> Lưu sản phẩm
+      </button>
+    </div>
 
-// MỞ TRANG CHỈNH SỬA
-function openEdit(idx, e) {
-  const p = products[idx];
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div class="lg:col-span-2 space-y-6">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Tên sản phẩm <span class="text-red-500">*</span></label>
+          <input type="text" id="addName" placeholder="VD: Táo Fuji Nhập Khẩu" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition bg-gray-50 focus:bg-white">
+        </div>
 
-  // Sản phẩm đang trong đơn hàng → hiện tooltip cảnh báo
-  if (p.inOrder) {
-    showWarnTooltip(e.currentTarget);
-    return;
-  }
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Danh mục</label>
+            <input type="text" id="addCategory" placeholder="VD: Trái cây" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition bg-gray-50 focus:bg-white">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Trạng thái</label>
+            <select id="addStatus" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 outline-none transition bg-gray-50 focus:bg-white">
+              <option value="IN_STOCK">Còn hàng</option>
+              <option value="OUT_OF_STOCK">Hết hàng</option>
+              <option value="INACTIVE">Ngừng bán</option>
+            </select>
+          </div>
+        </div>
 
-  editIdx = idx;
-  document.getElementById('editName').value     = p.name;
-  document.getElementById('editCode').value     = p.code;
-  document.getElementById('editCategory').value = p.category;
-  document.getElementById('editPrice').value    = p.price;
-  document.getElementById('editQty').value      = p.qty;
-  document.getElementById('editDesc').value     = '';
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Giá bán (VNĐ) <span class="text-red-500">*</span></label>
+            <input type="number" id="addPrice" placeholder="0" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition bg-gray-50 focus:bg-white">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Tồn kho <span class="text-red-500">*</span></label>
+            <input type="number" id="addQty" placeholder="0" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition bg-gray-50 focus:bg-white">
+          </div>
+        </div>
 
-  // ẩn tooltips
-  document.getElementById('tooltipEditName').classList.remove('show');
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Mô tả sản phẩm</label>
+          <textarea id="addDesc" rows="5" placeholder="Nhập mô tả chi tiết..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition bg-gray-50 focus:bg-white"></textarea>
+        </div>
+      </div>
 
-  // reset ảnh
-  document.getElementById('editImgPreview').style.display = 'none';
-  document.getElementById('editImgPlaceholder').style.display = 'flex';
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Hình ảnh sản phẩm</label>
+          <div onclick="document.getElementById('addImgFile').click()" class="border-2 border-dashed border-gray-300 rounded-2xl h-64 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition relative overflow-hidden bg-gray-50 group">
+            <img id="addImgPreview" src="" alt="" class="hidden w-full h-full object-cover absolute top-0 left-0">
+            <div id="addImgPlaceholder" class="text-center">
+              <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-green-600 group-hover:scale-110 transition">
+                <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+              </div>
+              <span class="text-sm font-medium text-gray-500">Tải ảnh lên (Base64)</span>
+            </div>
+            <input type="file" id="addImgFile" accept="image/*" class="hidden" onchange="previewImg('addImgFile','addImgPreview','addImgPlaceholder')">
+          </div>
+        </div>
 
-  showView('viewEdit');
-}
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-700">
+          <i class="fa-solid fa-circle-info mr-2"></i> Hệ thống tự động sinh Mã sản phẩm sau khi lưu thành công.
+        </div>
+      </div>
+    </div>
+  </div>
 
-// THÊM SẢN PHẨM 
-function submitAddProduct() {
-  const name     = document.getElementById('addName').value.trim();
-  const code     = document.getElementById('addCode').value.trim();
-  const category = document.getElementById('addCategory').value.trim();
-  const price    = document.getElementById('addPrice').value.trim();
-  const qty      = parseInt(document.getElementById('addQty').value) || 0;
+  <div id="viewEdit" class="hidden">
+    <div class="mb-8 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <button onclick="showView('viewList')" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition">
+          <i class="fa-solid fa-arrow-left text-gray-600"></i>
+        </button>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Chỉnh sửa sản phẩm</h1>
+          <p class="text-gray-500 text-sm">Cập nhật thông tin chi tiết</p>
+        </div>
+      </div>
+      <button onclick="submitEditProduct()" class="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-xl hover:bg-blue-700 shadow-md shadow-blue-200 transition flex items-center gap-2">
+        <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+      </button>
+    </div>
 
-  //K iểm tra danh mục trùng
-  const dupCat = products.find(p => p.category.toLowerCase() === category.toLowerCase());
-  if (dupCat && !products.find(p => p.name.toLowerCase() === name.toLowerCase())) {
-    showFieldTooltip('tooltipAddCategory');
-    return;
-  }
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div class="lg:col-span-2 space-y-6">
+        <div class="grid grid-cols-3 gap-6">
+          <div class="col-span-2">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Tên sản phẩm <span class="text-red-500">*</span></label>
+            <input type="text" id="editName" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Mã SP</label>
+            <input type="text" id="editCode" disabled class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed font-medium">
+          </div>
+        </div>
 
-  // Kiểm tra tên sản phẩm trùng
-  if (products.find(p => p.name.toLowerCase() === name.toLowerCase())) {
-    showFieldTooltip('tooltipAddName');
-    return;
-  }
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Danh mục</label>
+            <input type="text" id="editCategory" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Trạng thái</label>
+            <select id="editStatus" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50">
+              <option value="IN_STOCK">Còn hàng</option>
+              <option value="OUT_OF_STOCK">Hết hàng</option>
+              <option value="INACTIVE">Ngừng bán</option>
+            </select>
+          </div>
+        </div>
 
-  const newProduct = {
-    id: Date.now(), name, code, category, price, qty,
-    status: 'in-stock',
-    image: document.getElementById('addImgPreview').src,
-    inOrder: false
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Giá bán (VNĐ) <span class="text-red-500">*</span></label>
+            <input type="number" id="editPrice" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Tồn kho <span class="text-red-500">*</span></label>
+            <input type="number" id="editQty" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Mô tả sản phẩm</label>
+          <textarea id="editDesc" rows="5" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none transition bg-gray-50"></textarea>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Hình ảnh sản phẩm</label>
+          <div onclick="document.getElementById('editImgFile').click()" class="border-2 border-dashed border-gray-300 rounded-2xl h-64 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition relative overflow-hidden bg-gray-50 group">
+            <img id="editImgPreview" src="" alt="" class="hidden w-full h-full object-cover absolute top-0 left-0">
+            <div id="editImgPlaceholder" class="text-center">
+              <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-blue-600 group-hover:scale-110 transition">
+                <i class="fa-solid fa-image text-xl"></i>
+              </div>
+              <span class="text-sm font-medium text-gray-500">Đổi ảnh mới</span>
+            </div>
+            <input type="file" id="editImgFile" accept="image/*" class="hidden" onchange="previewImg('editImgFile','editImgPreview','editImgPlaceholder')">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const API_BASE = 'http://localhost:8080';
+  const PRODUCT_URL = `${API_BASE}/api/products`;
+
+  const STATUS_MAP = {
+      IN_STOCK:     { label: 'Còn hàng',   bg: 'bg-green-50',  text: 'text-green-600', border: 'border-green-200' },
+      OUT_OF_STOCK: { label: 'Hết hàng',   bg: 'bg-red-50',    text: 'text-red-500',   border: 'border-red-200' },
+      INACTIVE:     { label: 'Ngừng bán',  bg: 'bg-gray-100',  text: 'text-gray-500',  border: 'border-gray-200' },
   };
-  products.push(newProduct);
-  clearAddForm();
-  showView('viewList');
-}
 
-function clearAddForm() {
-  ['addName','addCode','addCategory','addPrice','addQty','addDesc'].forEach(id => {
-    document.getElementById(id).value = '';
+  let products = [];
+  let spSearch = '';
+  let editProductId = null;
+
+  function getAuthHeaders() {
+      return {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      };
+  }
+
+  function handleLogout() {
+      if(confirm("Bạn có chắc muốn đăng xuất khỏi Admin?")) {
+          localStorage.clear();
+          window.location.href = '../html/html_login_register/dang_nhap.html';
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+      fetchProducts();
+
+      document.getElementById('spSearchInput').addEventListener('input', function () {
+          spSearch = this.value.trim();
+          renderProducts();
+      });
+
+      document.getElementById('statusFilter').addEventListener('change', fetchProducts);
+
+      // TÍNH NĂNG MỚI: Tự động đổi Trạng thái dựa vào Số lượng (Form Sửa)
+      document.getElementById('editQty').addEventListener('input', function() {
+          const qty = parseInt(this.value) || 0;
+          const statusSelect = document.getElementById('editStatus');
+          if (qty <= 0) {
+              statusSelect.value = 'OUT_OF_STOCK'; // Về 0 tự nhảy sang Hết hàng
+          } else if (qty > 0 && statusSelect.value === 'OUT_OF_STOCK') {
+              statusSelect.value = 'IN_STOCK'; // > 0 tự bật lại Còn hàng
+          }
+      });
+
+      // TÍNH NĂNG MỚI: Tự động đổi Trạng thái dựa vào Số lượng (Form Thêm)
+      document.getElementById('addQty').addEventListener('input', function() {
+          const qty = parseInt(this.value) || 0;
+          const statusSelect = document.getElementById('addStatus');
+          if (qty <= 0) {
+              statusSelect.value = 'OUT_OF_STOCK';
+          } else if (qty > 0 && statusSelect.value === 'OUT_OF_STOCK') {
+              statusSelect.value = 'IN_STOCK';
+          }
+      });
   });
-  document.getElementById('addImgPreview').style.display = 'none';
-  document.getElementById('addImgPlaceholder').style.display = 'flex';
-  ['tooltipAddName','tooltipAddCategory'].forEach(id =>
-    document.getElementById(id).classList.remove('show')
-  );
-}
 
-// XÓA 
-function deleteSP(idx) {
-  if (confirm(`Xóa sản phẩm "${products[idx].name}"?`)) {
-    products.splice(idx, 1);
-    renderProducts();
+  function showView(id) {
+      ['viewList', 'viewAdd', 'viewEdit'].forEach(v => {
+          const el = document.getElementById(v);
+          if(v === id) {
+              el.classList.remove('hidden');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+              el.classList.add('hidden');
+          }
+      });
+      if (id === 'viewList') fetchProducts();
+      if (id === 'viewAdd')  clearAddForm();
   }
-}
 
-// CHỌN TẤT CẢ 
-function toggleAll(cb) {
-  document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
-}
+  async function fetchProducts() {
+      const status = document.getElementById('statusFilter').value;
+      let url = PRODUCT_URL;
+      if (status) url += `?status=${status}`;
 
-// PREVIEW ẢNH
-function previewImg(inputId, imgId, placeholderId) {
-  const file = document.getElementById(inputId).files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById(imgId);
-    img.src = e.target.result;
-    img.style.display = 'block';
-    document.getElementById(placeholderId).style.display = 'none';
-  };
-  reader.readAsDataURL(file);
-}
+      try {
+          const res = await fetch(url, { headers: getAuthHeaders() });
+          const data = await res.json();
+          if (!res.ok) throw new Error();
 
-// TOOLTIP FIELD 
-function showFieldTooltip(id) {
-  const el = document.getElementById(id);
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3000);
-}
-
-// TOOLTIP CẢNH BÁO 
-function showWarnTooltip(btn) {
-  const tooltip = document.getElementById('spTooltipWarn');
-  const rect    = btn.getBoundingClientRect();
-  tooltip.style.top  = (rect.bottom + window.scrollY + 8) + 'px';
-  tooltip.style.left = (rect.left  + window.scrollX - 50) + 'px';
-  tooltip.classList.add('visible');
-  clearTimeout(warnTimer);
-  warnTimer = setTimeout(() => tooltip.classList.remove('visible'), 3000);
-}
-
-// TÌM KIẾM
-document.getElementById('spSearchInput').addEventListener('input', function () {
-  spSearch = this.value.trim();
-  renderProducts();
-});
-
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#spTooltipWarn') && !e.target.closest('.action-btn')) {
-    document.getElementById('spTooltipWarn').classList.remove('visible');
+          products = (data.data || []).sort((a, b) => b.id - a.id);
+          renderProducts();
+      } catch (err) {
+          showEmpty('Không thể kết nối đến máy chủ. Hãy tải lại trang.');
+      }
   }
-});
 
-// Init
-renderProducts();
+  function renderProducts() {
+      const tbody = document.getElementById('spTable');
+      const empty = document.getElementById('spEmpty');
+      const q = spSearch.toLowerCase();
+
+      const filtered = products.filter(p =>
+          (p.name && p.name.toLowerCase().includes(q)) ||
+          (p.id && p.id.toString().includes(q)) ||
+          (p.category && p.category.toLowerCase().includes(q))
+      );
+
+      if (filtered.length === 0) {
+          tbody.innerHTML = '';
+          empty.classList.replace('hidden', 'flex');
+          document.getElementById('spEmptyText').textContent = spSearch ? 'Không tìm thấy sản phẩm phù hợp.' : 'Kho hàng đang trống.';
+          return;
+      }
+
+      empty.classList.replace('flex', 'hidden');
+
+      tbody.innerHTML = filtered.map(p => {
+          let rawStatus = p.status ? p.status.toUpperCase() : 'IN_STOCK';
+          if (!STATUS_MAP[rawStatus]) rawStatus = 'IN_STOCK';
+          const st = STATUS_MAP[rawStatus];
+
+          let imagePath = 'https://placehold.co/150x150/e6f4ea/16a34a?text=Fresh+Mart';
+          if (p.imageUrl) {
+              if (p.imageUrl.startsWith('http') || p.imageUrl.startsWith('data:') || p.imageUrl.startsWith('../')) {
+                  imagePath = p.imageUrl;
+              } else {
+                  imagePath = '../image/' + p.imageUrl;
+              }
+          }
+
+          return `
+          <tr class="hover:bg-gray-50/50 transition">
+              <td class="py-4 px-6"><input type="checkbox" class="row-check w-4 h-4 accent-green-600 rounded"></td>
+              <td class="py-4 px-6 flex items-center gap-4">
+                  <img src="${imagePath}" onerror="this.src='https://placehold.co/150x150/e6f4ea/16a34a?text=Loi+Anh'" class="w-12 h-12 rounded-lg object-cover border border-gray-200">
+                  <div>
+                      <div class="font-bold text-gray-900">${p.name}</div>
+                      <div class="text-xs font-medium text-gray-400">Mã: SP-${p.id}</div>
+                  </div>
+              </td>
+              <td class="py-4 px-6 text-gray-600 font-medium">${p.category || 'Chưa phân loại'}</td>
+              <td class="py-4 px-6 text-green-600 font-bold">${p.price != null ? Number(p.price).toLocaleString('vi-VN') + ' đ' : '0 đ'}</td>
+              <td class="py-4 px-6 font-semibold ${p.stock > 0 ? 'text-gray-700' : 'text-red-500'}">${p.stock ?? 0}</td>
+              <td class="py-4 px-6">
+                  <span class="px-3 py-1 text-xs font-bold rounded-full border ${st.bg} ${st.text} ${st.border}">${st.label}</span>
+              </td>
+              <td class="py-4 px-6 text-right">
+                  <button onclick="openEdit(${p.id})" class="w-8 h-8 rounded-lg bg-gray-50 text-blue-500 hover:bg-blue-100 transition mr-1" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="deleteSP(${p.id})" class="w-8 h-8 rounded-lg bg-gray-50 text-red-400 hover:bg-red-100 transition" title="Xóa"><i class="fa-solid fa-trash"></i></button>
+              </td>
+          </tr>
+          `;
+      }).join('');
+  }
+
+  function showEmpty(msg) {
+      document.getElementById('spTable').innerHTML = '';
+      document.getElementById('spEmpty').classList.replace('hidden', 'flex');
+      document.getElementById('spEmptyText').textContent = msg;
+  }
+
+  function openEdit(id) {
+      const p = products.find(prod => prod.id === id);
+      if (!p) return;
+
+      editProductId = id;
+      document.getElementById('editName').value = p.name || '';
+      document.getElementById('editCode').value = `SP-${p.id}`;
+      document.getElementById('editCategory').value = p.category || '';
+      document.getElementById('editPrice').value = p.price || 0;
+      document.getElementById('editQty').value = p.stock ?? 0;
+      document.getElementById('editDesc').value = p.description || '';
+
+      const formStatus = p.status ? p.status.toUpperCase() : 'IN_STOCK';
+      document.getElementById('editStatus').value = STATUS_MAP[formStatus] ? formStatus : 'IN_STOCK';
+
+      const preview = document.getElementById('editImgPreview');
+      const placeholder = document.getElementById('editImgPlaceholder');
+      if (p.imageUrl) {
+          // Hiển thị ảnh đúng chuẩn khi mở form
+          let imagePath = p.imageUrl;
+          if (!p.imageUrl.startsWith('http') && !p.imageUrl.startsWith('data:') && !p.imageUrl.startsWith('../')) {
+              imagePath = '../image/' + p.imageUrl;
+          }
+          preview.src = imagePath;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+      } else {
+          preview.src = '';
+          preview.classList.add('hidden');
+          placeholder.classList.remove('hidden');
+      }
+
+      showView('viewEdit');
+  }
+
+  // Tách tên file ảnh sạch sẽ để gửi xuống DB
+  function extractCleanImage(imgSrc) {
+      if (!imgSrc) return '';
+      if (imgSrc.startsWith('data:')) return imgSrc; // Trả nguyên chuỗi Base64
+      if (imgSrc.includes('/image/')) return imgSrc.split('/image/').pop(); // Chỉ lấy tên file, VD: 'taomy.png'
+      return imgSrc; // URL bên ngoài
+  }
+
+  async function submitAddProduct() {
+      const name = document.getElementById('addName').value.trim();
+      const price = document.getElementById('addPrice').value;
+      const stock = document.getElementById('addQty').value;
+
+      if (!name || !price || !stock) {
+          alert('Vui lòng điền đủ Tên, Giá bán và Tồn kho!');
+          return;
+      }
+
+      const payload = {
+          name,
+          description: document.getElementById('addDesc').value.trim(),
+          price: parseFloat(price),
+          stock: parseInt(stock),
+          imageUrl: extractCleanImage(document.getElementById('addImgPreview').src),
+          category: document.getElementById('addCategory').value.trim(),
+          status: document.getElementById('addStatus').value
+      };
+
+      try {
+          const res = await fetch(PRODUCT_URL, { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify(payload) });
+          if (res.ok) {
+              showView('viewList');
+          } else {
+              const d = await res.json(); alert(d.message || 'Lỗi thêm sản phẩm');
+          }
+      } catch (e) { alert('Lỗi kết nối máy chủ'); }
+  }
+
+  async function submitEditProduct() {
+      if (!editProductId) return;
+
+      const name = document.getElementById('editName').value.trim();
+      const price = document.getElementById('editPrice').value;
+      const stock = document.getElementById('editQty').value;
+
+      if (!name || !price || !stock) {
+          alert('Vui lòng điền đủ Tên, Giá bán và Tồn kho!');
+          return;
+      }
+
+      const payload = {
+          name,
+          description: document.getElementById('editDesc').value.trim(),
+          price: parseFloat(price),
+          stock: parseInt(stock),
+          imageUrl: extractCleanImage(document.getElementById('editImgPreview').src),
+          category: document.getElementById('editCategory').value.trim(),
+          status: document.getElementById('editStatus').value
+      };
+
+      try {
+          const res = await fetch(`${PRODUCT_URL}/${editProductId}`, { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify(payload) });
+          if (res.ok) {
+              showView('viewList');
+          } else {
+              const d = await res.json(); alert(d.message || 'Cập nhật thất bại');
+          }
+      } catch (e) { alert('Lỗi kết nối máy chủ'); }
+  }
+
+  async function deleteSP(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này?')) return;
+      try {
+          const res = await fetch(`${PRODUCT_URL}/${id}`, { method: 'DELETE', headers: getAuthHeaders() });
+          if (res.ok) { fetchProducts(); }
+          else { const d = await res.json(); alert(d.message || 'Lỗi xóa sản phẩm'); }
+      } catch (e) { alert('Lỗi kết nối máy chủ'); }
+  }
+
+  function clearAddForm() {
+      ['addName', 'addCategory', 'addPrice', 'addQty', 'addDesc'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('addStatus').value = 'IN_STOCK';
+      document.getElementById('addImgPreview').src = '';
+      document.getElementById('addImgPreview').classList.add('hidden');
+      document.getElementById('addImgPlaceholder').classList.remove('hidden');
+  }
+
+  function toggleAll(cb) {
+      document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
+  }
+
+  function previewImg(inputId, imgId, placeholderId) {
+      const file = document.getElementById(inputId).files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+          const img = document.getElementById(imgId);
+          img.src = e.target.result;
+          img.classList.remove('hidden');
+          document.getElementById(placeholderId).classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+  }
 </script>
 </body>
 </html>

@@ -235,5 +235,109 @@
 
     <!-- Scripts -->
     <script src="../../assets/js/main.js"></script>
+    <script>
+        // GIẢ ĐỊNH API CẬP NHẬT USER CỦA BẠN (Đổi URL nếu backend của bạn khác)
+        const API_UPDATE_PROFILE = 'http://localhost:8080/api/users/profile';
+
+        // 1. LẤY TOKEN
+        function getAuthHeaders() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Vui lòng đăng nhập để xem hồ sơ!');
+                window.location.href = '../html_login_register/dang_nhap.html';
+                return null;
+            }
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            };
+        }
+
+        // 2. KHỞI TẠO TRANG - ĐIỀN DATA VÀO FORM
+        document.addEventListener('DOMContentLoaded', () => {
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                window.location.href = '../html_login_register/dang_nhap.html';
+                return;
+            }
+
+            const user = JSON.parse(userStr);
+
+            // Hiển thị ở Sidebar (Cột trái)
+            const sidebarName = document.querySelector('aside h3.font-bold');
+            if(sidebarName) sidebarName.textContent = user.fullName || user.username;
+
+            // Điền vào Form (Cột phải)
+            const inputUsername = document.querySelector('input[value="anhtuyet123"]');
+            const inputFullname = document.querySelector('input[value="Lê Thị Ánh Tuyết"]');
+            const inputEmail = document.querySelector('input[value="anhtuyet@gmail.com"]');
+            const inputPhone = document.querySelector('input[value="098****789"]');
+
+            if(inputUsername) inputUsername.value = user.username || '';
+            if(inputFullname) inputFullname.value = user.fullName || '';
+            if(inputEmail) inputEmail.value = user.email || '';
+            if(inputPhone) inputPhone.value = user.phone || '';
+
+            // Chặn submit mặc định của Form và gắn hàm lưu
+            const form = document.querySelector('form');
+            if(form) {
+                form.addEventListener('submit', handleUpdateProfile);
+            }
+        });
+
+        // 3. XỬ LÝ SỰ KIỆN LƯU THÔNG TIN (PUT)
+        async function handleUpdateProfile(e) {
+            e.preventDefault(); // Chặn tải lại trang
+
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = "Đang lưu...";
+            submitBtn.disabled = true;
+
+            // Lấy dữ liệu từ form hiện tại
+            const inputFullname = document.querySelector('input[value="Lê Thị Ánh Tuyết"]').value;
+            const inputPhone = document.querySelector('input[value="098****789"]').value;
+            // Email thường không cho sửa trực tiếp ở đây, hoặc nếu sửa cần xác thực lại
+            // Ngày sinh và Giới tính có thể lấy từ DOM nếu Backend của bạn có các trường này
+
+            const payload = {
+                fullName: inputFullname,
+                phone: inputPhone
+                // Bổ sung dob (ngày sinh), gender nếu Backend có yêu cầu
+            };
+
+            try {
+                const response = await fetch(API_UPDATE_PROFILE, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert("Cập nhật thông tin thành công!");
+
+                    // Cập nhật lại localStorage để các trang khác lấy đúng tên mới
+                    const oldUser = JSON.parse(localStorage.getItem('user'));
+                    const newUser = { ...oldUser, fullName: inputFullname, phone: inputPhone };
+                    localStorage.setItem('user', JSON.stringify(newUser));
+
+                    // Cập nhật lại Sidebar ngay lập tức
+                    const sidebarName = document.querySelector('aside h3.font-bold');
+                    if(sidebarName) sidebarName.textContent = inputFullname;
+
+                } else {
+                    alert(result.message || "Lỗi cập nhật thông tin!");
+                }
+            } catch (error) {
+                console.error("Lỗi:", error);
+                alert("Không thể kết nối đến máy chủ.");
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>

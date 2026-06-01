@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,58 +12,225 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        /* Thêm font nếu bạn muốn đúng style Maven Pro */
         @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;600;700&display=swap');
         body { font-family: 'Maven Pro', sans-serif; }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success { background: #166534; color: #fff; }
+        .toast.error   { background: #991b1b; color: #fff; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
 
-    <div id="header-container"></div>
+<div id="header-container"></div>
 
-    <!-- Login Content -->
-    <div class="flex items-center justify-center min-h-[80vh] px-4 py-12" style="margin-top: 2cm;">
-        <!-- Bỏ position relative để các phần tử bên trong không bị loạn -->
-        <div class="w-full max-w-xl rounded-3xl p-10 shadow-lg" style="background: #DCEBCF;">
-            
-            <div class="text-center mb-8">
-                <h2 class="text-4xl font-semibold text-black/80 mb-2">Đăng Nhập</h2>
-                <p class="text-sm font-bold text-black/80 leading-relaxed">
-                    Chào mừng bạn đến với chúng tôi!<br/>Vui lòng nhập thông tin của bạn
+<div class="flex items-center justify-center min-h-[80vh] px-4 py-12" style="margin-top: 2cm;">
+    <div class="w-full max-w-xl rounded-3xl p-10 shadow-lg" style="background: #DCEBCF;">
+
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-semibold text-black/80 mb-2">Đăng Nhập</h2>
+            <p class="text-sm font-bold text-black/80 leading-relaxed">
+                Chào mừng bạn đến với chúng tôi!<br/>Vui lòng nhập thông tin của bạn
+            </p>
+        </div>
+
+        <form class="space-y-6" id="loginForm" novalidate>
+
+            <!-- Email / Username -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Email hoặc tên đăng nhập
+                </label>
+                <input type="text" id="loginEmail" placeholder="Nhập email hoặc tên đăng nhập"
+                       class="w-full px-5 py-3 rounded-2xl border-2 border-transparent outline-none
+                                  focus:ring-2 focus:ring-green-500 bg-white transition"
+                       id="loginEmail">
+                <p class="text-red-500 text-xs mt-1 hidden" id="emailError">
+                    Vui lòng nhập email hoặc tên đăng nhập.
                 </p>
             </div>
 
-            <form class="space-y-6" id="loginForm">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="loginEmail" required placeholder="Nhập email của bạn" 
-                           class="w-full px-5 py-3 rounded-2xl border-none outline-none focus:ring-2 focus:ring-green-500 bg-white">
+            <!-- Mật khẩu -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                <div class="relative">
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu"
+                           class="w-full px-5 py-3 rounded-2xl border-2 border-transparent outline-none
+                                      focus:ring-2 focus:ring-green-500 bg-white transition pr-12">
+                    <!-- Nút show/hide password -->
+                    <button type="button" onclick="togglePassword()"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
-                    <input type="password" id="loginPassword" required placeholder="Nhập mật khẩu" 
-                           class="w-full px-5 py-3 rounded-2xl border-none outline-none focus:ring-2 focus:ring-green-500 bg-white">
-                </div>
-
-                <div class="text-right">
-                    <a href="#" class="text-red-600 hover:text-red-700 text-sm font-medium transition-colors">Quên mật khẩu?</a>
-                </div>
-
-                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 rounded-2xl transition-all transform active:scale-95 text-lg shadow-md">
-                    Đăng nhập
-                </button>
-            </form>
-
-            <div class="text-center mt-8">
-                <span class="text-gray-600">Chưa có tài khoản?</span>
-                <a href="dang_ky.html" class="text-green-700 font-semibold hover:underline ml-1">Đăng ký ngay</a>
+                <p class="text-red-500 text-xs mt-1 hidden" id="passwordError">
+                    Vui lòng nhập mật khẩu.
+                </p>
             </div>
+
+            <div class="text-right">
+                <a href="#" class="text-red-600 hover:text-red-700 text-sm font-medium transition-colors">
+                    Quên mật khẩu?
+                </a>
+            </div>
+
+            <button type="submit" id="btnSubmit"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4
+                               rounded-2xl transition-all transform active:scale-95 text-lg shadow-md
+                               disabled:opacity-60 disabled:cursor-not-allowed">
+                Đăng nhập
+            </button>
+        </form>
+
+        <div class="text-center mt-8">
+            <span class="text-gray-600">Chưa có tài khoản?</span>
+            <a href="dang_ky.html" class="text-green-700 font-semibold hover:underline ml-1">
+                Đăng ký ngay
+            </a>
         </div>
     </div>
+</div>
 
-    <div id="footer-container"></div>
+<!-- Toast thông báo -->
+<div class="toast" id="toast"></div>
 
-    <script src="../../assets/js/main.js"></script>
+<div id="footer-container"></div>
+
+<script src="../../assets/js/main.js"></script>
+<script>
+    const API_BASE = 'http://localhost:8080';
+
+    // ── TOAST ──
+    function showToast(msg, type = 'error') {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className   = `toast ${type} show`;
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── SHOW/HIDE PASSWORD ──
+    function togglePassword() {
+        const input   = document.getElementById('loginPassword');
+        const icon    = document.getElementById('eyeIcon');
+        const isHidden = input.type === 'password';
+        input.type    = isHidden ? 'text' : 'password';
+        icon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+    }
+
+    // ── LOADING STATE ──
+    function setLoading(isLoading) {
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled    = isLoading;
+        btn.textContent = isLoading ? 'Đang đăng nhập...' : 'Đăng nhập';
+    }
+
+    // ── VALIDATE ──
+    function validate(usernameOrEmail, password) {
+        let valid = true;
+        const emailErr = document.getElementById('emailError');
+        const passErr  = document.getElementById('passwordError');
+
+        if (!usernameOrEmail) { emailErr.classList.remove('hidden'); valid = false; }
+        else { emailErr.classList.add('hidden'); }
+
+        if (!password) { passErr.classList.remove('hidden'); valid = false; }
+        else { passErr.classList.add('hidden'); }
+
+        return valid;
+    }
+
+    // ── SUBMIT ĐĂNG NHẬP ──
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const usernameOrEmail = document.getElementById('loginEmail').value.trim();
+        const password        = document.getElementById('loginPassword').value;
+
+        if (!validate(usernameOrEmail, password)) return;
+        setLoading(true);
+
+        try {
+            const res  = await fetch(`${API_BASE}/api/auth/login`, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ usernameOrEmail, password })
+            });
+
+            const rawData = await res.json();
+
+            // Xử lý thông minh: Đề phòng Backend trả về thẳng AuthResponse không qua vỏ bọc ApiResponse
+            const userData = rawData.data ? rawData.data : rawData;
+
+            if (!res.ok || rawData.success === false) {
+                showToast(rawData.message || 'Email hoặc mật khẩu không đúng.');
+                return;
+            }
+
+            // In ra Console để kiểm tra quyền trả về
+            console.log("==== THÔNG TIN TÀI KHOẢN ====");
+            console.log(userData);
+
+            // Xóa sạch dữ liệu cũ và lưu dữ liệu mới
+            localStorage.clear();
+            localStorage.setItem('token', userData.token);
+            localStorage.setItem('user',  JSON.stringify(userData));
+
+            showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+
+            // Chuyển hướng chuẩn xác
+            setTimeout(() => {
+                if (userData.role === 'ROLE_ADMIN') {
+                    window.location.href = '../../admin/QuanLyDonHang.html';
+                } else {
+                    window.location.href = '../html_main/trang_san_pham.html';
+                }
+            }, 1200);
+
+        } catch (err) {
+            console.error('Login error:', err);
+            showToast('Không thể kết nối đến máy chủ. Vui lòng thử lại.');
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    // ── ĐÃ ĐĂNG NHẬP THÌ CHUYỂN HƯỚNG LUÔN ──
+    (function checkAlreadyLoggedIn() {
+        const token = localStorage.getItem('token');
+        const userStr = localStorage.getItem('user');
+
+        if (token && userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                if (user && user.role) {
+                    window.location.href = user.role === 'ROLE_ADMIN'
+                        ? '../../admin/QuanLyDonHang.html'
+                        : '../html_main/trang_san_pham.html';
+                }
+            } catch (e) {
+                // Nếu rác trong localStorage bị hỏng -> Dọn dẹp
+                localStorage.clear();
+            }
+        }
+    })();
+</script>
 </body>
 </html>
